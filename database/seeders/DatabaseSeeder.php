@@ -34,5 +34,42 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('123456'),
             'type' => 'user'
         ]);
+
+        DB::table('users')->insert([
+            'name' => 'Long 1',
+            'email' => 'longld1@gmail.com',
+            'password' => bcrypt('123456'),
+            'type' => 'admin'
+        ]); 
+        DB::table('users')->insert([
+            'name' => 'Long 2',
+            'email' => 'longld2@gmail.com',
+            'password' => bcrypt('123456'),
+            'type' => 'admin'
+        ]);
+        DB::table('users')->insert([
+            'name' => 'Long 3',
+            'email' => 'longld3@gmail.com',
+            'password' => bcrypt('123456'),
+            'type' => 'admin'
+        ]);
+        DB::table('users')->insert([
+            'name' => 'Long 4',
+            'email' => 'longld4@gmail.com',
+            'password' => bcrypt('123456'),
+            'type' => 'user'
+        ]);
+        DB::table('users')->insert([
+            'name' => 'Long 5',
+            'email' => 'longld5@gmail.com',
+            'password' => bcrypt('123456'),
+            'type' => 'user'
+        ]);
+        DB::table('users')->insert([
+            'name' => 'Long 6',
+            'email' => 'longld6@gmail.com',
+            'password' => bcrypt('123456'),
+            'type' => 'user'
+        ]);
     }
 }

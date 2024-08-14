@@ -1,11 +1,13 @@
-##  php artisan migrate
+##  
+composer install
 
 
-# migrate
- php artisan migrate
+php artisan key:generate  
 
-# seed
+
+php artisan migrate
+
+
 php artisan db:seed
 
-
-40552
+ php artisan datatables:make Contact

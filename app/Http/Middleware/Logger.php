@@ -24,6 +24,8 @@ class Logger
 
         $headers  = $request->header();
 
+        if (str_contains(trim($request->getPathInfo(), '/'), "assets")) return $response;
+        if (str_contains(trim($request->getPathInfo(), '/'), "vendor")) return $response;
 
         $dt = new Carbon();
 

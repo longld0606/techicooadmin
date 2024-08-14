@@ -37,8 +37,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
-        $this->middleware('auth')->only('logout');
+         //$this->middleware('guest')->except('logout'); 
     }
 
     public function showLoginForm()
@@ -54,7 +53,7 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt(array('email' => $input['email'], 'password' => $input['password']))) {
+        if (Auth::guard('web')->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
             return redirect()->route('home');
         } else {
             return redirect()->back()->withInput()->withErrors(['Email hoặc mật khẩu không chính xác']);
@@ -63,8 +62,8 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-        //Auth::guard('admin')->logout();
-        //Auth::guard('web')->logout();
+        Auth::guard('web')->logout();
+        Auth::guard('admin')->logout();
         return redirect()->route('home');
     }
 }

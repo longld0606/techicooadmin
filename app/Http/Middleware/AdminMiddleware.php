@@ -20,9 +20,14 @@ class AdminMiddleware
         if ($user && $user->type == 'admin') {
             return $next($request);
         }
+
         $user_web = Auth::guard('web')->user();
-        if ($user_web) redirect()->route('home');
+        if ($user_web) {
+            Auth::guard('web')->logout();
+        }
+        if( $request->ajax()) return \App\Common\Response::success('Tài khoản không hợp lệ vui lòng thử lại!');
         return redirect()->route('admin.login');
+        
         //  return redirect()->back()->withInput()->withErrors(['Tài khoản không hợp lệ vui lòng thử lại.']);
     }
 }

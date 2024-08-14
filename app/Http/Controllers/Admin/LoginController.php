@@ -8,7 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller
+class LoginController extends AdminController
 {
     /*
     |--------------------------------------------------------------------------
@@ -37,8 +37,9 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
-        $this->middleware('auth')->only('logout');
+        // neu dang la end user => logout
+        // $this->middleware('auth:web')->except('logout'); 
+        // $this->middleware('auth:web')->except('logout'); 
     }
     public function loginForm()
     {
@@ -55,6 +56,7 @@ class LoginController extends Controller
 
         if (Auth::guard('admin')->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
             $user = Auth::guard('admin')->user();
+            // cho login FE luoon
             Auth::guard('web')->attempt(array('email' => $input['email'], 'password' => $input['password']));
             if ($user) {
                 return redirect()->route('admin.dashboard');
@@ -66,7 +68,7 @@ class LoginController extends Controller
         }
     }
     public function logout(Request $request)
-    {
+    {         
         Auth::logout();
         Auth::guard('web')->logout();
         Auth::guard('admin')->logout();
