@@ -1,9 +1,9 @@
 <?php
-$nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'Contact' => route('admin.budvar.contact')];
-$ctrl = 'contact';
+$nav = ['Tài khoản' => route('admin.account.index')];
+$ctrl = 'account';
 ?>
 
-@section('title', 'Contact')
+@section('title', 'Tài khoản')
 @extends('admin.layouts.app')
 
 @section('content')
@@ -44,7 +44,8 @@ $ctrl = 'contact';
                                         Excel</a></li>
                                 <li><a class="dropdown-item" href="javascript:void(0)" onclick="onExport('csv')">Xuất file
                                         CSV</a></li>
-                                <li><a class="dropdown-item" href="javascript:void(0)" onclick="onExport('print')">In - Print</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0)" onclick="onExport('print')">In -
+                                        Print</a></li>
                             </ul>
                         </div>
 

@@ -18,4 +18,5 @@ Route::middleware(['admin'])->group(function () {
 
     Route::get('budvar', [App\Http\Controllers\Admin\Budvar\DashboardController::class, 'index'])->name('budvar.dashboard');
     Route::get('budvar/contact', [App\Http\Controllers\Admin\Budvar\ContactController::class, 'index'])->name('budvar.contact');
+    Route::resource('account', App\Http\Controllers\Admin\AccountController::class);
 });

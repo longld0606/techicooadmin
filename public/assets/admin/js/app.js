@@ -408,7 +408,7 @@ $(function () {
     initInput();
     activeMenu();
 
-    $('.box-body').on('click', '.confirm-action', function (e) {
+    $('.table-box').on('click', '.confirm-action', function (e) {
         var $this = $(this),
             url = $this.data('href'),
             id = $this.data('id');
@@ -419,7 +419,7 @@ $(function () {
                 if (e.status == 'success') {
                     notify('Thao tác thành công', function () {
                         if (typeof getData == 'function') getData();
-                        if (typeof search == 'function') search();
+                        if (typeof searchTable == 'function') searchTable();
                         if (typeof reload == 'function') reload();
                     });
                 }
@@ -434,7 +434,7 @@ $(function () {
         // App.sweetDeleteItemMessage(url, ids);
         // e.preventDefault();
     });
-    $('.box-body').on('click', 'table  .delete-item', function (e) {
+    $('.table-box').on('click', 'table  .delete-item', function (e) {
         var $this = $(this),
             url = $this.data('href'),
             id = $this.data('id');
@@ -444,7 +444,7 @@ $(function () {
                 if (e.status == 'success') {
                     notify('Thao tác thành công', function () {
                         if (typeof getData == 'function') getData();
-                        if (typeof search == 'function') search();
+                        if (typeof searchTable == 'function') searchTable();
                         if (typeof reload == 'function') reload();
                     });
                 }

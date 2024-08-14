@@ -43,6 +43,10 @@
                         <p>BUDVAR CMS<i class="nav-arrow bi bi-chevron-right"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
+                        <li class="nav-item"> <a href="{{ route('admin.budvar.dashboard') }}" class="nav-link"> <i
+                                    class="nav-icon bi bi-circle"></i>
+                                <p>Dashboard</p>
+                            </a> </li>
                         <li class="nav-item"> <a href="./widgets/small-box.html" class="nav-link"> <i
                                     class="nav-icon bi bi-circle"></i>
                                 <p>Sản phẩm</p>
@@ -73,7 +77,28 @@
                             </a> </li>
                     </ul>
                 </li>
-
+                <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-box-seam-fill"></i>
+                        <p>ADMINISTRATION<i class="nav-arrow bi bi-chevron-right"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item"> <a href="{{ route('admin.account.index') }}" class="nav-link"> <i
+                                    class="nav-icon bi bi-circle"></i>
+                                <p>Tài khoản</p>
+                            </a> </li>
+                        <li class="nav-item"> <a href="./widgets/small-box.html" class="nav-link"> <i
+                                    class="nav-icon bi bi-circle"></i>
+                                <p>Nhóm quyền hệ thống</p>
+                            </a> </li>
+                        <li class="nav-item"> <a href="./widgets/small-box.html" class="nav-link"> <i
+                                    class="nav-icon bi bi-circle"></i>
+                                <p>Quyền hệ thống</p>
+                            </a> </li>
+                        {{-- <li class="nav-item"> <a href="{{ route('admin.logs.index') }}" class="nav-link"> <i
+                                    class="nav-icon bi bi-circle"></i>
+                                <p>Logs</p>
+                            </a> </li> --}}
+                    </ul>
+                </li>
                 {{-- <li class="nav-item menu-open"> <a href="#" class="nav-link active"> <i
                             class="nav-icon bi bi-speedometer"></i>
                         <p>

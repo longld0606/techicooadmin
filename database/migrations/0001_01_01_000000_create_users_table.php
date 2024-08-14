@@ -20,10 +20,12 @@ return new class extends Migration
             $table->rememberToken();
 
             $table->string('phone', 50)->nullable()->unique();
-            $table->string('avarar', 1000)->nullable();
+            $table->string('avatar', 1000)->nullable();
             $table->integer('gender')->nullable()->default(0);
             $table->string('type',50)->nullable()->default('user');
             $table->timestamp('birthday')->nullable();
+            
+            $table->string('status')->nullable()->default('ACTIVE');
 
             $table->foreignId('created_id')->nullable()->index();
             $table->foreignId('updated_id')->nullable()->index();
