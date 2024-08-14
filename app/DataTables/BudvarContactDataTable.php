@@ -22,7 +22,7 @@ class BudvarContactDataTable extends DataTable
      */
     public function dataTable()
     {
-        $response = Http::get('https://api.biabudvar.cz/api/contact/findAll');
+        $response = Http::get(env('API_BUDVAR', 'http://localhost') . '/contact/findAll');
         $posts = $response->json();
         //return $this->applyScopes($posts['data']);
         return datatables()
