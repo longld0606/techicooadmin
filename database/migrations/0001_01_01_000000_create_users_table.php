@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('phone', 50)->nullable()->unique();
             $table->string('avarar', 1000)->nullable();
             $table->integer('gender')->nullable()->default(0);
+            $table->string('type',50)->nullable()->default('user');
             $table->timestamp('birthday')->nullable();
 
             $table->foreignId('created_id')->nullable()->index();

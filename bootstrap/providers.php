@@ -6,4 +6,5 @@ return [
     Yajra\DataTables\ButtonsServiceProvider::class,
     Spatie\Permission\PermissionServiceProvider::class,
 
+    //\Illuminate\View\Middleware\ShareErrorsFromSession::class,
 ];
