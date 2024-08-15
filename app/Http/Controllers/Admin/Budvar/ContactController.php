@@ -12,4 +12,9 @@ class ContactController extends AdminController
     {
         return $dataTable->render('admin.budvar.contact.index', []);
     }
+
+    public function create()
+    {
+        return view('admin.dashboard.index');
+    }
 }

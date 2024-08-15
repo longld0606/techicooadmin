@@ -23,6 +23,6 @@ Route::get('/info', function () {    return  phpinfo(); });
 Route::get('login', [App\Http\Controllers\Web\LoginController::class, 'showLoginForm']);
 Route::post('login', [App\Http\Controllers\Web\LoginController::class, 'login'])->name('login');
 Route::post('logout', [App\Http\Controllers\Web\LoginController::class, 'logout'])->name('logout');
-Route::get('/', [App\Http\Controllers\Web\HomeController::class, 'index']);
-Route::get('home', [App\Http\Controllers\Web\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\Web\HomeController::class, 'index'])->name('home');
+Route::get('home', [App\Http\Controllers\Web\HomeController::class, 'index']);
 

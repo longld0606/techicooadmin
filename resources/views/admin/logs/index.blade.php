@@ -1,9 +1,9 @@
 <?php
-$ctrl = 'admin.budvar.page';
-$nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'Page' => route($ctrl.'.index')];
+$ctrl = 'admin.logs';
+$nav = ['LOGS' => route($ctrl.'.index')];
 ?>
 
-@section('title', 'PAGE')
+@section('title', 'Logs')
 @extends('admin.layouts.app')
 
 @section('content')
@@ -24,11 +24,11 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'Page' => route($ctrl.'.ind
                         <input type="text" class="form-control" name="search" autocomplete="search" placeholder="Từ khóa">
                     </div>
                 </div>
+                @include('admin.partials._search_button',['isCreate'=>false])
 
-                @include('admin.partials._search_button',[])
             </div>
+            <!-- /.box-body -->
         </div>
-        <!-- /.box-body -->
     </div>
 
     <div class="card card-secondary card-outline mb-4 mt-4 table-box">

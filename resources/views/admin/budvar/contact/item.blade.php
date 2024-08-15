@@ -80,4 +80,3 @@ $title = 'Thông tin Contact';
 @endsection
 
 @push('scripts')
- 

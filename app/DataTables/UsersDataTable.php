@@ -59,7 +59,11 @@ class UsersDataTable extends DataTable
             ->dom('<"row"<"col-sm-12"itr>><"row"<"col-sm-4"l><"col-sm-8"p>>')         
             ->orderBy(1)
             ->selectStyleSingle()
-            ->parameters(['buttons'=> ['excel', 'csv', 'print'],]);
+            ->buttons([
+                Button::make('excel'), 
+                Button::make('pdf'),
+                Button::make('print'), 
+            ]);
     }
 
     /**

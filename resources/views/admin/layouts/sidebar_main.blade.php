@@ -50,10 +50,10 @@
                         <li class="nav-item"> <a href="{{ '#' }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
                                 <p>Tin tức</p>
                             </a> </li>
-                        <li class="nav-item"> <a href="{{ route('admin.budvar.page') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
+                        <li class="nav-item"> <a href="{{ route('admin.budvar.page.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
                                 <p>Page</p>
                             </a> </li>
-                        <li class="nav-item"> <a href="{{ route('admin.budvar.contact') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
+                        <li class="nav-item"> <a href="{{ route('admin.budvar.contact.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
                                 <p>Khách hàng</p>
                             </a> </li>
                         <li class="nav-item"> <a href="{{ '#' }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
@@ -77,9 +77,9 @@
                         <li class="nav-item"> <a href="./widgets/small-box.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
                                 <p>Quyền hệ thống</p>
                             </a> </li>
-                        {{-- <li class="nav-item"> <a href="{{ route('admin.logs.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
+                        <li class="nav-item"> <a href="{{ route('admin.logs.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
                                 <p>Logs</p>
-                            </a> </li> --}}
+                            </a> </li>
                     </ul>
                 </li>
                 {{-- <li class="nav-item menu-open"> <a href="#" class="nav-link active"> <i class="nav-icon bi bi-speedometer"></i>
