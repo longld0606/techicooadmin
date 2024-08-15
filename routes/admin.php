@@ -14,9 +14,12 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::get('profile', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('profile');
 
+    Route::resource('account', App\Http\Controllers\Admin\AccountController::class);
+
 
 
     Route::get('budvar', [App\Http\Controllers\Admin\Budvar\DashboardController::class, 'index'])->name('budvar.dashboard');
     Route::get('budvar/contact', [App\Http\Controllers\Admin\Budvar\ContactController::class, 'index'])->name('budvar.contact');
-    Route::resource('account', App\Http\Controllers\Admin\AccountController::class);
+    Route::get('budvar/page', [App\Http\Controllers\Admin\Budvar\PageController::class, 'index'])->name('budvar.page');
+    //Route::resource('budvar/page', App\Http\Controllers\Admin\Budvar\PageController::class);
 });

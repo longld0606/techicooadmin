@@ -4,10 +4,10 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Techicoo | @yield('title')</title>
+    <title>CONOORAN | @yield('title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="title" content="Techicoo | Dashboard v2">
-    <meta name="author" content="Techicoo">
+    <meta name="title" content="CONOORAN | Dashboard v2">
+    <meta name="author" content="CONOORAN">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description"
         content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS.">

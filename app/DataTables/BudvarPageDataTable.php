@@ -10,7 +10,7 @@ use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class BudvarContactDataTable extends DataTable
+class BudvarPageDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -19,19 +19,18 @@ class BudvarContactDataTable extends DataTable
      */
     public function dataTable()
     {
-        $data = Budvar::get('/contact/findAll');
+        $data = Budvar::get('/page/findAll');
         //return $this->applyScopes($posts['data']);
         return datatables()
             ->collection($data->data)
             ->filter(function () {})
             ->skipPaging()
 
-            ->addColumn('action', 'admin.budvar.contact.action')
+            ->addColumn('action', 'admin.budvar.page.action')
             ->addColumn('type', '{{empty($type) ? "none" : $type}} ')
-            ->addColumn('firstname', '{{empty($firstname) ? "" : $firstname}} {{empty($lastname) ? "" : $lastname}}')
-            ->addColumn('message', '{{empty($message) ? "" : $message}}')
-            ->addColumn('phoneNumber', '{{empty($phoneNumber) ? "" : $phoneNumber}} ')
-            ->addColumn('updatedAt', '{{empty($updatedAt) ? "" :  \App\Common\Utility::displayDateTime($updatedAt) }}')
+            ->addColumn('title', '{{empty($title) ? "" : $title}} ')
+            ->addColumn('short', '{{empty($short) ? "" : $short}}')
+            ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
             ->setRowId('_id');
 
         // return (new EloquentDataTable($query))
@@ -79,15 +78,15 @@ class BudvarContactDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+
             Column::computed('action')->exportable(false)->printable(false)->width(50)->title('#'),
             Column::make('_id')->width(100),
 
             Column::make('type')->title('Loại')->width(100),
-            Column::make('firstname')->title('Họ Tên')->width(200),
-            Column::make('phoneNumber')->title('SĐT')->width(100),
-            Column::make('message')->title('Nội dung'),
+            Column::make('title')->title('Title')->width(200),
+            Column::make('short')->title('short')->width(100),
 
-            Column::make('updatedAt')->title('updatedAt')->width(100),
+            Column::make('createdAt')->title('createdAt')->width(100),
         ];
     }
 
@@ -96,6 +95,6 @@ class BudvarContactDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Contact_' . date('YmdHis');
+        return 'page_' . date('YmdHis');
     }
 }

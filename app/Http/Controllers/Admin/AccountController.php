@@ -12,10 +12,11 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use  App\Common\Response;
 
 class AccountController extends AdminController
 {
-    
+
     /**
      * Display a listing of the resource.
      */
@@ -105,9 +106,9 @@ class AccountController extends AdminController
      */
     public function show(User $account)
     {
-        // 
+        //
         $roles = Role::query()->get()->toArray();
-        $user_roles = [];// $account->roles()->pluck('role_id')->toArray(); 
+        $user_roles = [];// $account->roles()->pluck('role_id')->toArray();
         return view('admin.account.item', ['isAction' => 'show', 'item' =>  $account, 'roles' => $roles, 'user_roles' => $user_roles]);
     }
 
@@ -127,7 +128,7 @@ class AccountController extends AdminController
      */
     public function update(UpdateUserRequest $request, int $id)
     {
-        // 
+        //
         $data = \App\Models\User::query()->where('id', $id)->first();
         if (!$data instanceof \App\Models\User) {
             abort(404);
@@ -161,19 +162,19 @@ class AccountController extends AdminController
         }
         if ($request->file('avatar'))
             $data->avatar = $this->storeAvatar($request);
-        
+
         $data->type = $request->get('type');
         $data->status = $request->get('status');
         $data->gender = $request->get('status');
         $data->birthday = $request->get('birthday');
-        
+
         $data->updated_at = time();
         $data->updated_id = $user->id;
 
         // $roles =  $request->get('roles');
         // if(!empty($roles)){
-        //     $arr_roles = Role::query()->whereIn('id', $roles)->get()->pluck('name')->toArray(); 
-        //     $data->syncRoles($arr_roles);            
+        //     $arr_roles = Role::query()->whereIn('id', $roles)->get()->pluck('name')->toArray();
+        //     $data->syncRoles($arr_roles);
         // }
 
         if ($data->save()) {
@@ -195,13 +196,13 @@ class AccountController extends AdminController
     {
         $data = \App\Models\User::query()->where('id', $id)->first();
         if (!$data instanceof \App\Models\User) {
-            return \App\Common\Response::error('Không tìm thấy dữ liệu!');
+            return Response::error('Không tìm thấy dữ liệu!');
         }
         $updated = \App\Models\User::query()->where('id', $id)->delete();
         if ($updated) {
-            return \App\Common\Response::success();
+            return Response::success();
         }
-        return \App\Common\Response::error('Có lỗi trong quá trình xử lý!');
+        return Response::error('Có lỗi trong quá trình xử lý!');
     }
 
     public function setPass(FormRequest $request, int $id) {}
@@ -211,16 +212,16 @@ class AccountController extends AdminController
         $user = Auth::user();
         $data = \App\Models\User::query()->where('id', $id)->first();
         if (!$data instanceof \App\Models\User) {
-            return \App\Common\Response::error('Không tìm thấy dữ liệu!');
+            return Response::error('Không tìm thấy dữ liệu!');
         }
         $data->status = $data->status == \App\Common\Enum_STATUS::ACTIVE ? \App\Common\Enum_STATUS::NOACTIVE : \App\Common\Enum_STATUS::ACTIVE;
 
         $data->updated_at = time();
         $data->updated_id = $user->id;
         if ($data->save()) {
-            return \App\Common\Response::success();
+            return Response::success();
         }
-        return \App\Common\Response::error('Có lỗi trong quá trình xử lý!');
+        return Response::error('Có lỗi trong quá trình xử lý!');
     }
 
 
@@ -236,7 +237,7 @@ class AccountController extends AdminController
 
     public function savepassword(UpdateUserRequest $request, int $id)
     {
-        // 
+        //
         $data = \App\Models\User::query()->where('id', $id)->first();
         if (!$data instanceof \App\Models\User) {
             abort(404);
