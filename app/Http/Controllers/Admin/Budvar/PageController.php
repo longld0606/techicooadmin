@@ -22,6 +22,7 @@ class PageController extends AdminController
     public function create()
     {
         $data = new Page();
+        $data->type = "PAGE";
         return view('admin.budvar.page.item', ['isAction' => 'create', 'item' => $data]);
     }
 

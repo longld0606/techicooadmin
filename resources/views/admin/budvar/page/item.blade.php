@@ -31,16 +31,30 @@ $isDisabled = true;
 @section('content')
 
 <section class="app-content ">
-    @include('admin.partials._alerts')
 
-    <div class="card card-secondary  mb-4 mt-4 search-box">
+    <div class="card card-secondary  mb-4 mt-4 item-box">
         @include('admin.partials._card_title', ['title' => $title])
-        <!-- /.box-header -->
         <div class="card-body">
-            <?php $ref = request()->get('ref', '') != '' ? request()->get('ref') : route( $ctrl . '.index'); ?>
-            <input type="hidden" name="ref" value="{{ $ref }}" />
+
+            @include('admin.partials._alerts')
+
+            <form class="form-item" method="POST" action="{{ $url }}">
+                @if ($isAction == 'edit')
+                    <input name="_method" type="hidden" value="PATCH">
+                @endif
+                @csrf
+
+                @include('admin.partials._input_val', ['title' => 'Tiêu đề', 'name' => 'title', 'val' => old('title', $item->title)])
+                @include('admin.partials._input_select2', [ 'title' => 'Loại', 'name' => 'type', 'array' => ['EVENT' => 'EVENT', 'PAGE'=>'PAGE'], 'val' => old('title', $item->type)])
+
+
+                <div class="card-body">
+                    <?php $ref = request()->get('ref', '') != '' ? request()->get('ref') : route( $ctrl . '.index'); ?>
+                    <input type="hidden" name="ref" value="{{ $ref }}" />
+                </div>
+                @include('admin.partials._save_button')
+            </form>
         </div>
-        @include('admin.partials._save_button')
     </div>
 </section>
 <!-- /.content -->

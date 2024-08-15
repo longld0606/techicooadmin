@@ -1,4 +1,4 @@
-<div class="col-sm-12 mb-3">
+<div class="col-sm-12 ">
 
     <button onclick="searchTable()" type="button" class="btn btn-primary">
         {{ __('Tìm kiếm') }}</button>

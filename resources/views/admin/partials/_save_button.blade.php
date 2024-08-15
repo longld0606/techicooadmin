@@ -1,4 +1,4 @@
-<div class="card-footer">
+<div class="">
     <div class="text-end">
         <a href="{{ $ref }}" class="btn btn-default btn-flat"> <i class="fa fa-chevron-left"></i> &nbsp;
             Quay lại </a>
