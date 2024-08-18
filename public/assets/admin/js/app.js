@@ -330,15 +330,22 @@ function notifyError(text, callback) {
 function initInput(ckInput_id) {
     $('.select2').select2({ width: '100%' });
     $('.datepicker').datepicker({ autoclose: true, format: 'dd/mm/yyyy', });
-    CKEDITOR.config.toolbar = [
-        ['Styles', 'Format', 'Font', 'FontSize'],
-        ['Bold', 'Italic', 'Underline', 'StrikeThrough', '-', 'Undo', 'Redo', '-', 'Cut', 'Copy', 'Paste', 'Find', 'Replace', '-', 'Outdent', 'Indent', '-', 'Print'],
-        ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-        ['Image', 'Table', '-', 'Link', 'Flash', 'Smiley', 'TextColor', 'BGColor', 'Source']
-    ];
-
-    CKEDITOR.config.entities = false;
-    CKEDITOR.config.basicEntities = false;
+    // CKEDITOR.config.toolbar = [
+    //     ['Styles', 'Format', 'Font', 'FontSize'],
+    //     ['Bold', 'Italic', 'Underline', 'StrikeThrough', '-', 'Undo', 'Redo', '-', 'Cut', 'Copy', 'Paste', 'Find', 'Replace', '-', 'Outdent', 'Indent', '-', 'Print'],
+    //     ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+    //     ['Image', 'Table', '-', 'Link', 'Flash', 'Smiley', 'TextColor', 'BGColor', 'Source']
+    // ];
+    // CKEDITOR.config.entities = false;
+    // CKEDITOR.config.basicEntities = false;
+    // CKEDITOR.config.height = '25em';     ;
+ 
+    // CKEDITOR.config.extraPlugins = "file-manager";
+    // CKEDITOR.config.Flmngr ={
+    //     apiKey: "FLMNFLMN",
+    //     urlFileManager: '/file_mngr',
+    //     urlFiles: '/files/'
+    // }; 
     CKEDITOR.replaceClass = 'ckeditor';
     $('.wysihtml5').wysihtml5();
     $('input').iCheck({

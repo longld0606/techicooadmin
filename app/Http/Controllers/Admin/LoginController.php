@@ -68,7 +68,8 @@ class LoginController extends AdminController
         }
     }
     public function logout(Request $request)
-    {         
+    {          
+        session()->forget('budvar_access_token');
         Auth::logout();
         Auth::guard('web')->logout();
         Auth::guard('admin')->logout();

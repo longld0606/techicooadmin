@@ -3,28 +3,33 @@ $displayNone = '';
 if ((isset($hiden) && $hiden == true) || (isset($hidden) && $hidden == true)) {
     $displayNone = 'style=display:none;';
 }
-$field_val = 'title';
-if (isset($field)) {
-    $field_val = $field;
-}
+ 
 $isMultiple = false;
-if ((isset($multiple) && $multiple == true)) {
-    $isMultiple = true; $attr_multiple = '';
+if (isset($multiple) && $multiple == true) {
+    $isMultiple = true;
+    $attr_multiple = '';
+}
+if (!isset($id_field)) {
+    $id_field = 'id';
+}
+if (!isset($val_field)) {
+    $val_field = 'title';
 }
 ?>
 
-<div class="row mb-3"  {{ $displayNone }}>
-    <label class="col-sm-3" for="{{ 'input_' . $name }}">{{ $title }}</label>
-    <div class="col-sm-9">
-        <select class="form-control select2" style="width: 100%;" id="{{ 'input_' . $name }}" name="{{ $name }}" {{ $isMultiple ? 'multiple=multiple' : ''}}>
-            @if(isset($all_title) )
+<div class="mb-3" {{ $displayNone }}>
+    <label class="form-label" for="{{ 'input_' . $name }}">{{ $title }}</label>
+    <select class="form-control  select2" style="width: 100%;" id="{{ 'input_' . $name }}" name="{{ $name }}"
+        {{ isset($isRequired) && $isRequired ? 'required' : '' }} {{ $isMultiple ? 'multiple=multiple' : '' }}>
+        @if (isset($all_title))
             <option value=""> {{ $all_title }}</option>
-            @endif
-            @if(count($array) > 0)
-                @foreach ($array as $k => $v)
-                    <option value="{{ $v['id'] }}" {{ ($isMultiple ? (in_array($v['id'], $val?? [])) : $v['id']==$val) ? 'selected' : '' }}> {{ $v[$field_val] }}</option>
-                @endforeach
-            @endif
-        </select>
-    </div>
+        @endif
+        @if (count($array) > 0)
+            @foreach ($array as $k => $v)
+                <option value="{{ $v[$id_field] }}"
+                    {{ ($isMultiple ? in_array($v[$id_field], $val ?? []) : $v[$id_field] == $val) ? 'selected' : '' }}>
+                    {{ $v[$val_field] }}</option>
+            @endforeach
+        @endif
+    </select>
 </div>

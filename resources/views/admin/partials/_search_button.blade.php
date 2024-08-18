@@ -8,6 +8,7 @@
     &nbsp;
     @endif
 
+    @if( isset($isExport) && $isExport == true) 
     <div class="btn-group" role="group">
         <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             Xuất file
@@ -20,5 +21,6 @@
             <li><a class="dropdown-item" href="javascript:void(0)" onclick="onExport('print')">In - Print</a></li>
         </ul>
     </div>
+    @endif
 
 </div>

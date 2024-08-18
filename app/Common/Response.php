@@ -21,7 +21,7 @@ class Response
 
     public function toResponse($code = 200, $message = 'Thao tác thành công!', $data = [])
     {
-        $response = new Response($code, $message, $data);
+        $response = new Response($code, $message, $data); 
         return response()->json($response);
     }
 

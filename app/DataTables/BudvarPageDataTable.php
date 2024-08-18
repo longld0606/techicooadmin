@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Common\Budvar;
+use App\Common\BudvarApi;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -19,7 +19,7 @@ class BudvarPageDataTable extends DataTable
      */
     public function dataTable()
     {
-        $data = Budvar::get('/page/findAll');
+        $data = BudvarApi::get('/page/findAll');
         //return $this->applyScopes($posts['data']);
         return datatables()
             ->collection($data->data)

@@ -12,7 +12,7 @@ namespace App\Common;
  * @package App\Commons
  */
 class Utility
-{ 
+{
 
     public static function displayStartEndDate($timeStart, $timeEnd, $format = 'd/m/Y')
     {
@@ -73,5 +73,18 @@ class Utility
         @list($day, $month, $year) = explode('/', $date);
 
         return "{$year}-{$month}-{$day}";
+    }
+
+    public static function displayBudvarMedia($media)
+    {
+        if (empty($media)) {
+            return '';
+        } 
+        $type = gettype($media);
+        
+        if( $type == 'array' && empty($media['source'])) {
+            return '';
+        }
+        return $media['source'];
     }
 }

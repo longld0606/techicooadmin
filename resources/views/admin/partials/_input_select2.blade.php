@@ -3,6 +3,10 @@ $displayNone = '';
 if ((isset($hiden) && $hiden == true) || (isset($hidden) && $hidden == true)) {
     $displayNone = 'style=display:none;';
 }
+if(!isset($val))
+{
+    $val = '';
+}
 ?>
 <div class="mb-3" {{ $displayNone }}> 
     <label class="form-label" for="{{ 'input_' . $name }}">{{ $title }}</label> 
@@ -11,7 +15,7 @@ if ((isset($hiden) && $hiden == true) || (isset($hidden) && $hidden == true)) {
         <option value=""> {{ $all_title }}</option>
         @endif
         @foreach ($array as $k => $v)
-        <option value="{{ $k }}" {{ $k==$val ? 'selected' : '' }}> {{ $v }}</option>
+        <option value="{{ $k }}" {{ $k== $val ? 'selected' : '' }}> {{ $v }}</option>
         @endforeach
     </select> 
 </div>

@@ -17,12 +17,16 @@ use Illuminate\Support\Facades\Route;
 // Registration Routes...
 //Route::get('register', ['as' => 'register',    'uses' => 'Auth\RegisterController@showRegistrationForm']);
 //Route::post('register', ['as' => '',    'uses' => 'Auth\RegisterController@register']);
+Route::post('file_mngr', function () {
+    \EdSDK\FlmngrServer\FlmngrServer::flmngrRequest(array('dirFiles' => storage_path() . '/public/flmngr'));
+});
 
-Route::get('/info', function () {    return  phpinfo(); });
+Route::get('/info', function () {
+    return  phpinfo();
+});
 
 Route::get('login', [App\Http\Controllers\Web\LoginController::class, 'showLoginForm']);
 Route::post('login', [App\Http\Controllers\Web\LoginController::class, 'login'])->name('login');
 Route::post('logout', [App\Http\Controllers\Web\LoginController::class, 'logout'])->name('logout');
 Route::get('/', [App\Http\Controllers\Web\HomeController::class, 'index'])->name('home');
 Route::get('home', [App\Http\Controllers\Web\HomeController::class, 'index']);
-

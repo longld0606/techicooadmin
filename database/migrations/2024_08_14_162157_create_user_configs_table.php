@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('user_configs', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('user_id')->nullable();
+
+            $table->string('tenant',50);
+            $table->string('username',250);
+            $table->string('password',250);
+            $table->text('token')->nullable();
+            $table->timestamp('expired_at')->nullable();  
+            
+            $table->foreignId('created_id')->nullable();
+            $table->foreignId('updated_id')->nullable();
             $table->timestamps();
         });
     }

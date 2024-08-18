@@ -1,23 +1,18 @@
 @if (session()->has('success'))
-    <div class="col-sm-12">
-        <div class="alert alert-success alert-dismissible flat" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
-            {{ session()->get('success') }}
-        </div>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session()->get('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @elseif ($errors->any())
-    <div class="col-sm-12">
-        <div class="alert alert-danger alert-dismissible flat">
-            <ul style="list-style: none;padding-inline-start: 0">
-                @foreach ($errors->all() as $error)
-                    <li>{!! $error !!}</li>
-                @endforeach
-            </ul>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="top: -20px;">
-                <span aria-hidden="true">×</span>
-            </button>
-        </div>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+        <ul style="list-style: none;padding-inline-start: 0; margin-bottom: 0">
+            @foreach ($errors->all() as $error)
+                <li>{!! $error !!}</li>
+            @endforeach
+        </ul>
+
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+
 @endif

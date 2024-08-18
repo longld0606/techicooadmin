@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Common\Budvar;
+use App\Common\BudvarApi;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -19,8 +19,10 @@ class BudvarContactDataTable extends DataTable
      */
     public function dataTable()
     {
-        $data = Budvar::get('/contact/findAll');
-        //return $this->applyScopes($posts['data']);
+        $title = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
+        $type = isset($this->request->get('search')['type']) ?  $this->request->get('search')['type'] : '';
+
+        $data = BudvarApi::get('/contact/findAll', ['title' => $title, 'type' => $type]);
         return datatables()
             ->collection($data->data)
             ->filter(function () {})
@@ -53,12 +55,7 @@ class BudvarContactDataTable extends DataTable
             ->paging(false)
             ->minifiedAjax('', null, [
                 'search["value"]' => '$("[name=search]").val()',
-                'search["path"]' => '$("[name=path]").val()',
-                'search["user_id"]' => '$("[name=user_id]").val()',
-                'search["code"]' => '$("[name=code]").val()',
-                'search["message"]' => '$("[name=message]").val()',
-                'search["ip"]' => '$("[name=ip]").val()',
-                'search["method"]' => '$("[name=method]").val()',
+                'search["type"]' => '$("[name=type]").val()',
             ])
             ->dom('<"row"<"col-sm-12"itr>><"row"<"col-sm-4"l><"col-sm-8"p>>')
             ->orderBy(1)

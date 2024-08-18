@@ -11,8 +11,8 @@ if ($isAction == 'create') {
     $isDisabled = false;
     $btn = 'Lưu';
 } elseif ($isAction == 'edit') {
-    $title = 'Chỉnh sửa PAGE';
-    $url = route($ctrl . '.update', $item->id);
+    $title = 'Chỉnh sửa PAGE'; 
+    $url = route($ctrl . '.update', $item['_id']);
     $isDisabled = false;
     $btn = 'Cập nhật';
 } elseif ($isAction == 'show') {
@@ -23,11 +23,10 @@ if ($isAction == 'create') {
 
 $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'PAGE' => route($ctrl.'.index'), $title => '#'];
 
-$isDisabled = true;
 ?>
 
 
-@section('title', 'Tài khoản')
+@section('title', $title)
 @section('content')
 
 <section class="app-content ">
@@ -44,8 +43,10 @@ $isDisabled = true;
                 @endif
                 @csrf
 
-                @include('admin.partials._input_val', ['title' => 'Tiêu đề', 'name' => 'title', 'val' => old('title', $item->title)])
-                @include('admin.partials._input_select2', [ 'title' => 'Loại', 'name' => 'type', 'array' => ['EVENT' => 'EVENT', 'PAGE'=>'PAGE'], 'val' => old('title', $item->type)])
+                @include('admin.partials._input_val', ['title' => 'Tiêu đề', 'name' => 'title', 'val' => old('title', $item['title'])])
+                @include('admin.partials._input_select2', [ 'title' => 'Loại', 'name' => 'type', 'array' => ['EVENT' => 'EVENT', 'PAGE'=>'PAGE'], 'val' => old('type', $item['type'])])
+                @include('admin.partials._input_text', ['title' => 'Mô tả', 'name' => 'short', 'val' => old('short', $item['short'])])
+                @include('admin.partials._input_ckeditor', ['title' => 'Nội dung', 'name' => 'content', 'val' => old('content', $item['content'])])
 
 
                 <div class="card-body">

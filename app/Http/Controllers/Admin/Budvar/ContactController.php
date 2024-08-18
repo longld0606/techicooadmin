@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Budvar;
 
+use App\Common\BudvarApi;
 use App\DataTables\BudvarContactDataTable;
 use App\Http\Controllers\Admin\AdminController;
 use App\Models\Budvar\Contact;
@@ -23,7 +24,8 @@ class ContactController extends AdminController
     public function create()
     {
         $data = new Contact();
-        return view('admin.budvar.page.item', ['isAction' => 'create', 'item' => $data]);
+        $data->type = "PAGE";
+        return view('admin.budvar.contact.item', ['isAction' => 'create', 'item' => $data]);
     }
 
     /**
@@ -31,83 +33,85 @@ class ContactController extends AdminController
      */
     public function store(FormRequest $request)
     {
-        //
-        $data = new Contact();
-        if (!empty($request->get('orderby')))
-            $data->orderby = $request->get('orderby');
+        // 
         $user = Auth::user();
-        
-        $data->created_at = time();
-        $data->created_id = $user->id;
-
-        if ($data->save()) {
+        $json = [
+            'firstname' => $request->get('firstname'),
+            'lastname' => $request->get('lastname'),
+            'type' => $request->get('type'),
+            'phoneNumber' => $request->get('phoneNumber'),
+            'email' => $request->get('email'),
+            'turnAgree' => true,
+            'message' =>  $request->get('message'),
+        ];
+        $response = BudvarApi::post('/contact/create', $json);
+        if ($response->status == 'success') {
             $ref = $request->get('ref', '');
             if (!empty($ref)) {
-                return redirect($ref)->with('success', 'Thêm mới mô tả dự án thành công');
+                return redirect($ref)->with('success', 'Thêm thông tin Contact thành công');
             }
-            return redirect('admin.budvar.page')->with('success', 'Thêm mới mô tả dự án thành công');
+            return redirect('admin.budvar.contact.index')->with('success', 'Thêm thông tin Contact thành công');
         }
-        return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi xảy ra']);
+        return redirect()->back()->withInput()->withErrors(['message' => $response->message ?? 'Có lỗi trong quá trình xử lý!']);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Contact $page)
+    public function show(string $id)
     {
-        //     
-        return view('admin.budvar.page.item', ['isAction' => 'show', 'item' => $page]);
+        $data = BudvarApi::get('/contact/findOne/' . $id);
+        $item = $data->data;
+        if (empty($item['type'])) $item['type'] = 'contact';
+        return view('admin.budvar.contact.item', ['isAction' => 'show', 'item' =>  $item]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Contact $page)
+    public function edit(string $id)
     {
-        //     
-        return view('admin.budvar.page.item', ['isAction' => 'edit', 'item' => $page]);
+        $data = BudvarApi::get('/contact/findOne/' . $id);
+        $item = $data->data;
+        if (empty($item['type'])) $item['type'] = 'contact';
+        return view('admin.budvar.contact.item', ['isAction' => 'edit', 'item' =>  $item]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(FormRequest $request, int $id)
+    public function update(FormRequest $request, string $id)
     {
-        //
-        //
-        $data = Contact::query()->where('id', $id)->first();
-        $user = Auth::user();
-
-        $data->updated_at = time();
-        $data->updated_id = $user->id;
-
-        if ($data->save()) {
+        $json = [
+            'firstname' => $request->get('firstname'),
+            'lastname' => $request->get('lastname'),
+            'type' => $request->get('type'),
+            'phoneNumber' => $request->get('phoneNumber'),
+            'email' => $request->get('email'),
+            'turnAgree' => true,
+            'message' =>  $request->get('message'),
+        ];
+        $response = BudvarApi::put('/contact/update/' . $id, $json);
+        if ($response->status == 'success') {
             $ref = $request->get('ref', '');
             if (!empty($ref)) {
-                return redirect($ref)->with('success', 'Chỉnh sửa thông tin mô tả dự án thành công');
+                return redirect($ref)->with('success', 'Chỉnh sửa thông tin Contact thành công');
             }
-
-            return redirect('admin.budvar.page')->with('success', 'Chỉnh sửa thông tin mô tả dự án thành công');
+            return redirect('admin.budvar.contact.index')->with('success', 'Chỉnh sửa thông tin Contact thành công');
         }
 
-
-        return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi xảy ra']);
+        return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi trong quá trình xử lý!']);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id)
+    public function destroy(string $id)
     {
-        $data = Contact::query()->where('id', $id)->first();
-        if (!$data instanceof Contact) {
-            return \App\Common\Response::error('Không tìm thấy dữ liệu!');
-        }
-        $updated = Contact::query()->where('id', $id)->delete();
-        if ($updated) {
+        $response = BudvarApi::delete('/contact/remove/' . $id);
+        if ($response->status == 'success') {
             return \App\Common\Response::success();
         }
-
         return \App\Common\Response::error('Có lỗi trong quá trình xử lý!');
     }
 }

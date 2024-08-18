@@ -49,3 +49,41 @@ div.dt-container div.dt-paging ul.pagination {
 .select2-container--default .select2-selection--single .select2-selection__rendered{
     padding-left: 0;
 }
+.notifyjs-bootstrap-base {
+    border-radius: 0 !important;
+    padding: 8px 15px 8px 14px !important;
+    font-weight: normal !important;
+    white-space: normal !important;
+    width: 300px !important;
+    text-shadow: none !important;
+}
+
+.notifyjs-bootstrap-error,
+.notifyjs-bootstrap-success {
+    color: #fff !important;
+    background-color: #00a65a !important;
+    border-color: #00a65a !important;
+    /* background-color: #3c8dbc !important;
+    border-color: #3c8dbc !important; */
+    background-image: none !important;
+}
+
+.notifyjs-bootstrap-base.notifyjs-bootstrap-success::before {
+    content: "\f046";
+    display: inline-block;
+    font: normal normal normal 14px / 1 FontAwesome;
+    padding-right: 8px;
+}
+
+.notifyjs-bootstrap-base.notifyjs-bootstrap-error::before {
+    content: "\f071";
+    display: inline-block;
+    font: normal normal normal 14px / 1 FontAwesome;
+    padding-right: 8px;
+}
+
+.notifyjs-bootstrap-error {
+    color: #fff !important;
+    background-color: #f39c12 !important;
+    border-color: #f39c12 !important;
+}

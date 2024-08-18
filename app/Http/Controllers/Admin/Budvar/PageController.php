@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin\Budvar;
 
+use App\Common\BudvarApi;
 use App\DataTables\BudvarPageDataTable;
-use App\Http\Controllers\Admin\AdminController; 
+use App\Http\Controllers\Admin\AdminController;
 use App\Models\Budvar\Page;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,8 +36,8 @@ class PageController extends AdminController
         //
         $data = new Page();
         $user = Auth::user();
-        
-        
+
+
         $data->created_at = time();
         $data->created_id = $user->id;
 
@@ -52,62 +54,53 @@ class PageController extends AdminController
     /**
      * Display the specified resource.
      */
-    public function show(Page $page)
+    public function show(string $id): View
     {
-        //     
-        return view('admin.budvar.page.item', ['isAction' => 'show', 'item' => $page]);
+        $data = BudvarApi::get('/page/findOne/' . $id);
+        return view('admin.budvar.page.item', ['isAction' => 'show', 'item' => $data->data]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Page $page)
+    public function edit(string $id)
     {
-        //     
-        return view('admin.budvar.page.item', ['isAction' => 'edit', 'item' => $page]);
+        $data = BudvarApi::get('/page/findOne/' . $id);
+        return view('admin.budvar.page.item', ['isAction' => 'edit', 'item' => $data->data]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(FormRequest $request, int $id)
+    public function update(FormRequest $request, string $id)
     {
-        //
-        //
-        $data = Page::query()->where('id', $id)->first();
-        $user = Auth::user();
-        
-
-        $data->updated_at = time();
-        $data->updated_id = $user->id;
-
-        if ($data->save()) {
+        $json = [
+            'title' => $request->get('title'),
+            'type' => $request->get('type'),
+            'short' => $request->get('short'),
+            'content' => $request->get('content'),
+        ];
+        $response = BudvarApi::put('/page/update/' . $id, $json);
+        if ($response->status == 'success') {
             $ref = $request->get('ref', '');
             if (!empty($ref)) {
-                return redirect($ref)->with('success', 'Chỉnh sửa thông tin mô tả dự án thành công');
+                return redirect($ref)->with('success', 'Chỉnh sửa thông tin Page thành công');
             }
-
-            return redirect('admin.budvar.page.index')->with('success', 'Chỉnh sửa thông tin mô tả dự án thành công');
+            return redirect('admin.budvar.page.index')->with('success', 'Chỉnh sửa thông tin Page thành công');
         }
 
-
-        return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi xảy ra']);
+        return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi trong quá trình xử lý!']);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id)
+    public function destroy(string $id)
     {
-        $data = Page::query()->where('id', $id)->first();
-        if (!$data instanceof Page) {
-            return \App\Common\Response::error('Không tìm thấy dữ liệu!');
-        }
-        $updated = Page::query()->where('id', $id)->delete();
-        if ($updated) {
+        $response = BudvarApi::delete('/page/remove/' . $id);
+        if ($response->status == 'success') {
             return \App\Common\Response::success();
         }
-
         return \App\Common\Response::error('Có lỗi trong quá trình xử lý!');
     }
 }

@@ -1,2 +1,3 @@
- <?php $table = 'contact'; ?>
- @include('admin.partials._action', ['table' => 'contact', 'sub' => 'budvar', 'id' => $_id])
+ <?php
+ $ctrl = 'admin.budvar.page'; ?>
+ @include('admin.partials._action', ['ctrl' => $ctrl, 'id' => $_id])

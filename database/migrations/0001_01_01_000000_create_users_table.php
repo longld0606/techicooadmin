@@ -27,8 +27,8 @@ return new class extends Migration
             
             $table->string('status')->nullable()->default('ACTIVE');
 
-            $table->foreignId('created_id')->nullable()->index();
-            $table->foreignId('updated_id')->nullable()->index();
+            $table->foreignId('created_id')->nullable();
+            $table->foreignId('updated_id')->nullable();
             $table->timestamps();
         });
 
