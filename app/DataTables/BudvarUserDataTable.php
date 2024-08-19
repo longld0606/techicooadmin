@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\Common\BudvarApi;
-use App\Models\Budvar\Media;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -11,7 +10,7 @@ use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class BudvarMediaDataTable extends DataTable
+class BudvarUserDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -21,24 +20,29 @@ class BudvarMediaDataTable extends DataTable
     public function dataTable()
     {
         $title = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
-        $type = isset($this->request->get('search')['type']) ?  $this->request->get('search')['type'] : '';
-        $data = BudvarApi::get('/media/findAll', ['name' => $title, 'type' => $type]);
+        $type =  '';
 
-        //return $this->applyScopes($medias['data']);
+        $data = BudvarApi::get('/user/findAll', ['title' => $title, 'type' => $type]);
         return datatables()
             ->collection($data->data)
             ->filter(function () {})
             ->skipPaging()
 
-            ->addColumn('action', 'admin.budvar.media.action')
-            ->addColumn('source', '<img src="{{ empty($source) ? "" : $source}}" width="150px" style="border: 1px solid #dee2e6" />')
-            ->addColumn('type', '{{empty($type) ? "none" : $type}} ')
-            ->addColumn('name', '{{empty($name) ? "" : $name}} ') 
-            ->addColumn('link',  '{{empty($source) ? "" : $source}} ') 
-            ->addColumn('originalname', '{{empty($originalname) ? "" : $originalname}} ') 
-            ->rawColumns(['source', 'action'])
+            ->addColumn('action', 'admin.budvar.user.action')
+            ->addColumn('fullname', '{{empty($fullname) ? "" : $fullname}} ')
+            ->addColumn('email', '{{empty($email) ? "" : $email}} ')
+            ->addColumn('phone', '{{empty($phone) ? "" : $phone}} ')
+            ->addColumn('status', '{{empty($status) ? "" : $status}}')
+            ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
             ->setRowId('_id');
+
+        // return (new EloquentDataTable($query))
+        //     ->addColumn('timestamp',  '<a href="/vcc/{{$id}}">{{\App\Common\Utility::displayDatetime($timestamp)}}</a>')
+        //     ->rawColumns(['timestamp'])
+        //     ->setRowId('id');
     }
+
+
 
     /**
      * Optional method if you want to use the html builder.
@@ -50,7 +54,7 @@ class BudvarMediaDataTable extends DataTable
             ->columns($this->getColumns())
             ->paging(false)
             ->minifiedAjax('', null, [
-                'search["value"]' => '$("[name=search]").val()', 
+                'search["value"]' => '$("[name=search]").val()',
                 'search["type"]' => '$("[name=type]").val()',
             ])
             ->dom('<"row"<"col-sm-12"itr>><"row"<"col-sm-4"l><"col-sm-8"p>>')
@@ -72,14 +76,17 @@ class BudvarMediaDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-
-            Column::computed('action')->exportable(false)->printable(false)->width(50)->title('#'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->searchable(false)
+                ->width(50)->title('#'),
             Column::make('_id')->width(100),
-            Column::make('type')->title('Loại')->width(100),  
-            //Column::make('name')->title('Tên')->width(200),
-            Column::make('originalname')->title('Tên cũ')->width(200),
-            Column::make('link')->title('Link'),
-            Column::make('source')->title('Ảnh')->width(200),
+            Column::make('fullname')->title('Tên'),
+            Column::make('email')->title('email')->width(200),
+            Column::make('phone')->title('phone')->width(200),
+            Column::make('status')->title('status')->width(200),
+            Column::make('createdAt')->title('createdAt')->width(200),
         ];
     }
 
@@ -88,6 +95,6 @@ class BudvarMediaDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'media_' . date('YmdHis');
+        return 'Contact_' . date('YmdHis');
     }
 }

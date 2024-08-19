@@ -23,7 +23,7 @@ class MediaController extends AdminController
      */
     public function create()
     {
-        $data = new Media();
+        $data = [];
         return view('admin.budvar.media.item', ['isAction' => 'create', 'item' => $data]);
     }
 
@@ -82,8 +82,7 @@ class MediaController extends AdminController
      * Update the specified resource in storage.
      */
     public function update(FormRequest $request, string $id)
-    {
-        $user = Auth::user();
+    { 
         $json = [
             'code' => $request->get('code'),
             'name' => $request->get('name'),
@@ -109,8 +108,8 @@ class MediaController extends AdminController
     {
         $response = BudvarApi::delete('/media/remove/' . $id);
         if ($response->status == 'success') {
-            return \App\Common\Response::success();
+            return response()->json(\App\Common\Response::success());
         }
-        return \App\Common\Response::error('Có lỗi trong quá trình xử lý!');
+        return response()->json(\App\Common\Response::error('Có lỗi trong quá trình xử lý!'));
     }
 }

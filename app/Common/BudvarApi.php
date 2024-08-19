@@ -11,6 +11,7 @@ use App\Models\UserConfig;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class Utility
@@ -19,6 +20,10 @@ use Illuminate\Support\Facades\Http;
 class BudvarApi
 {
 
+    public static function LogApi($method, $url, $data, $response)
+    {
+        Log::info('Budvar api; method: ' . $method . '; Url: ' . $url . '; data:' . json_encode($data) . '; response:' . json_encode($response));
+    }
     public static function toResponse($data)
     {
         if (empty($data)) return \App\Common\Response::error();
@@ -41,6 +46,7 @@ class BudvarApi
         //$token = BudvarApi::accessToken();
         $response =  Http::acceptJson()
             ->get(env('API_BUDVAR', '') . $url, $data);
+        BudvarApi::LogApi("GET", $url, $data, $response);
         return BudvarApi::toResponse($response->json());
     }
 
@@ -49,15 +55,27 @@ class BudvarApi
     {
         $response =  Http::withToken(BudvarApi::accessToken())
             ->post(env('API_BUDVAR', '') . $url, $data);
-        return BudvarApi::toResponse($response->json());
+
+        BudvarApi::LogApi("POST", $url, $data, $response);
+        return  BudvarApi::toResponse($response->json());
     }
 
     public static function put($url, $data)
     {
         $response =  Http::withToken(BudvarApi::accessToken())
             ->put(env('API_BUDVAR', '') . $url, $data);
+        BudvarApi::LogApi("PUT", $url, $data, $response);
         return BudvarApi::toResponse($response->json());
     }
+
+    public static function delete($url)
+    {
+        $response =  Http::withToken(BudvarApi::accessToken())
+            ->delete(env('API_BUDVAR', '') . $url, []);
+        BudvarApi::LogApi("DELETE", $url, [], $response);
+        return BudvarApi::toResponse($response->json());
+    }
+
 
     public static function postMultipartFile($url, $data, $file)
     {
@@ -71,6 +89,7 @@ class BudvarApi
             ->asMultipart()
             ->attach('file', $file_contents,  $file_name)
             ->post(env('API_BUDVAR', '') . $url, $data);
+        BudvarApi::LogApi("POST", $url, $data, $response);
         return BudvarApi::toResponse($response->json());
     }
 
@@ -79,6 +98,7 @@ class BudvarApi
         $response =  Http::withToken(BudvarApi::accessToken())
             ->asMultipart()
             ->post(env('API_BUDVAR', '') . $url, $data);
+        BudvarApi::LogApi("POST", $url, $data, $response);
         return BudvarApi::toResponse($response->json());
     }
 
@@ -94,25 +114,19 @@ class BudvarApi
             ->asMultipart()
             ->attach('file', $file_contents, $file_name)
             ->put(env('API_BUDVAR', '') . $url, $data);
+        BudvarApi::LogApi("PUT", $url, $data, $response);
         return BudvarApi::toResponse($response->json());
     }
 
     public static function putMultipart($url, $data)
-    {
-        $token = BudvarApi::accessToken();
+    {       
         $response =  Http::withToken(BudvarApi::accessToken())
             ->asMultipart()
             ->put(env('API_BUDVAR', '') . $url, $data);
+        BudvarApi::LogApi("PUT", $url, $data, $response);
         return BudvarApi::toResponse($response->json());
     }
 
-    public static function delete($url)
-    {
-        $response =  Http::withToken(BudvarApi::accessToken())
-            ->delete(env('API_BUDVAR', '') . $url, []);
-
-        return BudvarApi::toResponse($response->json());
-    }
 
     public static function accessToken()
     {

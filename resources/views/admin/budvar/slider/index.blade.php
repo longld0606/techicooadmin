@@ -5,7 +5,6 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'SLIDER' => route($ctrl.'.i
 
 @section('title', 'Slider')
 @extends('admin.layouts.app')
-
 @section('content')
 
 <section class="app-content ">

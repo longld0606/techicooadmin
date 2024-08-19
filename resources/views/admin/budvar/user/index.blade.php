@@ -1,9 +1,9 @@
 <?php
-$ctrl = 'admin.budvar.media';
-$nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'MEDIA' => route($ctrl.'.index')];
+$ctrl = 'admin.budvar.user';
+$nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'TÀI KHOẢN KHÁCH HÀNG' => route($ctrl.'.index')];
 ?>
 
-@section('title', 'Media')
+@section('title', 'TÀI KHOẢN KHÁCH HÀNG')
 @extends('admin.layouts.app')
 @section('content')
 
@@ -22,14 +22,7 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'MEDIA' => route($ctrl.'.in
                         <label for="search">{{ __('Tìm kiếm') }}</label>
                         <input type="text" class="form-control" name="search" autocomplete="search" placeholder="Từ khóa">
                     </div> 
-                </div>
-                <div class="col-sm-3 mb-3"> 
-                    @include('admin.partials._input_val', [
-                        'title' => 'Loại',
-                        'name' => 'type', 
-                    ])
-                </div>
-
+                </div> 
                 @include('admin.partials._search_button',[])
 
             </div>

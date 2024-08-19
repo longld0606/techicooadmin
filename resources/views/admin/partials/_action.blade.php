@@ -10,8 +10,13 @@
                     class="fa fa-info-circle"></i> Xem</a></li> --}}
         <li><a class="dropdown-item" href="{{ route($ctrl . '.show', $id) }}"> <i class="fa fa-fw fa-info-circle"></i>
                 Xem</a></li>
+        @if(isset($clone) && $clone == true)
+        <li><a class="dropdown-item" href="{{ route($ctrl . '.clone', $id) }}"> <i class="fa fa-fw fa-clone"></i> Nhân bản</a></li>
+        @endif
+            @if(!(isset($edit) && $edit == false))
         <li><a class="dropdown-item" href="{{ route($ctrl . '.edit', $id) }}"> <i class="fa fa-fw fa-edit"></i> Chỉnh
                 sửa</a></li>
+            @endif
 
         <li class="dropdown-divider"> </li>
         <li>

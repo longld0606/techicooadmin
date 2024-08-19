@@ -23,8 +23,7 @@ class ContactController extends AdminController
      */
     public function create()
     {
-        $data = new Contact();
-        $data->type = "PAGE";
+        $data = ['type' => "PAGE"];
         return view('admin.budvar.contact.item', ['isAction' => 'create', 'item' => $data]);
     }
 
@@ -33,8 +32,7 @@ class ContactController extends AdminController
      */
     public function store(FormRequest $request)
     {
-        // 
-        $user = Auth::user();
+        //  
         $json = [
             'firstname' => $request->get('firstname'),
             'lastname' => $request->get('lastname'),
@@ -110,8 +108,8 @@ class ContactController extends AdminController
     {
         $response = BudvarApi::delete('/contact/remove/' . $id);
         if ($response->status == 'success') {
-            return \App\Common\Response::success();
+            return response()->json(\App\Common\Response::success());
         }
-        return \App\Common\Response::error('Có lỗi trong quá trình xử lý!');
+        return response()->json(\App\Common\Response::error('Có lỗi trong quá trình xử lý!'));
     }
 }

@@ -45,4 +45,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    
+    public function configs()
+    {
+        return $this->hasMany(UserConfig::class, 'user_id', 'id');
+    }
 }

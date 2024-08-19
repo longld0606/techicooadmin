@@ -23,7 +23,7 @@ class BrandController extends AdminController
      */
     public function create()
     {
-        $data = new Brand();
+        $data = [];
         return view('admin.budvar.brand.item', ['isAction' => 'create', 'item' => $data]);
     }
 
@@ -83,7 +83,6 @@ class BrandController extends AdminController
      */
     public function update(FormRequest $request, string $id)
     {
-        $user = Auth::user();
         $json = [
             'code' => $request->get('code'),
             'name' => $request->get('name'),
@@ -109,8 +108,8 @@ class BrandController extends AdminController
     {
         $response = BudvarApi::delete('/brand/remove/' . $id);
         if ($response->status == 'success') {
-            return \App\Common\Response::success();
+            return response()->json(\App\Common\Response::success());
         }
-        return \App\Common\Response::error('Có lỗi trong quá trình xử lý!');
+        return response()->json(\App\Common\Response::error('Có lỗi trong quá trình xử lý!'));
     }
 }

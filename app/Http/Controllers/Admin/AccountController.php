@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Common\BudvarApi;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Yajra\DataTables\Facades\DataTables;
 
-use App\DataTables\UsersDataTable;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use  App\Common\Response;
+use App\DataTables\AccountDataTable;
+use App\Models\UserConfig;
 
 class AccountController extends AdminController
 {
@@ -20,7 +22,7 @@ class AccountController extends AdminController
     /**
      * Display a listing of the resource.
      */
-    public function index(UsersDataTable $dataTable)
+    public function index(AccountDataTable $dataTable)
     {
         return $dataTable->render('admin.account.index');
     }
@@ -61,19 +63,19 @@ class AccountController extends AdminController
         if ($request->get('password') != $request->get('password_confirmation')) {
             return redirect()->back()->withInput()->withErrors(['message' => 'Mật khẩu không chính xác!']);
         }
-        $exists = \App\Models\User::query()
+        $exists = User::query()
             ->where("name", $data->name)
             ->exists();
         if ($exists) {
             return redirect()->back()->withInput()->withErrors(['message' => 'Tên người dùng đã tồn tại!']);
         }
-        $exists = \App\Models\User::query()
+        $exists = User::query()
             ->where("email", $data->email)
             ->exists();
         if ($exists) {
             return redirect()->back()->withInput()->withErrors(['message' => 'Email người dùng đã tồn tại!']);
         }
-        $exists = \App\Models\User::query()
+        $exists = User::query()
             ->where("phone", $data->phone)
             ->exists();
         if ($exists) {
@@ -85,13 +87,52 @@ class AccountController extends AdminController
 
         $data->type = $request->get('type');
         $data->status = $request->get('status');
-        $data->gender = $request->get('status');
+        $data->gender = $request->get('gender');
         $data->birthday = $request->get('birthday');
 
         $data->created_at = time();
         $data->created_id = $user->id;
 
         if ($data->save()) {
+            UserConfig::query()->where('user_id', $data->id)->delete();
+            if (!empty($request->get('isBudvar') && $request->get('isBudvar') == 1)) {
+                $cf = new UserConfig();
+                $cf->user_id = $data->id;
+                $cf->tenant = 'Budvar';
+                $cf->username = $data->phone;
+                $cf->password = $request->get('password') . 'aZ@9';
+                $cf->created_at = time();
+                $cf->created_id = $user->id;
+                // create budvar
+                BudvarApi::post('/user/create', [
+                    "phone" => $data->phone,
+                    "password" => $cf->password,
+                ]);
+                $cf->save();
+            }
+            if (!empty($request->get('isTechicoo')) && $request->get('isTechicoo') == 1) {
+                $cf = new UserConfig();
+                $cf->user_id = $data->id;
+                $cf->tenant = 'Techicoo';
+                $cf->username = $data->phone;
+                $cf->password = $request->get('password');
+                $cf->created_at = time();
+                $cf->created_id = $user->id;
+                $cf->save();
+            }
+            if (!empty($request->get('isAdmin')) && $request->get('isAdmin') == 1) {
+                $cf = new UserConfig();
+                $cf->user_id = $data->id;
+                $cf->tenant = 'Administrator';
+                $cf->username = $data->phone;
+                $cf->password = $request->get('password');
+                $cf->created_at = time();
+                $cf->created_id = $user->id;
+                $cf->save();
+            }
+
+  
+
             $ref = $request->get('ref', '');
             if (!empty($ref)) {
                 return redirect($ref)->with('success', 'Thêm mới người dùng thành công');
@@ -108,8 +149,9 @@ class AccountController extends AdminController
     {
         //
         $roles = Role::query()->get()->toArray();
-        $user_roles = [];// $account->roles()->pluck('role_id')->toArray();
-        return view('admin.account.item', ['isAction' => 'show', 'item' =>  $account, 'roles' => $roles, 'user_roles' => $user_roles]);
+        $user_roles = []; // $account->roles()->pluck('role_id')->toArray();
+        $user_configs = $account->configs()->pluck('tenant')->toArray();
+        return view('admin.account.item', ['isAction' => 'show', 'item' =>  $account, 'roles' => $roles, 'user_roles' => $user_roles, 'user_configs' => $user_configs]);
     }
 
     /**
@@ -119,8 +161,10 @@ class AccountController extends AdminController
     {
         //
         $roles = Role::query()->get()->toArray();
-        $user_roles = [];// $account->roles()->pluck('role_id')->toArray();
-        return view('admin.account.item', ['isAction' => 'edit', 'item' =>  $account, 'roles' => $roles, 'user_roles' => $user_roles]);
+        $user_roles = []; // $account->roles()->pluck('role_id')->toArray();
+        $user_configs = $account->configs()->pluck('tenant')->toArray();
+        return view('admin.account.item', ['isAction' => 'edit', 'item' =>  $account, 'roles' => $roles, 'user_roles' => $user_roles, 'user_configs' => $user_configs]);
+    }
     }
 
     /**

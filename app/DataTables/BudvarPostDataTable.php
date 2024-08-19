@@ -30,12 +30,13 @@ class BudvarPostDataTable extends DataTable
             ->skipPaging()
 
             ->addColumn('action', 'admin.budvar.post.action')
+            ->addColumn('lang', '{{empty($lang) ? "vi" : $lang}} ')
             ->addColumn('type', '{{empty($type) ? "none" : $type}} ')
-            ->addColumn('title', '{{empty($title) ? "" : $title}} ')
+            ->addColumn('title', '<a target="_blank" href="https://biabudvar.cz/posts/{{$slug}}">{{empty($title) ? "" : $title}}</a>')
             ->addColumn('short', '{{empty($short) ? "" : $short}}')
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
             ->addColumn('thumb', '<img src="{{ empty($media) ? "" : $media["source"]}}" width="150px" style="border: 1px solid #dee2e6" />')
-            ->rawColumns(['thumb', 'action'])
+            ->rawColumns(['thumb', 'action', 'title'])
             ->setRowId('_id');
     }
 
@@ -76,6 +77,7 @@ class BudvarPostDataTable extends DataTable
             Column::computed('action')->exportable(false)->printable(false)->width(50)->title('#'),
             Column::make('_id')->width(100),
             // Column::make('type')->title('Loại')->width(100),
+            Column::make('lang')->title('Ngôn ngữ')->width(100),
             Column::make('title')->title('Tiêu đề')->width(300),
             Column::make('short')->title('Mô tả'),
             Column::make('createdAt')->title('createdAt')->width(100),

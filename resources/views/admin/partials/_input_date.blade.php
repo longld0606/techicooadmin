@@ -1,18 +1,28 @@
 <?php
-$displayNone = '';
+$_displayNone = '';
 if ((isset($hiden) && $hiden == true) || (isset($hidden) && $hidden == true)) {
-    $displayNone = 'style=display:none;';
+    $_displayNone = 'style=display:none;';
+}
+$_readonly = '';
+if ((isset($view) && $view == true) || (isset($readonly) && $readonly == true)) {
+    $_readonly = 'readonly;';
+}
+$_disabled = '';
+if ((isset($isDisabled) && $isDisabled == true) || (isset($disabled) && $disabled == true) ) {
+    $_disabled = 'disabled';
+}
+if(!isset($val))
+{
+    $val = '';
 }
 ?>
 
-<div class="row mb-3"  {{ $displayNone }}>
-	<label class="col-sm-3" for="{{ 'input_' . $name }}">{{ $title }}</label>
-	<div class="col-sm-9">
-		<div class="input-group">
-			<div class="input-group-addon">
-				<i class="fa fa-calendar"></i>
-			</div>
-			<input type="text" class="form-control datepicker" id="{{ 'input_' . $name }}" name="{{ $name }}" value="{{ \App\Common\Utility::displayDate($val) }}" autocomplete="off">
-		</div>
-	</div>
+<div class="mb-3" {{ $_displayNone }}> 
+    <label class="form-label" for="{{ 'input_' . $name }}">{{ $title }}</label> 
+	<div class="input-group">
+		<span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
+		<input type="text" class="form-control datepicker" id="{{ 'input_' . $name }}" name="{{ $name }}" 
+		{{ isset($isRequired) && $isRequired ? 'required' : '' }} {{ $_readonly }} {{ $_disabled }} 
+		value="{{ \App\Common\Utility::displayDate($val) }}" autocomplete="off">
+	</div> 
 </div>

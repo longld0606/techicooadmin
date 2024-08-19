@@ -1,31 +1,30 @@
-
 <?php
-$ctrl = 'admin.budvar.brand';
+$ctrl = 'admin.budvar.user';
 $url = '';
-$title = 'Brand';
+$title = 'User';
 $btn = '';
 $isDisabled = true;
 if ($isAction == 'create') {
-    $title = 'Thêm mới Brand';
+    $title = 'Thêm mới User';
     $url = route($ctrl . '.store');
     $isDisabled = false;
     $btn = 'Lưu';
 } elseif ($isAction == 'edit') {
-    $title = 'Chỉnh sửa Brand';
+    $title = 'Chỉnh sửa User';
     $url = route($ctrl . '.update', $item['_id']);
     $isDisabled = false;
     $btn = 'Cập nhật';
 } elseif ($isAction == 'show') {
-    $title = 'Xem thông tin Brand';
+    $title = 'Xem thông tin User';
     $url = '';
     $isDisabled = true;
 }
 
-$nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'BRAND' => route($ctrl . '.index'), $title => '#'];
+$nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'TÀI KHOẢN KHÁCH HÀNG' => route($ctrl . '.index'), $title => '#'];
 ?>
 
 @section('title', $title)
-@extends('admin.layouts.app') 
+@extends('admin.layouts.app')
 @section('content')
 
     <section class="app-content ">
@@ -39,51 +38,47 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'BRAND' => route($ctrl . '.
                 <form class="form-item" method="POST" action="{{ $url }}" enctype="multipart/form-data">
                     @if ($isAction == 'edit')
                         <input name="_method" type="hidden" value="PATCH">
-                    @endif
+                    @endif 
                     @csrf
 
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             @include('admin.partials._input_val', [
-                                'title' => 'Code',
-                                'name' => 'code',
-                                'val' => old('code', isset($item['code']) ? $item['code'] : ''),  
-                            ])
-                            @include('admin.partials._input_val', [
-                                'title' => 'Tiêu đề',
-                                'name' => 'name',
-                                'val' => old('name', isset($item['name']) ? $item['name'] : ''),  
-                            ])
-                            @include('admin.partials._input_select2', [
-                                'title' => 'Loại',
-                                'name' => 'type',
-                                'array' => ['BRAND' => 'BRAND', 'BANNER' => 'BANNER'],
-                                'val' => old('type', isset($item['type']) ? $item['type'] : ''),  
-                            ])
-                            @include('admin.partials._input_val', [
-                                'title' => 'Link',
-                                'name' => 'link',
-                                'val' => old('link', isset($item['link']) ?  $item['link'] : '' ),
-                            ])
-                            @include('admin.partials._input_val', [
-                                'title' => 'Text',
-                                'name' => 'textButton',
-                                'val' => old('textButton', isset($item['textButton']) ?  $item['textButton'] : '' ),
+                                'title' => 'Họ Tên',
+                                'name' => 'fullname',
+                                'val' => old('fullname', isset($item['fullname']) ? $item['fullname'] : ''),
                             ])
                         </div>
-                        <div class="col-sm-6" >
-
-                            <div class="form-group" {{ $isAction == 'show' ? 'hidden' : '' }}>
-                                <label for="thumb">Thumb</label>
-                                <input type="file" name="thumb" id="thumb"
-                                    class="form-control form-control-file-img" accept="image/png, image/jpeg">
-
-                            </div>
-                            <div class="preview">
-                                @if ($isAction == 'edit' || $isAction == 'show')
-                                    <img src="{{ \App\Common\Utility::displayBudvarMedia($item['media']) }}"  style="width:100%; height:auto" />
-                                @endif
-                            </div>
+                        <div class="col-sm-6">
+                            @include('admin.partials._input_val', [
+                                'title' => 'SĐT',
+                                'name' => 'phone',
+                                'val' => old('phone', isset($item['phone']) ? $item['phone'] : ''),
+                            ])
+                        </div>
+                        <div class="col-sm-6">
+                            @include('admin.partials._input_val', [
+                                'title' => 'Email',
+                                'name' => 'email',
+                                'type' => 'email',
+                                'val' => old('email', isset($item['email']) ? $item['email'] : ''),
+                            ])
+                        </div>
+                        <div class="col-sm-6">
+                            @include('admin.partials._input_val', [
+                                'title' => 'Mật khẩu',
+                                'name' => 'password',
+                                'type' => 'password',
+                                'val' => '',//old('password', isset($item['password']) ? $item['password'] : '')
+                            ])
+                        </div>
+                        <div class="col-sm-6">
+                            @include('admin.partials._input_select2', [
+                                'title' => 'Status',
+                                'name' => 'status',
+                                'array' => ['A' => 'A', 'F' => 'F'],
+                                'val' => old('status', isset($item['status']) ? $item['status'] : ''),
+                            ])
                         </div>
                     </div>
 

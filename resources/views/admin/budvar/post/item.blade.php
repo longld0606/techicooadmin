@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+
 <?php
 $ctrl = 'admin.budvar.post';
 $url = '';
@@ -25,6 +25,7 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'TIN TỨC' => route($ctrl 
 ?>
 
 @section('title', $title)
+@extends('admin.layouts.app') 
 @section('content')
 
     <section class="app-content ">
@@ -46,18 +47,18 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'TIN TỨC' => route($ctrl 
                             @include('admin.partials._input_val', [
                                 'title' => 'Tiêu đề',
                                 'name' => 'title',
-                                'val' => old('title', $item['title']),
+                                'val' => old('title',isset($item['title']) ? $item['title'] : ''),  
                             ])
                             @include('admin.partials._input_text', [
                                 'title' => 'Mô tả ngắn',
                                 'name' => 'short',
-                                'val' => old('short', $item['short']),
+                                'val' => old('short', isset($item['short']) ? $item['short'] : ''),  
                                 'row'=>5
                             ])
                             @include('admin.partials._input_ckeditor', [
                                 'title' => 'Bài viết',
                                 'name' => 'content',
-                                'val' => old('content', $item['content']),
+                                'val' => old('content', isset($item['content']) ? $item['content'] : ''),  
                                 'row'=>30,
                             ])
                         </div>

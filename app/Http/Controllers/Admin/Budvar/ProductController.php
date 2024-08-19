@@ -124,8 +124,8 @@ class ProductController extends AdminController
     {
         $response = BudvarApi::delete('/product/remove/' . $id);
         if ($response->status == 'success') {
-            return \App\Common\Response::success();
+            return response()->json(\App\Common\Response::success());
         }
-        return \App\Common\Response::error('Có lỗi trong quá trình xử lý!');
+        return response()->json(\App\Common\Response::error('Có lỗi trong quá trình xử lý!'));
     }
 }

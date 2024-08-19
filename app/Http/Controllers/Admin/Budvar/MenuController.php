@@ -3,18 +3,18 @@
 namespace App\Http\Controllers\Admin\Budvar;
 
 use App\Common\BudvarApi;
-use App\DataTables\BudvarSliderDataTable;
+use App\DataTables\BudvarMenuDataTable;
 use App\Http\Controllers\Admin\AdminController;
 use App\Models\Budvar\Brand;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class SliderController extends AdminController
+class MenuController extends AdminController
 {
 
-    public function index(BudvarSliderDataTable $dataTable)
+    public function index(BudvarMenuDataTable $dataTable)
     {
-        return $dataTable->render('admin.budvar.slider.index');
+        return $dataTable->render('admin.budvar.menu.index');
     }
 
 
@@ -22,17 +22,11 @@ class SliderController extends AdminController
      * Show the form for creating a new resource.
      */
     public function create()
-    { 
-        $data = ['type'=>'BANNER']; 
-        return view('admin.budvar.slider.item', ['isAction' => 'create', 'item' => $data]);
+    {
+        $data = ['title' => '', 'status' => 'A'];
+        return view('admin.budvar.menu.item', ['isAction' => 'create', 'item' => $data]);
     }
 
-    protected function storeImage(FormRequest $request)
-    {
-        $file_str = $request->file('thumb')->store('public/budvar/slider');
-        $path = substr($file_str, strlen('public/'));
-        return $path;
-    }
     /**
      * Store a newly created resource in storage.
      */
@@ -40,18 +34,17 @@ class SliderController extends AdminController
     {
         //  
         $json = [
-            'code' => $request->get('code'),
-            'name' => $request->get('name'),
+            'title' => $request->get('title'),
             'type' => $request->get('type'),
-            'textButton' => $request->get('textButton'),
+            'status' => $request->get('status'),
         ];
-        $response = BudvarApi::postMultipartFile('/brand/create', $json, $request->file('thumb'));
+        $response = BudvarApi::post('/menu/create', $json);
         if ($response->status == 'success') {
             $ref = $request->get('ref', '');
             if (!empty($ref)) {
-                return redirect($ref)->with('success', 'Thêm thông tin Slider thành công');
+                return redirect($ref)->with('success', 'Thêm thông tin Menu thành công');
             }
-            return redirect('admin.budvar.slider.index')->with('success', 'Thêm thông tin Slider thành công');
+            return redirect('admin.budvar.menu.index')->with('success', 'Thêm thông tin Menu thành công');
         }
         return redirect()->back()->withInput()->withErrors(['message' => $response->message ?? 'Có lỗi trong quá trình xử lý!']);
     }
@@ -61,10 +54,10 @@ class SliderController extends AdminController
      */
     public function show(string $id)
     {
-        $data = BudvarApi::get('/brand/findOne/' . $id);
+        $data = BudvarApi::get('/menu/findOne/' . $id);
         $item = $data->data;
         if (empty($item['type'])) $item['type'] = 'BANNER';
-        return view('admin.budvar.slider.item', ['isAction' => 'show', 'item' =>  $item]);
+        return view('admin.budvar.menu.item', ['isAction' => 'show', 'item' =>  $item]);
     }
 
     /**
@@ -72,30 +65,29 @@ class SliderController extends AdminController
      */
     public function edit(string $id)
     {
-        $data = BudvarApi::get('/brand/findOne/' . $id);
+        $data = BudvarApi::get('/menu/findOne/' . $id);
         $item = $data->data;
         if (empty($item['type'])) $item['type'] = 'BANNER';
-        return view('admin.budvar.slider.item', ['isAction' => 'edit', 'item' =>  $item]);
+        return view('admin.budvar.menu.item', ['isAction' => 'edit', 'item' =>  $item]);
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(FormRequest $request, string $id)
-    { 
+    {
         $json = [
-            'code' => $request->get('code'),
-            'name' => $request->get('name'),
-            'type' => 'BANNER',
-            'textButton' => $request->get('textButton'),
+            'title' => $request->get('title'),
+            'type' => $request->get('type'),
+            'status' => $request->get('status'),
         ];
-        $response = BudvarApi::putMultipartFile('/brand/update/' . $id, $json, $request->file('thumb'));
+        $response = BudvarApi::put('/menu/update/' . $id, $json);
         if ($response->status == 'success') {
             $ref = $request->get('ref', '');
             if (!empty($ref)) {
-                return redirect($ref)->with('success', 'Chỉnh sửa thông tin Slider thành công');
+                return redirect($ref)->with('success', 'Chỉnh sửa thông tin Menu thành công');
             }
-            return redirect('admin.budvar.slider.index')->with('success', 'Chỉnh sửa thông tin Slider thành công');
+            return redirect('admin.budvar.menu.index')->with('success', 'Chỉnh sửa thông tin Menu thành công');
         }
 
         return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi trong quá trình xử lý!']);
@@ -106,7 +98,7 @@ class SliderController extends AdminController
      */
     public function destroy(string $id)
     {
-        $response = BudvarApi::delete('/brand/remove/' . $id);
+        $response = BudvarApi::delete('/menu/remove/' . $id);
         if ($response->status == 'success') {
             return response()->json(\App\Common\Response::success());
         }

@@ -24,11 +24,15 @@ Route::middleware(['admin'])->group(function () {
             Route::resource('category', App\Http\Controllers\Admin\Budvar\CategoryController::class);
             Route::resource('contact', App\Http\Controllers\Admin\Budvar\ContactController::class);
             Route::resource('page', App\Http\Controllers\Admin\Budvar\PageController::class);
+            Route::get('page/clone/{id}', [App\Http\Controllers\Admin\Budvar\PageController::class,'clone'])->name('page.clone');
             Route::resource('post', App\Http\Controllers\Admin\Budvar\PostController::class);
+            Route::get('post/clone/{id}', [App\Http\Controllers\Admin\Budvar\PostController::class,'clone'])->name('post.clone');
             Route::resource('product', App\Http\Controllers\Admin\Budvar\ProductController::class);
             //Route::resource('brand', App\Http\Controllers\Admin\Budvar\BrandController::class);
             Route::resource('media', App\Http\Controllers\Admin\Budvar\MediaController::class);
             Route::resource('slider', App\Http\Controllers\Admin\Budvar\SliderController::class);
+            Route::resource('menu', App\Http\Controllers\Admin\Budvar\MenuController::class);
+            Route::resource('user', App\Http\Controllers\Admin\Budvar\UserController::class);
         });
 
     //Route::resource('budvar/page', App\Http\Controllers\Admin\Budvar\PageController::class);

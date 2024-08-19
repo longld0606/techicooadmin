@@ -5,7 +5,6 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'SẢN PHẨM' => route($ct
 
 @section('title', 'Sản phẩm')
 @extends('admin.layouts.app')
-
 @section('content')
 
 <section class="app-content ">

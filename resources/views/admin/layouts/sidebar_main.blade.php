@@ -47,7 +47,7 @@
                                     class="nav-icon bi bi-circle"></i>
                                 <p>Dashboard</p>
                             </a> </li>
-                        <li class="nav-item"> <a href="{{ route('admin.budvar.product.index')  }}" class="nav-link"> <i
+                        <li class="nav-item"> <a href="{{ route('admin.budvar.product.index') }}" class="nav-link"> <i
                                     class="nav-icon bi bi-circle"></i>
                                 <p>Sản phẩm</p>
                             </a> </li>
@@ -63,6 +63,10 @@
                                     class="nav-icon bi bi-circle"></i>
                                 <p>Khách hàng</p>
                             </a> </li>
+                        <li class="nav-item"> <a href="{{ route('admin.budvar.user.index') }}" class="nav-link"> <i
+                                    class="nav-icon bi bi-circle"></i>
+                                <p>Tài khoản khách hàng</p>
+                            </a> </li>
                         {{-- <li class="nav-item"> <a href="{{ route('admin.budvar.brand.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
                                 <p>Brand</p>
                             </a> </li> --}}
@@ -77,6 +81,10 @@
                         <li class="nav-item"> <a href="{{ route('admin.budvar.media.index') }}" class="nav-link"> <i
                                     class="nav-icon bi bi-circle"></i>
                                 <p>Media</p>
+                            </a> </li>
+                        <li class="nav-item"> <a href="{{ route('admin.budvar.menu.index') }}" class="nav-link"> <i
+                                    class="nav-icon bi bi-circle"></i>
+                                <p>Menu</p>
                             </a> </li>
                     </ul>
                 </li>

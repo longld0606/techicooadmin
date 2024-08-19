@@ -27,19 +27,14 @@ class BudvarPageDataTable extends DataTable
             ->skipPaging()
 
             ->addColumn('action', 'admin.budvar.page.action')
-            ->addColumn('type', '{{empty($type) ? "none" : $type}} ')
-            ->addColumn('title', '{{empty($title) ? "" : $title}} ')
+            ->addColumn('type', '{{empty($type) ? "none" : $type}}')
+            ->addColumn('title', '<a target="_blank" href="{{empty($type) || $type=="PAGE" ? ("https://biabudvar.cz/".$slug) : ("https://biabudvar.cz/page/".$slug) }}">{{empty($title) ? "" : $title}}</a>')
+            //->addColumn('title', '{{empty($title) ? "" : $title}} ')
             ->addColumn('short', '{{empty($short) ? "" : $short}}')
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
+            ->rawColumns(['action', 'title'])
             ->setRowId('_id');
-
-        // return (new EloquentDataTable($query))
-        //     ->addColumn('timestamp',  '<a href="/vcc/{{$id}}">{{\App\Common\Utility::displayDatetime($timestamp)}}</a>')
-        //     ->rawColumns(['timestamp'])
-        //     ->setRowId('id');
     }
-
-
 
     /**
      * Optional method if you want to use the html builder.

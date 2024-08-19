@@ -1,5 +1,5 @@
 <?php 
-$nav = ['BUDVAR' => route('admin.budvar.dashboard'))];
+$nav = ['BUDVAR' => route('admin.budvar.dashboard')];
 ?>
 @extends('admin.layouts.app')
 @push('style')

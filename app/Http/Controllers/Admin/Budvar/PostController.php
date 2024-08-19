@@ -22,8 +22,8 @@ class PostController extends AdminController
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-        $data = new Post();
+    {   
+        $data = ['type'=>'post'];
         return view('admin.budvar.post.item', ['isAction' => 'create', 'item' => $data]);
     }
 
@@ -61,6 +61,14 @@ class PostController extends AdminController
         return redirect()->back()->withInput()->withErrors(['message' => $response->message ?? 'Có lỗi trong quá trình xử lý!']);
     }
 
+    public function clone(string $id)
+    {
+        $data = BudvarApi::get('/post/findOne/' . $id);
+        $item = $data->data;
+        if (empty($item['type'])) $item['type'] = 'post';
+        return view('admin.budvar.post.item', ['isAction' => 'create', 'item' => $item]);
+    }
+
     /**
      * Display the specified resource.
      */
@@ -87,8 +95,7 @@ class PostController extends AdminController
      * Update the specified resource in storage.
      */
     public function update(FormRequest $request, string $id)
-    {
-        $user = Auth::user();
+    { 
         $json = [
             'title' => $request->get('title'),
             'short' => $request->get('short'),
@@ -116,8 +123,8 @@ class PostController extends AdminController
     {
         $response = BudvarApi::delete('/post/remove/' . $id);
         if ($response->status == 'success') {
-            return \App\Common\Response::success();
+            return response()->json(\App\Common\Response::success());
         }
-        return \App\Common\Response::error('Có lỗi trong quá trình xử lý!');
+        return response()->json(\App\Common\Response::error('Có lỗi trong quá trình xử lý!'));
     }
 }

@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+
 <?php
 $ctrl = 'admin.budvar.media';
 $url = '';
@@ -24,7 +24,9 @@ if ($isAction == 'create') {
 $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'MEDIA' => route($ctrl . '.index'), $title => '#'];
 ?>
 
+
 @section('title', $title)
+@extends('admin.layouts.app') 
 @section('content')
 
     <section class="app-content ">
@@ -46,18 +48,18 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'MEDIA' => route($ctrl . '.
                             @include('admin.partials._input_val', [
                                 'title' => 'Loại',
                                 'name' => 'type',
-                                'val' => old('type', $item['type']),
+                                'val' => old('type',isset($item['type']) ? $item['type'] : ''),  
                             ]) 
                             @include('admin.partials._input_val', [
                                 'title' => 'Tên',
                                 'name' => 'name',
-                                'val' => old('name', $item['name']),
+                                'val' => old('name',isset($item['name']) ? $item['name'] : ''),  
                                 'disabled'=>true
                             ]) 
                             @include('admin.partials._input_val', [
                                 'title' => 'Tên File',
                                 'name' => 'originalname',
-                                'val' => old('originalname', $item['originalname']),
+                                'val' => old('originalname', isset($item['originalname']) ? $item['originalname'] : ''),  
                                 'disabled'=>true
                             ]) 
                         </div>
@@ -71,7 +73,7 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'MEDIA' => route($ctrl . '.
                             </div>
                             <div class="preview">
                                 @if ($isAction == 'edit' || $isAction == 'show')
-                                    <img src="{{  $item['source'] }}"  style="width:100%; height:auto" />
+                                    <img src="{{ isset($item['source']) ? $item['source'] : '' }}"  style="width:100%; height:auto" />
                                 @endif
                             </div>
                         </div>

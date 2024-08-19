@@ -28,14 +28,14 @@ class Response
     public static function success($message = 'Thao tác thành công!', $data = [])
     {
         $response = new Response(200, $message, $data);
-        return response()->json($response);
+        return ($response);
     }
 
     public static function error($message = 'Thao tác lỗi!', $code = HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR, $data = [])
     {
         $message = empty($message) ? HttpStatusCode::getMessageForCode($code) : $message;
         $response = new Response($code, $message, $data);
-        return response()->json($response);
+        return ($response);
     }
 
     public static function getJson($response)

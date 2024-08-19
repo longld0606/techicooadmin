@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+ 
 <?php
 $ctrl = 'admin.budvar.category';
 $url = '';
@@ -21,10 +21,11 @@ if ($isAction == 'create') {
     $isDisabled = true;
 }
 
-$nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'CATEGORY' => route($ctrl . '.index'), $title => '#'];
+$nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'DANH MỤC' => route($ctrl . '.index'), $title => '#'];
 ?>
 
 @section('title', $title)
+@extends('admin.layouts.app') 
 @section('content')
 
     <section class="app-content ">
@@ -47,7 +48,7 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'CATEGORY' => route($ctrl .
                             @include('admin.partials._input_val', [
                                 'title' => 'Tên',
                                 'name' => 'title',
-                                'val' => old('title', $item['title']),
+                                'val' => old('title',isset($item['title']) ? $item['title'] : ''),     
                             ])
                         </div>
                         <div class="col-sm-6">
@@ -55,7 +56,7 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'CATEGORY' => route($ctrl .
                                 'title' => 'Status',
                                 'name' => 'status',
                                 'array' => ['A' => 'A', 'F' => 'F'],
-                                'val' => old('status', $item['status']),
+                                'val' => old('status', isset($item['status']) ? $item['status'] : ''),  
                             ])
                         </div>
                     </div>

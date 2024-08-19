@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+
 <?php
 $ctrl = 'admin.budvar.product';
 $url = '';
@@ -24,7 +24,9 @@ if ($isAction == 'create') {
 $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'SẢN PHẨM' => route($ctrl . '.index'), $title => '#'];
 ?>
 
+
 @section('title', $title)
+@extends('admin.layouts.app') 
 @section('content')
 
     <section class="app-content ">
@@ -46,36 +48,37 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'SẢN PHẨM' => route($ct
                             @include('admin.partials._input_val', [
                                 'title' => 'Tiêu đề',
                                 'name' => 'name',
-                                'val' => old('name', empty($item['name'])? '' : $item['name']),
-                                'isRequired'=>true
+                                'val' => old('name', isset($item['name']) ? $item['name'] : ''),
+                                'isRequired' => true,
                             ])
-                              @include('admin.partials._input_select2_list', [
+                            @include('admin.partials._input_select2_list', [
                                 'title' => 'Loại',
                                 'array' => $categories,
                                 'val_field' => 'title',
                                 'id_field' => '_id',
                                 'name' => 'category',
-                                'val' => old('category', (empty($item['category'])? '' : $item['category'])),
+                                'val' => old('category', isset($item['category']) ? $item['category'] : ''),
                                 'all_title' => '-- Loại --',
-                                'isRequired'=>true
+                                'isRequired' => true,
                             ])
                             @include('admin.partials._input_text', [
                                 'title' => 'Mô tả',
                                 'name' => 'short',
-                                'val' => old('short', empty($item['short'])? '' : $item['short']),
-                                'row'=>5,
-                                'isRequired'=>true
+                                'val' => old('short', isset($item['short']) ? $item['short'] : ''),
+                                'row' => 5,
+                                'isRequired' => true,
                             ])
                             @include('admin.partials._input_ckeditor', [
                                 'title' => 'Nội dung',
                                 'name' => 'description',
-                                'val' => old('description', empty($item['description'])? '' : $item['description']),
-                                'row'=>30,
+                                'val' => old(
+                                    'description',
+                                    isset($item['description']) ? $item['description'] : ''),
                             ])
                         </div>
                         <div class="col-sm-3">
 
-                            <div class="form-group"  {{ $isAction == 'show' ? 'hidden' : '' }}>
+                            <div class="form-group" {{ $isAction == 'show' ? 'hidden' : '' }}>
                                 <label for="thumb">Thumb</label>
                                 <input type="file" name="thumb" id="thumb"
                                     class="form-control form-control-file-img" accept="image/png, image/jpeg">
@@ -83,7 +86,8 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'SẢN PHẨM' => route($ct
                             </div>
                             <div class="preview">
                                 @if ($isAction == 'edit' || $isAction == 'show')
-                                    <img src="{{ \App\Common\Utility::displayBudvarMedia($item['media']) }}"  style="width:100%; height:auto" />
+                                    <img src="{{ \App\Common\Utility::displayBudvarMedia($item['media']) }}"
+                                        style="width:100%; height:auto" />
                                 @endif
                             </div>
                         </div>
@@ -111,7 +115,7 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'SẢN PHẨM' => route($ct
                     output.append('<img src="' + uu + '" style="width:100%; height:auto" />');
                 }
             });
-            CKEDITOR.config.height = '50em';  
+            CKEDITOR.config.height = '50em';
         });
     </script>
 @endpush

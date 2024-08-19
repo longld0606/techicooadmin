@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+
 <?php
 $ctrl = 'admin.budvar.page';
 $url = '';
@@ -11,7 +11,7 @@ if ($isAction == 'create') {
     $isDisabled = false;
     $btn = 'Lưu';
 } elseif ($isAction == 'edit') {
-    $title = 'Chỉnh sửa PAGE'; 
+    $title = 'Chỉnh sửa PAGE';
     $url = route($ctrl . '.update', $item['_id']);
     $isDisabled = false;
     $btn = 'Cập nhật';
@@ -21,46 +21,63 @@ if ($isAction == 'create') {
     $isDisabled = true;
 }
 
-$nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'PAGE' => route($ctrl.'.index'), $title => '#'];
+$nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'PAGE' => route($ctrl . '.index'), $title => '#'];
 
 ?>
 
 
 @section('title', $title)
+@extends('admin.layouts.app') 
 @section('content')
 
-<section class="app-content ">
+    <section class="app-content ">
 
-    <div class="card card-secondary  mb-4 mt-4 item-box">
-        @include('admin.partials._card_title', ['title' => $title])
-        <div class="card-body">
+        <div class="card card-secondary  mb-4 mt-4 item-box">
+            @include('admin.partials._card_title', ['title' => $title])
+            <div class="card-body">
 
-            @include('admin.partials._alerts')
+                @include('admin.partials._alerts')
 
-            <form class="form-item" method="POST" action="{{ $url }}">
-                @if ($isAction == 'edit')
-                    <input name="_method" type="hidden" value="PATCH">
-                @endif
-                @csrf
+                <form class="form-item" method="POST" action="{{ $url }}">
+                    @if ($isAction == 'edit')
+                        <input name="_method" type="hidden" value="PATCH">
+                    @endif
+                    @csrf
 
-                @include('admin.partials._input_val', ['title' => 'Tiêu đề', 'name' => 'title', 'val' => old('title', $item['title'])])
-                @include('admin.partials._input_select2', [ 'title' => 'Loại', 'name' => 'type', 'array' => ['EVENT' => 'EVENT', 'PAGE'=>'PAGE'], 'val' => old('type', $item['type'])])
-                @include('admin.partials._input_text', ['title' => 'Mô tả', 'name' => 'short', 'val' => old('short', $item['short'])])
-                @include('admin.partials._input_ckeditor', ['title' => 'Nội dung', 'name' => 'content', 'val' => old('content', $item['content'])])
+                    @include('admin.partials._input_val', [
+                        'title' => 'Tiêu đề',
+                        'name' => 'title',
+                        'val' => old('title', isset($item['title']) ? $item['title'] : ''),  
+                    ])
+                    @include('admin.partials._input_select2', [
+                        'title' => 'Loại',
+                        'name' => 'type',
+                        'array' => ['EVENT' => 'EVENT', 'PAGE' => 'PAGE'],
+                        'val' => old('type', isset($item['type']) ? $item['type'] : ''),  
+                    ])
+                    @include('admin.partials._input_text', [
+                        'title' => 'Mô tả',
+                        'name' => 'short',
+                        'val' => old('short', isset($item['short']) ? $item['short'] : ''),  
+                    ])
+                    @include('admin.partials._input_ckeditor', [
+                        'title' => 'Nội dung',
+                        'name' => 'content',
+                        'val' => old('content', isset($item['content']) ? $item['content'] : ''),  
+                    ])
 
 
-                <div class="card-body">
-                    <?php $ref = request()->get('ref', '') != '' ? request()->get('ref') : route( $ctrl . '.index'); ?>
-                    <input type="hidden" name="ref" value="{{ $ref }}" />
-                </div>
-                @include('admin.partials._save_button')
-            </form>
+                    <div class="card-body">
+                        <?php $ref = request()->get('ref', '') != '' ? request()->get('ref') : route($ctrl . '.index'); ?>
+                        <input type="hidden" name="ref" value="{{ $ref }}" />
+                    </div>
+                    @include('admin.partials._save_button')
+                </form>
+            </div>
         </div>
-    </div>
-</section>
-<!-- /.content -->
+    </section>
+    <!-- /.content -->
 @endsection
 
 @push('scripts')
-
 @endpush

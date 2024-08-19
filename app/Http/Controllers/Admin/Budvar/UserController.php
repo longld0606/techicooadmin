@@ -3,18 +3,18 @@
 namespace App\Http\Controllers\Admin\Budvar;
 
 use App\Common\BudvarApi;
-use App\DataTables\BudvarCategoryDataTable;
+use App\DataTables\BudvarUserDataTable;
 use App\Http\Controllers\Admin\AdminController;
 use App\Models\Budvar\Brand;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class CategoryController extends AdminController
+class UserController extends AdminController
 {
 
-    public function index(BudvarCategoryDataTable $dataTable)
+    public function index(BudvarUserDataTable $dataTable)
     {
-        return $dataTable->render('admin.budvar.category.index');
+        return $dataTable->render('admin.budvar.user.index');
     }
 
 
@@ -23,16 +23,10 @@ class CategoryController extends AdminController
      */
     public function create()
     {
-        $data = ['title' => '', 'status' => 'A'];
-        return view('admin.budvar.category.item', ['isAction' => 'create', 'item' => $data]);
+        $data = ['fullname' => '', 'status' => 'A'];
+        return view('admin.budvar.user.item', ['isAction' => 'create', 'item' => $data]);
     }
 
-    protected function storeImage(FormRequest $request)
-    {
-        $file_str = $request->file('thumb')->store('public/budvar/category');
-        $path = substr($file_str, strlen('public/'));
-        return $path;
-    }
     /**
      * Store a newly created resource in storage.
      */
@@ -40,17 +34,19 @@ class CategoryController extends AdminController
     {
         //  
         $json = [
-            'title' => $request->get('title'),
-            'type' => $request->get('type'),
+            'fullname' => $request->get('fullname'),
+            'phone' => $request->get('phone'),
+            'email' => $request->get('email'),
+            'password' => $request->get('password'),
             'status' => $request->get('status'),
         ];
-        $response = BudvarApi::post('/category/create', $json);
+        $response = BudvarApi::post('/user/create', $json);
         if ($response->status == 'success') {
             $ref = $request->get('ref', '');
             if (!empty($ref)) {
-                return redirect($ref)->with('success', 'Thêm thông tin Category thành công');
+                return redirect($ref)->with('success', 'Thêm thông tin User thành công');
             }
-            return redirect('admin.budvar.category.index')->with('success', 'Thêm thông tin Category thành công');
+            return redirect('admin.budvar.user.index')->with('success', 'Thêm thông tin User thành công');
         }
         return redirect()->back()->withInput()->withErrors(['message' => $response->message ?? 'Có lỗi trong quá trình xử lý!']);
     }
@@ -60,10 +56,9 @@ class CategoryController extends AdminController
      */
     public function show(string $id)
     {
-        $data = BudvarApi::get('/category/findOne/' . $id);
-        $item = $data->data;
-        if (empty($item['type'])) $item['type'] = 'BANNER';
-        return view('admin.budvar.category.item', ['isAction' => 'show', 'item' =>  $item]);
+        $data = BudvarApi::get('/user/findOne/' . $id);
+        $item = $data->data; 
+        return view('admin.budvar.user.item', ['isAction' => 'show', 'item' =>  $item]);
     }
 
     /**
@@ -71,10 +66,9 @@ class CategoryController extends AdminController
      */
     public function edit(string $id)
     {
-        $data = BudvarApi::get('/category/findOne/' . $id);
-        $item = $data->data;
-        if (empty($item['type'])) $item['type'] = 'BANNER';
-        return view('admin.budvar.category.item', ['isAction' => 'edit', 'item' =>  $item]);
+        $data = BudvarApi::get('/user/findOne/' . $id);
+        $item = $data->data; 
+        return view('admin.budvar.user.item', ['isAction' => 'edit', 'item' =>  $item]);
     }
 
     /**
@@ -83,17 +77,19 @@ class CategoryController extends AdminController
     public function update(FormRequest $request, string $id)
     {
         $json = [
-            'title' => $request->get('title'),
-            'type' => $request->get('type'),
+            'fullname' => $request->get('fullname'),
+            'phone' => $request->get('phone'),
+            'email' => $request->get('email'),
+            'password' => $request->get('password'),
             'status' => $request->get('status'),
         ];
-        $response = BudvarApi::put('/category/update/' . $id, $json);
+        $response = BudvarApi::put('/user/update/' . $id, $json);
         if ($response->status == 'success') {
             $ref = $request->get('ref', '');
             if (!empty($ref)) {
-                return redirect($ref)->with('success', 'Chỉnh sửa thông tin Category thành công');
+                return redirect($ref)->with('success', 'Chỉnh sửa thông tin User thành công');
             }
-            return redirect('admin.budvar.category.index')->with('success', 'Chỉnh sửa thông tin Category thành công');
+            return redirect('admin.budvar.user.index')->with('success', 'Chỉnh sửa thông tin User thành công');
         }
 
         return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi trong quá trình xử lý!']);
@@ -104,7 +100,7 @@ class CategoryController extends AdminController
      */
     public function destroy(string $id)
     {
-        $response = BudvarApi::delete('/category/remove/' . $id);
+        $response = BudvarApi::delete('/user/remove/' . $id);
         if ($response->status == 'success') {
             return response()->json(\App\Common\Response::success());
         }

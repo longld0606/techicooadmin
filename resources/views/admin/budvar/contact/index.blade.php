@@ -1,11 +1,10 @@
 <?php
 $ctrl = 'admin.budvar.contact';
-$nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'Contact' => route($ctrl.'.index')];
+$nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'KHÁCH HÀNG' => route($ctrl.'.index')];
 ?>
 
 @section('title', 'Contact')
 @extends('admin.layouts.app')
-
 @section('content')
 
 <section class="app-content ">

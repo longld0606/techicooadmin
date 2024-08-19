@@ -1,6 +1,6 @@
 <?php
-$nav = ['Tài khoản' => route('admin.account.index')];
-$ctrl = 'account';
+$nav = ['TÀI KHOẢN' => route('admin.account.index')];
+$ctrl = 'admin.account';
 ?>
 
 @section('title', 'Tài khoản')
@@ -17,7 +17,6 @@ $ctrl = 'account';
             <!-- /.box-header -->
             <div class="card-body">
                 <div class="row">
-
                     <div class="col-sm-12 mb-3">
                         <div class="form-group">
                             <label for="search">{{ __('Tìm kiếm') }}</label>
@@ -25,33 +24,7 @@ $ctrl = 'account';
                                 placeholder="Từ khóa">
                         </div>
                     </div>
-
-                    <div class="col-sm-12 mb-3">
-                        <button onclick="searchTable()" type="button" class="btn btn-primary">
-                            {{ __('Tìm kiếm') }}</button>
-                        &nbsp;
-                        {{-- <button type="button" onclick="location.href='{{ route($ctrl . '.create') }}'"
-                            class="btn btn-success  "> {{ __('Thêm mới') }}</button>
-                        &nbsp; --}}
-
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Xuất file
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="javascript:void(0)" onclick="onExport('excel')">Xuất file
-                                        Excel</a></li>
-                                <li><a class="dropdown-item" href="javascript:void(0)" onclick="onExport('csv')">Xuất file
-                                        CSV</a></li>
-                                <li><a class="dropdown-item" href="javascript:void(0)" onclick="onExport('print')">In -
-                                        Print</a></li>
-                            </ul>
-                        </div>
-
-
-
-                    </div>
+                    @include('admin.partials._search_button', [])
                 </div>
                 <!-- /.box-body -->
             </div>
