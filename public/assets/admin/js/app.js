@@ -415,7 +415,7 @@ $(function () {
     initInput();
     activeMenu();
 
-    $('.table-box').on('click', '.confirm-action', function (e) {
+    $('.app-main').on('click', '.confirm-action', function (e) {
         var $this = $(this),
             url = $this.data('href'),
             id = $this.data('id');
@@ -441,7 +441,7 @@ $(function () {
         // App.sweetDeleteItemMessage(url, ids);
         // e.preventDefault();
     });
-    $('.table-box').on('click', 'table  .delete-item', function (e) {
+    $('.app-main').on('click', 'table  .delete-item', function (e) {
         var $this = $(this),
             url = $this.data('href'),
             id = $this.data('id');

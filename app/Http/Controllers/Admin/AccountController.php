@@ -134,7 +134,6 @@ class AccountController extends AdminController
                 $cf->save();
             }
 
-
             $ref = $request->get('ref', '');
             if (!empty($ref)) {
                 return redirect($ref)->with('success', 'Thêm mới người dùng thành công');
@@ -303,13 +302,13 @@ class AccountController extends AdminController
     {
         $data = \App\Models\User::query()->where('id', $id)->first();
         if (!$data instanceof \App\Models\User) {
-            return Response::error('Không tìm thấy dữ liệu!');
+            return response()->json(Response::error('Không tìm thấy dữ liệu!'));
         }
         $updated = \App\Models\User::query()->where('id', $id)->delete();
         if ($updated) {
-            return Response::success();
+            return response()->json(Response::success());
         }
-        return Response::error('Có lỗi trong quá trình xử lý!');
+        return response()->json(Response::error('Có lỗi trong quá trình xử lý!'));
     }
 
     public function setPass(FormRequest $request, int $id) {}
@@ -319,16 +318,16 @@ class AccountController extends AdminController
         $user = Auth::user();
         $data = \App\Models\User::query()->where('id', $id)->first();
         if (!$data instanceof \App\Models\User) {
-            return Response::error('Không tìm thấy dữ liệu!');
+            return response()->json(Response::error('Không tìm thấy dữ liệu!'));
         }
         $data->status = $data->status == \App\Common\Enum_STATUS::ACTIVE ? \App\Common\Enum_STATUS::NOACTIVE : \App\Common\Enum_STATUS::ACTIVE;
 
         $data->updated_at = time();
         $data->updated_id = $user->id;
         if ($data->save()) {
-            return Response::success();
+            return response()->json(Response::success());
         }
-        return Response::error('Có lỗi trong quá trình xử lý!');
+        return response()->json(Response::error('Có lỗi trong quá trình xử lý!'));
     }
 
 

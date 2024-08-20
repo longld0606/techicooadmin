@@ -37,7 +37,7 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'KHÁCH HÀNG' => route($ct
 
                 @include('admin.partials._alerts')
 
-                <form class="form-item" method="POST" action="{{ $url }}">
+                <form class="form-item" method="POST" action="{{ $url }}" enctype="multipart/form-data">
                     @if ($isAction == 'edit')
                         <input name="_method" type="hidden" value="PATCH">
                     @endif

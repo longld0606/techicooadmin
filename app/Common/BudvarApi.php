@@ -79,34 +79,45 @@ class BudvarApi
     }
 
 
-    public static function postMultipartFile($url, $data, $file)
+    public static function postMultipartFile($url, $data, $files)
     {
-        if (empty($file))
+        if (empty($files))
             return BudvarApi::postMultipart($url, $data);
 
-        $file_contents = file_get_contents($file->getRealPath());
-        $file_name = $file->getClientOriginalName();
-
         $response =  Http::withToken(BudvarApi::accessToken())
-            ->asMultipart()
-            ->attach('file', $file_contents,  $file_name)
-            ->post(env('API_BUDVAR', '') . $url, $data);
+            ->asMultipart();
+        if (gettype($files) == 'array') {
+            foreach ($files as $k => $file) {
+                $file_name = $file->getClientOriginalName();
+                $response = $response->attach('files', $file, $file_name);
+            }
+        } else {
+            $file_contents = file_get_contents($files->getRealPath());
+            $file_name = $files->getClientOriginalName();
+            $response = $response->attach('file', $file_contents,  $file_name);
+        }
+        $response =  $response->post(env('API_BUDVAR', '') . $url, $data);
         BudvarApi::LogApi("POST", $url, $data, $response);
         return BudvarApi::toResponse($response->json());
     }
 
-    public static function putMultipartFile($url, $data, $file)
+    public static function putMultipartFile($url, $data, $files)
     {
-        if (empty($file))
+        if (empty($files))
             return BudvarApi::putMultipart($url, $data);
-
-        $file_contents = file_get_contents($file->getRealPath());
-        $file_name = $file->getClientOriginalName();
-
-        $response =  Http::withToken(BudvarApi::accessToken())
-            ->asMultipart()
-            ->attach('file', $file_contents, $file_name)
-            ->put(env('API_BUDVAR', '') . $url, $data);
+        $response =  Http::withToken(BudvarApi::accessToken());
+        if (gettype($files) == 'array') {
+            foreach ($files as $k => $file) {
+                $file_contents = file_get_contents($file->getRealPath());
+                $file_name = $file->getClientOriginalName();
+                $response = $response->attach('files', $file_contents, $file_name);
+            }
+        } else {
+            $file_contents = file_get_contents($files->getRealPath());
+            $file_name = $files->getClientOriginalName();
+            $response = $response->attach('file', $file_contents,  $file_name);
+        } 
+        $response =  $response->put(env('API_BUDVAR', '') . $url, $data);
         BudvarApi::LogApi("PUT", $url, $data, $response);
         return BudvarApi::toResponse($response->json());
     }
@@ -121,16 +132,21 @@ class BudvarApi
                 array_push($data['multipart'], [
                     'name' => $key,
                     'contents' => $value,
-                    'headers'  => ['Content-Type' => 'application/json']
                 ]);
             } else if (gettype($value) == 'array') {
-                foreach ($value as $k =>  $file) {
-                    if (file_exists($file)) {
-                        $extension = $file->getClientOriginalExtension();
+                foreach ($value as $k =>  $v) {
+                    if (file_exists($v)) {
+                        $file_contents = file_get_contents($v->getRealPath());
+                        $file_name = $v->getClientOriginalName();
+                        array_push($data['multipart'], [
+                            'name' => $key,
+                            'contents' => $file_contents,
+                            'filename' => $file_name
+                        ]);
+                    } else {
                         array_push($data['multipart'], [
                             'name' => $key . "[]",
-                            'contents' => fopen($file, 'r'),
-                            'filename' => mt_rand(100, 1000) . "." . $extension
+                            'contents' =>  $v,
                         ]);
                     }
                 }

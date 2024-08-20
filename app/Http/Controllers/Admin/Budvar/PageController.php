@@ -44,11 +44,11 @@ class PageController extends AdminController
             'lang' => $request->get('lang'),
             'type' => $request->get('type'),
             'short' => $request->get('short'),
-            'sections' => [$request->get('content')],
+            'sections' =>  $request->get('sections'),
+            'files' =>  $request->file('thumbs')
         ];
-
-        $response = \App\Common\Response::error();
-        //$response = BudvarApi::postMultipart('/page/create', $json);
+ 
+        $response =  BudvarApi::postMultipart('/page/create', $json);
         if ($response->status == 'success') {
             $ref = $request->get('ref', '');
             if (!empty($ref)) {
@@ -87,7 +87,9 @@ class PageController extends AdminController
             'lang' => $request->get('lang'),
             'type' => $request->get('type'),
             'short' => $request->get('short'),
-            'sections' => [$request->get('content')],
+            'sections' =>  $request->get('sections'),
+            'mediasRemove' =>  $request->get('mediasRemove'),
+            'files' =>  $request->file('thumbs')
         ];
         $response = BudvarApi::putMultipart('/page/update/' . $id, $json);
         if ($response->status == 'success') {
@@ -98,7 +100,7 @@ class PageController extends AdminController
             return redirect('admin.budvar.page.index')->with('success', 'Chỉnh sửa thông tin Page thành công');
         }
 
-        return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi trong quá trình xử lý!']);
+        return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi '.(empty($response->message) ? '' : $response->message).'!']);
     }
 
     /**
