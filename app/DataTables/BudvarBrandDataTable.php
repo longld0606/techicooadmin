@@ -20,10 +20,9 @@ class BudvarBrandDataTable extends DataTable
      */
     public function dataTable()
     {
-        $title = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
-        $name = isset($this->request->get('search')['name']) ?  $this->request->get('search')['name'] : '';
+        $name = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
         $type = isset($this->request->get('search')['type']) ?  $this->request->get('search')['type'] : '';
-        $data = BudvarApi::get('/brand/findAll', ['title' => $title, 'type' => $type, 'name' => $name]);
+        $data = BudvarApi::get('/brand/findAll', ['name' => $name, 'type' => $type]);
 
         //return $this->applyScopes($brands['data']);
         return datatables()
@@ -34,6 +33,7 @@ class BudvarBrandDataTable extends DataTable
             ->addColumn('action', 'admin.budvar.brand.action')
             ->addColumn('thumb', '<img src="{{ empty($media) ? "" : $media["source"]}}" width="150px" style="border: 1px solid #dee2e6" />')
             ->addColumn('type', '{{empty($type) ? "none" : $type}} ')
+            ->addColumn('lang', '{{empty($lang) ? "Vi" : $lang}} ')
             ->addColumn('name', '{{empty($name) ? "" : $name}} ')
             ->addColumn('link', '{{empty($link) ? "" : $link}}')
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
@@ -52,7 +52,7 @@ class BudvarBrandDataTable extends DataTable
             ->paging(false)
             ->minifiedAjax('', null, [
                 'search["value"]' => '$("[name=search]").val()',
-                'search["name"]' => '$("[name=name]").val()',
+                //'search["name"]' => '$("[name=name]").val()',
                 'search["type"]' => '$("[name=type]").val()',
             ])
             ->dom('<"row"<"col-sm-12"itr>><"row"<"col-sm-4"l><"col-sm-8"p>>')
@@ -78,6 +78,7 @@ class BudvarBrandDataTable extends DataTable
             Column::computed('action')->exportable(false)->printable(false)->width(50)->title('#'),
             Column::make('_id')->width(100),
             Column::make('thumb')->title('Ảnh')->width(200),
+            Column::make('lang')->title('Ngôn ngữ')->width(100),
             Column::make('name')->title('Tiêu đề')->width(200),
             Column::make('type')->title('Loại')->width(100),
             Column::make('link')->title('Link'),

@@ -21,8 +21,29 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'MENU' => route($ctrl.'.ind
                     <div class="form-group">
                         <label for="search">{{ __('Tìm kiếm') }}</label>
                         <input type="text" class="form-control" name="search" autocomplete="search" placeholder="Từ khóa">
-                    </div> 
-                </div> 
+                    </div>
+                </div>
+                <div class="col-sm-3 mb-3">
+                    @include('admin.partials._input_select2', [
+                    'title' => 'Ngôn ngữ',
+                    'array' => \App\Common\Enum_LANG::getArray(),
+                    'name' => 'lang',
+                    'val' => old('lang', isset($item['lang']) ? $item['lang'] : ''),
+                    'all_title' => '-- Ngôn ngữ --'
+                    ])
+                </div>
+                <div class="col-sm-3 mb-3">
+                    @include('admin.partials._input_select2_list', [
+                    'title' => 'Cấp trên',
+                    'array' => $menus,
+                    'name' => 'parent_id',
+                    'all_title' => '-- Cấp trên --',
+                    'id_field' => '_id',
+                    'val_field' => 'name',
+                    ])
+                </div>
+
+
                 @include('admin.partials._search_button',[])
 
             </div>

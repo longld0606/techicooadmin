@@ -20,9 +20,9 @@ class BudvarMediaDataTable extends DataTable
      */
     public function dataTable()
     {
-        $title = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
+        $name = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
         $type = isset($this->request->get('search')['type']) ?  $this->request->get('search')['type'] : '';
-        $data = BudvarApi::get('/media/findAll', ['name' => $title, 'type' => $type]);
+        $data = BudvarApi::get('/media/findAll', ['name' => $name, 'type' => $type]);
 
         //return $this->applyScopes($medias['data']);
         return datatables()

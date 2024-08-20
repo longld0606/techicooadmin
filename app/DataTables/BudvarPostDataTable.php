@@ -20,9 +20,9 @@ class BudvarPostDataTable extends DataTable
     public function dataTable()
     {
         $title = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
-        $short = isset($this->request->get('search')['short']) ?  $this->request->get('search')['short'] : '';
-        $description = isset($this->request->get('search')['description']) ?  $this->request->get('search')['description'] : '';
-        $data = BudvarApi::get('/post/findAll', ['title' => $title, 'description' => $description, 'short' => $short]);
+        $lang = isset($this->request->get('search')['lang']) ?  $this->request->get('search')['lang'] : '';
+      
+        $data = BudvarApi::get('/post/findAll', ['title' => $title, 'lang' => $lang]);
         //return $this->applyScopes($posts['data']);
         return datatables()
             ->collection($data->data)
@@ -30,7 +30,7 @@ class BudvarPostDataTable extends DataTable
             ->skipPaging()
 
             ->addColumn('action', 'admin.budvar.post.action')
-            ->addColumn('lang', '{{empty($lang) ? "vi" : $lang}} ')
+            ->addColumn('lang', '{{empty($lang) ? "Vi" : $lang}} ')
             ->addColumn('type', '{{empty($type) ? "none" : $type}} ')
             ->addColumn('title', '<a target="_blank" href="https://biabudvar.cz/posts/{{$slug}}">{{empty($title) ? "" : $title}}</a>')
             ->addColumn('short', '{{empty($short) ? "" : $short}}')
@@ -51,8 +51,7 @@ class BudvarPostDataTable extends DataTable
             ->paging(false)
             ->minifiedAjax('', null, [
                 'search["value"]' => '$("[name=search]").val()',
-                'search["description"]' => '$("[name=description]").val()',
-                'search["short"]' => '$("[name=short]").val()',
+                'search["lang"]' => '$("[name=lang]").val()', 
             ])
             ->dom('<"row"<"col-sm-12"itr>><"row"<"col-sm-4"l><"col-sm-8"p>>')
             ->orderBy(1)

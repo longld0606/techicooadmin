@@ -14,7 +14,8 @@ class MenuController extends AdminController
 
     public function index(BudvarMenuDataTable $dataTable)
     {
-        return $dataTable->render('admin.budvar.menu.index');
+        $menus = BudvarApi::get('/menu/findAll', []);
+        return $dataTable->render('admin.budvar.menu.index', ['menus' => $menus->data]);
     }
 
 
@@ -35,6 +36,7 @@ class MenuController extends AdminController
         //  
         $json = [
             'title' => $request->get('title'),
+            'lang' => $request->get('lang'),
             'type' => $request->get('type'),
             'status' => $request->get('status'),
         ];
@@ -78,6 +80,7 @@ class MenuController extends AdminController
     {
         $json = [
             'title' => $request->get('title'),
+            'lang' => $request->get('lang'),
             'type' => $request->get('type'),
             'status' => $request->get('status'),
         ];

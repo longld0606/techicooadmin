@@ -1,6 +1,6 @@
 <?php
 $ctrl = 'admin.budvar.page';
-$nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'Page' => route($ctrl.'.index')];
+$nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'PAGE' => route($ctrl.'.index')];
 ?>
 
 @section('title', 'PAGE')
@@ -23,7 +23,22 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'Page' => route($ctrl.'.ind
                         <input type="text" class="form-control" name="search" autocomplete="search" placeholder="Từ khóa">
                     </div>
                 </div>
-
+                <div class="col-sm-3 mb-3">
+                    @include('admin.partials._input_select2', [
+                        'title' => 'Ngôn ngữ',
+                        'array' => \App\Common\Enum_LANG::getArray(),
+                        'name' => 'lang',
+                        'all_title' => '-- Ngôn ngữ --'
+                    ])
+                 </div>
+                <div class="col-sm-3 mb-3">
+                    @include('admin.partials._input_select2', [
+                        'title' => 'Loại',
+                        'array' => \App\Common\Enum_PageType::getArray(),
+                        'name' => 'type', 
+                        'all_title' => '-- Loại --'
+                    ])
+                 </div>
                 @include('admin.partials._search_button',[])
             </div>
         </div>

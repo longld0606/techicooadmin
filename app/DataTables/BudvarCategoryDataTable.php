@@ -20,15 +20,17 @@ class BudvarCategoryDataTable extends DataTable
     public function dataTable()
     {
         $title = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
-        $type =  'product';
+        $lang = isset($this->request->get('search')['lang']) ?  $this->request->get('search')['lang'] : '';
+        $type =  isset($this->request->get('search')['lang']) ?  $this->request->get('search')['lang'] : 'product';
 
-        $data = BudvarApi::get('/category/findAll', ['title' => $title, 'type' => $type]);
+        $data = BudvarApi::get('/category/findAll', ['title' => $title, 'lang' => $lang, 'type' => $type]);
         return datatables()
             ->collection($data->data)
             ->filter(function () {})
             ->skipPaging()
 
             ->addColumn('action', 'admin.budvar.category.action')
+            ->addColumn('lang', '{{empty($lang) ? "Vi" : $lang}} ')
             ->addColumn('type', '{{empty($type) ? "none" : $type}} ')
             ->addColumn('title', '{{empty($title) ? "" : $title}}')
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
@@ -54,6 +56,7 @@ class BudvarCategoryDataTable extends DataTable
             ->minifiedAjax('', null, [
                 'search["value"]' => '$("[name=search]").val()',
                 'search["type"]' => '$("[name=type]").val()',
+                'search["lang"]' => '$("[name=lang]").val()',
             ])
             ->dom('<"row"<"col-sm-12"itr>><"row"<"col-sm-4"l><"col-sm-8"p>>')
             ->orderBy(1)
@@ -76,11 +79,12 @@ class BudvarCategoryDataTable extends DataTable
         return [
             Column::computed('action')
                 ->exportable(false)
-                ->printable(false) 
+                ->printable(false)
                 ->searchable(false)
                 ->width(50)->title('#'),
             Column::make('_id')->width(100),
             Column::make('type')->title('Loại')->width(100),
+            Column::make('lang')->title('Ngôn ngữ')->width(100),
             Column::make('title')->title('Tiêu đề'),
             Column::make('createdAt')->title('CreatedAt')->width(100),
         ];

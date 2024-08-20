@@ -23,6 +23,24 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'SẢN PHẨM' => route($ct
                         <input type="text" class="form-control" name="search" autocomplete="search" placeholder="Từ khóa">
                     </div>
                 </div>
+                <div class="col-sm-3 mb-3">
+                    @include('admin.partials._input_select2', [
+                    'title' => 'Ngôn ngữ',
+                    'array' => \App\Common\Enum_LANG::getArray(),
+                    'name' => 'lang',
+                    'all_title' => '-- Ngôn ngữ --'
+                    ])
+                </div>
+                <div class="col-sm-3 mb-3">
+                    @include('admin.partials._input_select2_list', [
+                    'title' => 'Danh mục',
+                    'array' => $categories,
+                    'name' => 'category',
+                    'all_title' => '-- Danh mục sản phẩm --',
+                    'id_field' => '_id',
+                    'val_field' => 'title',
+                    ])
+                </div>
 
                 @include('admin.partials._search_button',[])
 

@@ -14,7 +14,8 @@ class ProductController extends AdminController
 
     public function index(BudvarProductDataTable $dataTable)
     {
-        return $dataTable->render('admin.budvar.product.index');
+        $categories = BudvarApi::get('/category/findAll', ['type' => 'product']);
+        return $dataTable->render('admin.budvar.product.index', ['categories' => $categories->data]);
     }
 
 
@@ -47,6 +48,7 @@ class ProductController extends AdminController
         //  
         $json = [
             'name' => $request->get('name'),
+            'lang' => $request->get('lang'),
             'category' => $request->get('category'),
             'short' => $request->get('short'),
             'content' => $request->get('description'),
@@ -97,6 +99,7 @@ class ProductController extends AdminController
     {
         $json = [
             'name' => $request->get('name'),
+            'lang' => $request->get('lang'),
             'category' => $request->get('category'),
             'short' => $request->get('short'),
             'content' => $request->get('description'),

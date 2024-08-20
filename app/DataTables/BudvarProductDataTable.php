@@ -20,8 +20,10 @@ class BudvarProductDataTable extends DataTable
     public function dataTable()
     {
         $title = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
+        $lang = isset($this->request->get('search')['lang']) ?  $this->request->get('search')['lang'] : '';
+        $category = isset($this->request->get('search')['category']) ?  $this->request->get('search')['category'] : '';
 
-        $data = BudvarApi::get('/product/findAll', ['name' => $title, 'description' => '', 'short' => '']);
+        $data = BudvarApi::get('/product/findAll', ['name' => $title, 'lang' => $lang, 'category' => $category]);
         return datatables()
             ->collection($data->data)
             ->filter(function () {})
@@ -29,6 +31,7 @@ class BudvarProductDataTable extends DataTable
 
             ->addColumn('action', 'admin.budvar.product.action')
             ->addColumn('name', '{{empty($name) ? "" : $name}} ')
+            ->addColumn('lang', '{{empty($lang) ? "Vi" : $lang}} ')
             ->addColumn('category', '{{empty($category) ? "" : $category["title"]}} ')
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
             ->addColumn('thumb', '<img src="{{ empty($media) ? "" : $media["source"]}}" width="150px" style="border: 1px solid #dee2e6" />')
@@ -47,8 +50,8 @@ class BudvarProductDataTable extends DataTable
             ->paging(false)
             ->minifiedAjax('', null, [
                 'search["value"]' => '$("[name=search]").val()',
-                // 'search["description"]' => '$("[name=description]").val()',
-                // 'search["short"]' => '$("[name=short]").val()',
+                'search["lang"]' => '$("[name=lang]").val()',
+                'search["category"]' => '$("[name=category]").val()',
             ])
             ->dom('<"row"<"col-sm-12"itr>><"row"<"col-sm-4"l><"col-sm-8"p>>')
             ->orderBy(1)
@@ -73,6 +76,7 @@ class BudvarProductDataTable extends DataTable
             Column::computed('action')->exportable(false)->printable(false)->width(50)->title('#'),
             Column::make('_id')->width(100),
             Column::make('name')->title('Tiêu đề')->width(300),
+            Column::make('lang')->title('Ngôn ngữ')->width(100),
             Column::make('category')->title('Loại')->width(300),
             Column::make('createdAt')->title('createdAt')->width(100),
             Column::make('thumb')->title('Ảnh')->width(100),

@@ -23,6 +23,15 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'SLIDER' => route($ctrl.'.i
                         <input type="text" class="form-control" name="search" autocomplete="search" placeholder="Từ khóa">
                     </div> 
                 </div> 
+                <div class="col-sm-3 mb-3">
+                    @include('admin.partials._input_select2', [
+                        'title' => 'Ngôn ngữ',
+                        'array' => \App\Common\Enum_LANG::getArray(),
+                        'name' => 'lang',
+                        'val' => old('lang', isset($item['lang']) ? $item['lang'] : ''), 
+                        'all_title' => '-- Ngôn ngữ --'
+                    ])
+                 </div>
                 @include('admin.partials._search_button',[])
 
             </div>

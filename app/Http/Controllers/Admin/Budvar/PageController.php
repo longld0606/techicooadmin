@@ -41,11 +41,14 @@ class PageController extends AdminController
         //
         $json = [
             'title' => $request->get('title'),
+            'lang' => $request->get('lang'),
             'type' => $request->get('type'),
             'short' => $request->get('short'),
-            'content' => $request->get('content'),
+            'sections' => [$request->get('content')],
         ];
-        $response = BudvarApi::post('/page/create', $json);
+
+        $response = \App\Common\Response::error();
+        //$response = BudvarApi::postMultipart('/page/create', $json);
         if ($response->status == 'success') {
             $ref = $request->get('ref', '');
             if (!empty($ref)) {
@@ -81,11 +84,12 @@ class PageController extends AdminController
     {
         $json = [
             'title' => $request->get('title'),
+            'lang' => $request->get('lang'),
             'type' => $request->get('type'),
             'short' => $request->get('short'),
-            'content' => $request->get('content'),
+            'sections' => [$request->get('content')],
         ];
-        $response = BudvarApi::put('/page/update/' . $id, $json);
+        $response = BudvarApi::putMultipart('/page/update/' . $id, $json);
         if ($response->status == 'success') {
             $ref = $request->get('ref', '');
             if (!empty($ref)) {

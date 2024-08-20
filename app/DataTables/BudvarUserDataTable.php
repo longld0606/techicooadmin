@@ -19,10 +19,9 @@ class BudvarUserDataTable extends DataTable
      */
     public function dataTable()
     {
-        $title = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
-        $type =  '';
+        $title = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : ''; 
 
-        $data = BudvarApi::get('/user/findAll', ['title' => $title, 'type' => $type]);
+        $data = BudvarApi::get('/user/findAll', ['title' => $title]);
         return datatables()
             ->collection($data->data)
             ->filter(function () {})
@@ -54,8 +53,7 @@ class BudvarUserDataTable extends DataTable
             ->columns($this->getColumns())
             ->paging(false)
             ->minifiedAjax('', null, [
-                'search["value"]' => '$("[name=search]").val()',
-                'search["type"]' => '$("[name=type]").val()',
+                'search["value"]' => '$("[name=search]").val()', 
             ])
             ->dom('<"row"<"col-sm-12"itr>><"row"<"col-sm-4"l><"col-sm-8"p>>')
             ->orderBy(1)

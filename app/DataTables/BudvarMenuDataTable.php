@@ -19,16 +19,18 @@ class BudvarMenuDataTable extends DataTable
      */
     public function dataTable()
     {
-        $title = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
-        $type =  '';
+        $name = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
+        $parent_id =  isset($this->request->get('search')['parent_id']) ?  $this->request->get('search')['parent_id'] : '';
+        $lang =  isset($this->request->get('search')['lang']) ?  $this->request->get('search')['lang'] : '';
 
-        $data = BudvarApi::get('/menu/findAll', ['title' => $title, 'type' => $type]);
+        $data = BudvarApi::get('/menu/findAll', ['name' => $name, 'lang' => $lang, 'parent_id' => $parent_id]);
         return datatables()
             ->collection($data->data)
             ->filter(function () {})
             ->skipPaging()
 
             ->addColumn('action', 'admin.budvar.menu.action')
+            ->addColumn('lang', '{{empty($lang) ? "Vi" : $lang}} ')
             ->addColumn('name', '{{empty($name) ? "none" : $name}} ')
             ->addColumn('link', '{{empty($link) ? "" : $link}}')
             ->setRowId('_id');
@@ -52,7 +54,8 @@ class BudvarMenuDataTable extends DataTable
             ->paging(false)
             ->minifiedAjax('', null, [
                 'search["value"]' => '$("[name=search]").val()',
-                'search["type"]' => '$("[name=type]").val()',
+                'search["parent_id"]' => '$("[name=parent_id]").val()',
+                'search["lang"]' => '$("[name=lang]").val()',
             ])
             ->dom('<"row"<"col-sm-12"itr>><"row"<"col-sm-4"l><"col-sm-8"p>>')
             ->orderBy(1)
@@ -80,6 +83,7 @@ class BudvarMenuDataTable extends DataTable
                 ->width(50)->title('#'),
             Column::make('_id')->width(100),
             Column::make('name')->title('Tên')->width(100),
+            Column::make('lang')->title('Ngôn ngữ')->width(100),
             Column::make('link')->title('Link')
         ];
     }

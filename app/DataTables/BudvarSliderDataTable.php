@@ -21,9 +21,9 @@ class BudvarSliderDataTable extends DataTable
     public function dataTable()
     {
         $title = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
-        $name = isset($this->request->get('search')['name']) ?  $this->request->get('search')['name'] : '';
+        $lang = isset($this->request->get('search')['lang']) ?  $this->request->get('search')['lang'] : '';
         $type = 'BANNER';
-        $data = BudvarApi::get('/brand/findAll', ['title' => $title, 'type' => $type, 'name' => $name]);
+        $data = BudvarApi::get('/brand/findAll', ['title' => $title, 'type' => $type, 'lang' => $lang]);
 
         //return $this->applyScopes($brands['data']);
         return datatables()
@@ -32,6 +32,7 @@ class BudvarSliderDataTable extends DataTable
             ->skipPaging()
 
             ->addColumn('action', 'admin.budvar.slider.action')
+            ->addColumn('lang', '{{empty($lang) ? "Vi" : $lang}} ')
             ->addColumn('thumb', '<img src="{{ empty($media) ? "" : $media["source"]}}" width="150px" style="border: 1px solid #dee2e6" />')
             ->addColumn('type', '{{empty($type) ? "none" : $type}} ')
             ->addColumn('name', '{{empty($name) ? "" : $name}} ')
@@ -52,8 +53,8 @@ class BudvarSliderDataTable extends DataTable
             ->paging(false)
             ->minifiedAjax('', null, [
                 'search["value"]' => '$("[name=search]").val()',
-                'search["name"]' => '$("[name=name]").val()',
                 'search["type"]' => '$("[name=type]").val()',
+                'search["lang"]' => '$("[name=lang]").val()',
             ])
             ->dom('<"row"<"col-sm-12"itr>><"row"<"col-sm-4"l><"col-sm-8"p>>')
             ->orderBy(1)
@@ -78,6 +79,7 @@ class BudvarSliderDataTable extends DataTable
             Column::computed('action')->exportable(false)->printable(false)->width(50)->title('#'),
             Column::make('_id')->width(100),
             Column::make('thumb')->title('Ảnh')->width(200),
+            Column::make('lang')->title('Ngôn ngữ')->width(100),
             Column::make('name')->title('Tiêu đề')->width(200),
             Column::make('type')->title('Loại')->width(100),
             Column::make('link')->title('Link'),

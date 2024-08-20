@@ -22,8 +22,8 @@ class PostController extends AdminController
      * Show the form for creating a new resource.
      */
     public function create()
-    {   
-        $data = ['type'=>'post'];
+    {
+        $data = ['type' => 'post'];
         return view('admin.budvar.post.item', ['isAction' => 'create', 'item' => $data]);
     }
 
@@ -44,12 +44,12 @@ class PostController extends AdminController
         //  
         $json = [
             'title' => $request->get('title'),
+            'lang' => $request->get('lang'),
             'short' => $request->get('short'),
             'content' => $request->get('content'),
             'type' => 'POST',
             'category' => '66ab4ba3b91c0ecad3492094'
         ];
-      
         $response = BudvarApi::postMultipartFile('/post/create', $json, $request->file('thumb'));
         if ($response->status == 'success') {
             $ref = $request->get('ref', '');
@@ -95,15 +95,16 @@ class PostController extends AdminController
      * Update the specified resource in storage.
      */
     public function update(FormRequest $request, string $id)
-    { 
+    {
         $json = [
             'title' => $request->get('title'),
+            'lang' => $request->get('lang'),
             'short' => $request->get('short'),
             'content' => $request->get('content'),
             'type' => 'POST',
             'category' => '66ab4ba3b91c0ecad3492094'
         ];
-       
+
         $response = BudvarApi::putMultipartFile('/post/update/' . $id, $json, $request->file('thumb'));
         if ($response->status == 'success') {
             $ref = $request->get('ref', '');

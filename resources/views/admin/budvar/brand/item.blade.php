@@ -81,7 +81,7 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'BRAND' => route($ctrl . '.
                             </div>
                             <div class="preview">
                                 @if ($isAction == 'edit' || $isAction == 'show')
-                                    <img src="{{ \App\Common\Utility::displayBudvarMedia($item['media']) }}"  style="width:100%; height:auto" />
+                                    <img src="{{ \App\Common\Utility::displayBudvarMedia(isset($item['media']) ? $item['media'] : '') }}"  style="width:100%; height:auto" />
                                 @endif
                             </div>
                         </div>

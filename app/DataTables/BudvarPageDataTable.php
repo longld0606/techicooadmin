@@ -19,17 +19,19 @@ class BudvarPageDataTable extends DataTable
      */
     public function dataTable()
     {
-        $data = BudvarApi::get('/page/findAll');
-        //return $this->applyScopes($posts['data']);
+        $title =  isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
+        $lang =  isset($this->request->get('search')['lang']) ?  $this->request->get('search')['lang'] : '';
+
+        $data = BudvarApi::get('/page/findAll', ['title' => $title, 'lang' => $lang]);
         return datatables()
             ->collection($data->data)
             ->filter(function () {})
             ->skipPaging()
 
             ->addColumn('action', 'admin.budvar.page.action')
+            ->addColumn('lang', '{{empty($lang) ? "Vi" : $lang}} ')
             ->addColumn('type', '{{empty($type) ? "none" : $type}}')
             ->addColumn('title', '<a target="_blank" href="{{empty($type) || $type=="PAGE" ? ("https://biabudvar.cz/".$slug) : ("https://biabudvar.cz/page/".$slug) }}">{{empty($title) ? "" : $title}}</a>')
-            //->addColumn('title', '{{empty($title) ? "" : $title}} ')
             ->addColumn('short', '{{empty($short) ? "" : $short}}')
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
             ->rawColumns(['action', 'title'])
@@ -47,12 +49,7 @@ class BudvarPageDataTable extends DataTable
             ->paging(false)
             ->minifiedAjax('', null, [
                 'search["value"]' => '$("[name=search]").val()',
-                'search["path"]' => '$("[name=path]").val()',
-                'search["user_id"]' => '$("[name=user_id]").val()',
-                'search["code"]' => '$("[name=code]").val()',
-                'search["message"]' => '$("[name=message]").val()',
-                'search["ip"]' => '$("[name=ip]").val()',
-                'search["method"]' => '$("[name=method]").val()',
+                'search["lang"]' => '$("[name=lang]").val()', 
             ])
             ->dom('<"row"<"col-sm-12"itr>><"row"<"col-sm-4"l><"col-sm-8"p>>')
             ->orderBy(1)
@@ -78,8 +75,9 @@ class BudvarPageDataTable extends DataTable
             Column::make('_id')->width(100),
 
             Column::make('type')->title('Loại')->width(100),
+            Column::make('lang')->title('Ngôn ngữ')->width(100),
             Column::make('title')->title('Title')->width(200),
-            Column::make('short')->title('short')->width(100),
+            Column::make('short')->title('short')->width(200),
 
             Column::make('createdAt')->title('createdAt')->width(100),
         ];

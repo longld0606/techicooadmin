@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Admin\Budvar;
 
 use App\Common\BudvarApi;
 use App\DataTables\BudvarCategoryDataTable;
-use App\Http\Controllers\Admin\AdminController;
-use App\Models\Budvar\Brand;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Admin\AdminController; 
+use Illuminate\Foundation\Http\FormRequest; 
 
 class CategoryController extends AdminController
 {
@@ -16,7 +14,6 @@ class CategoryController extends AdminController
     {
         return $dataTable->render('admin.budvar.category.index');
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -41,6 +38,7 @@ class CategoryController extends AdminController
         //  
         $json = [
             'title' => $request->get('title'),
+            'lang' => $request->get('lang'),
             'type' => $request->get('type'),
             'status' => $request->get('status'),
         ];
@@ -84,6 +82,7 @@ class CategoryController extends AdminController
     {
         $json = [
             'title' => $request->get('title'),
+            'lang' => $request->get('lang'),
             'type' => $request->get('type'),
             'status' => $request->get('status'),
         ];

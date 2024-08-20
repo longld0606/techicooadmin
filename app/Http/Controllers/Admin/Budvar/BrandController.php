@@ -41,6 +41,7 @@ class BrandController extends AdminController
         //  
         $json = [
             'code' => $request->get('code'),
+            'lang' => $request->get('lang'),
             'name' => $request->get('name'),
             'type' => $request->get('type'),
             'textButton' => $request->get('textButton'), 
@@ -85,6 +86,7 @@ class BrandController extends AdminController
     {
         $json = [
             'code' => $request->get('code'),
+            'lang' => $request->get('lang'),
             'name' => $request->get('name'),
             'type' => $request->get('type'),
             'textButton' => $request->get('textButton'), 

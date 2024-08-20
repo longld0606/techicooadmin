@@ -35,7 +35,10 @@ class AccountController extends AdminController
         //
         $data = new User();
         $data->status = \App\Common\Enum_STATUS::ACTIVE;
-        return view('admin.account.item', ['isAction' => 'create', 'item' => $data]);
+        $roles = Role::query()->get()->toArray();
+        $user_roles = []; 
+        $user_configs = [];
+        return view('admin.account.item', ['isAction' => 'create', 'item' => $data,'roles' => $roles, 'user_roles' => $user_roles, 'user_configs' => $user_configs]);
     }
 
 
@@ -94,13 +97,13 @@ class AccountController extends AdminController
         $data->created_id = $user->id;
 
         if ($data->save()) {
-            UserConfig::query()->where('user_id', $data->id)->delete();
+            $passApi = '0606aaaXZ@9';
             if (!empty($request->get('isBudvar') && $request->get('isBudvar') == 1)) {
                 $cf = new UserConfig();
                 $cf->user_id = $data->id;
                 $cf->tenant = 'Budvar';
                 $cf->username = $data->phone;
-                $cf->password = $request->get('password') . 'aZ@9';
+                $cf->password = $passApi;
                 $cf->created_at = time();
                 $cf->created_id = $user->id;
                 // create budvar
@@ -115,7 +118,7 @@ class AccountController extends AdminController
                 $cf->user_id = $data->id;
                 $cf->tenant = 'Techicoo';
                 $cf->username = $data->phone;
-                $cf->password = $request->get('password');
+                $cf->password = $passApi;
                 $cf->created_at = time();
                 $cf->created_id = $user->id;
                 $cf->save();
@@ -125,13 +128,12 @@ class AccountController extends AdminController
                 $cf->user_id = $data->id;
                 $cf->tenant = 'Administrator';
                 $cf->username = $data->phone;
-                $cf->password = $request->get('password');
+                $cf->password = $passApi;
                 $cf->created_at = time();
                 $cf->created_id = $user->id;
                 $cf->save();
             }
 
-  
 
             $ref = $request->get('ref', '');
             if (!empty($ref)) {
@@ -164,7 +166,6 @@ class AccountController extends AdminController
         $user_roles = []; // $account->roles()->pluck('role_id')->toArray();
         $user_configs = $account->configs()->pluck('tenant')->toArray();
         return view('admin.account.item', ['isAction' => 'edit', 'item' =>  $account, 'roles' => $roles, 'user_roles' => $user_roles, 'user_configs' => $user_configs]);
-    }
     }
 
     /**
@@ -206,11 +207,13 @@ class AccountController extends AdminController
         }
         if ($request->file('avatar'))
             $data->avatar = $this->storeAvatar($request);
+        // $data->password = bcrypt($request->get('password'));
 
         $data->type = $request->get('type');
         $data->status = $request->get('status');
-        $data->gender = $request->get('status');
+        $data->gender = $request->get('gender');
         $data->birthday = $request->get('birthday');
+
 
         $data->updated_at = time();
         $data->updated_id = $user->id;
@@ -222,6 +225,66 @@ class AccountController extends AdminController
         // }
 
         if ($data->save()) {
+            $user_config = UserConfig::query()->where('user_id', $data->id)->get();
+            $user_budvar = $user_config->where('tenant', 'Budvar')->first();
+            $user_techicoo = $user_config->where('tenant', 'Techicoo')->first();
+            $user_administrator = $user_config->where('tenant', 'Administrator')->first();
+            $passApi = '0606aaaXZ@9';
+            if (!empty($request->get('isBudvar') && $request->get('isBudvar') == 1)) {
+                if (!$user_budvar instanceof UserConfig) {
+                    $cf = new UserConfig();
+                    $cf->user_id = $data->id;
+                    $cf->tenant = 'Budvar';
+                    $cf->username = $data->phone;
+                    $cf->password = $passApi;
+                    $cf->created_at = time();
+                    $cf->created_id = $user->id;
+                    // create budvar
+                    BudvarApi::post('/user/create', [
+                        "phone" => $data->phone,
+                        "password" => $cf->password,
+                    ]);
+                    $cf->save();
+                }
+            } else {
+                if ($user_budvar instanceof UserConfig) {
+                    UserConfig::query()->where('id', $user_budvar->id)->delete();
+                }
+            }
+            if (!empty($request->get('isTechicoo')) && $request->get('isTechicoo') == 1) {
+                if (!$user_techicoo instanceof UserConfig) {
+                    $cf = new UserConfig();
+                    $cf->user_id = $data->id;
+                    $cf->tenant = 'Techicoo';
+                    $cf->username = $data->phone;
+                    $cf->password = $passApi;
+                    $cf->created_at = time();
+                    $cf->created_id = $user->id;
+                    $cf->save();
+                }
+            } else {
+                if ($user_techicoo instanceof UserConfig) {
+                    UserConfig::query()->where('id', $user_techicoo->id)->delete();
+                }
+            }
+            if (!empty($request->get('isAdmin')) && $request->get('isAdmin') == 1) {
+                if (!$user_administrator instanceof UserConfig) {
+                    $cf = new UserConfig();
+                    $cf->user_id = $data->id;
+                    $cf->tenant = 'Administrator';
+                    $cf->username = $data->phone;
+                    $cf->password = $passApi;
+                    $cf->created_at = time();
+                    $cf->created_id = $user->id;
+                    $cf->save();
+                }
+            } else {
+                if ($user_administrator instanceof UserConfig) {
+                    UserConfig::query()->where('id', $user_administrator->id)->delete();
+                }
+            }
+
+ 
             $ref = $request->get('ref', '');
             if (!empty($ref)) {
                 return redirect($ref)->with('success', 'Thêm mới người dùng thành công');

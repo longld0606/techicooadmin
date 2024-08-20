@@ -123,12 +123,17 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'TÀI KHOẢN' => route($ct
                                     </div>
                                 @endif
 
+                                <?php 
+                                 $isBudvar = in_array("Budvar", $user_configs) ? 1 : 0;
+                                 $isTechicoo = in_array("Techicoo", $user_configs) ? 1 : 0;
+                                 $isAdmin = in_array("Administrator", $user_configs) ? 1 : 0;
+                                ?>
                                 <div class="col-sm-12">
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <div class="checkbox icheck">
                                                 <label> <input type="checkbox" name="isBudvar" value="1"
-                                                        {{ old('isBudvar', isset($isBudvar) ? $isBudvar : '0') == 1 ? 'checked' : '' }}
+                                                        {{ old('isBudvar', isset($isBudvar) ? $isBudvar : 0) == 1 ? 'checked' : '' }}
                                                         {{ $isDisabled ? 'disabled' : '' }}>
                                                     {{ __('Tài khoản Budvar') }}
                                                 </label>
@@ -137,7 +142,7 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'TÀI KHOẢN' => route($ct
                                         <div class="col-sm-3">
                                             <div class="checkbox icheck">
                                                 <label> <input type="checkbox" name="isTechicoo" value="1"
-                                                        {{ old('isTechicoo', isset($isTechicoo) ? $isTechicoo : '0') == 1 ? 'checked' : '' }}
+                                                        {{ old('isTechicoo', isset($isTechicoo) ? $isTechicoo : 0) == 1 ? 'checked' : '' }}
                                                         {{ $isDisabled ? 'disabled' : '' }}> {{ __('Tài khoản Techicoo') }}
                                                 </label>
                                             </div>
@@ -145,7 +150,7 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'TÀI KHOẢN' => route($ct
                                         <div class="col-sm-3">
                                             <div class="checkbox icheck">
                                                 <label> <input type="checkbox" name="isAdmin" value="1"
-                                                        {{ old('isAdmin', isset($isAdmin) ? $isAdmin : '0') == 1 ? 'checked' : '' }}
+                                                        {{ old('isAdmin', isset($isAdmin) ? $isAdmin : 0) == 1 ? 'checked' : '' }}
                                                         {{ $isDisabled ? 'disabled' : '' }}>
                                                     {{ __('Tài khoản Administrator') }}
                                                 </label>

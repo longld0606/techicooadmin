@@ -23,7 +23,7 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'BRAND' => route($ctrl.'.in
                         <input type="text" class="form-control" name="search" autocomplete="search" placeholder="Từ khóa">
                     </div> 
                 </div>
-                <div class="col-sm-12 mb-3"> 
+                <div class="col-sm-3 mb-3"> 
                     @include('admin.partials._input_select2', [
                         'title' => 'Loại',
                         'name' => 'type',
