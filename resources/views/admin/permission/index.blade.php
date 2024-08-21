@@ -29,12 +29,14 @@ $ctrl = 'admin.permission';
                         <button onclick="searchTable()" type="button" class="btn btn-primary">
                             {{ __('Tìm kiếm') }}</button>
                         &nbsp;
+                        {{-- @can('Admin\PermissionController@generator')                             --}}
                         <button class="confirm-action btn btn-success btn-flat" type="button" title="Generator"
                             href="javascript:void(0);" data-href="{{ route('admin.permission.generator') }}"
                             data-msg="{{ 'Bạn chắc chắn muốn tạo permissions ' }}" data-id={{ 0 }}>
                             <i class="fa fa-database"></i>{{ __('Generator') }}
                         </button>
                         &nbsp;
+                        {{-- @endcan --}}
                     </div>
 
 
