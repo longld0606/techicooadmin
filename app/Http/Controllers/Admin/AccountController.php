@@ -36,9 +36,9 @@ class AccountController extends AdminController
         $data = new User();
         $data->status = \App\Common\Enum_STATUS::ACTIVE;
         $roles = Role::query()->get()->toArray();
-        $user_roles = []; 
+        $user_roles = [];
         $user_configs = [];
-        return view('admin.account.item', ['isAction' => 'create', 'item' => $data,'roles' => $roles, 'user_roles' => $user_roles, 'user_configs' => $user_configs]);
+        return view('admin.account.item', ['isAction' => 'create', 'item' => $data, 'roles' => $roles, 'user_roles' => $user_roles, 'user_configs' => $user_configs]);
     }
 
 
@@ -138,7 +138,7 @@ class AccountController extends AdminController
             if (!empty($ref)) {
                 return redirect($ref)->with('success', 'Thêm mới người dùng thành công');
             }
-            return redirect('admin.account')->with('success', 'Thêm mới người dùng thành công');
+            return redirect()->route('admin.account.index')->with('success', 'Thêm mới người dùng thành công');
         }
         return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi xảy ra']);
     }
@@ -150,7 +150,7 @@ class AccountController extends AdminController
     {
         //
         $roles = Role::query()->get()->toArray();
-        $user_roles = []; // $account->roles()->pluck('role_id')->toArray();
+        $user_roles = $account->roles()->pluck('role_id')->toArray();
         $user_configs = $account->configs()->pluck('tenant')->toArray();
         return view('admin.account.item', ['isAction' => 'show', 'item' =>  $account, 'roles' => $roles, 'user_roles' => $user_roles, 'user_configs' => $user_configs]);
     }
@@ -162,7 +162,7 @@ class AccountController extends AdminController
     {
         //
         $roles = Role::query()->get()->toArray();
-        $user_roles = []; // $account->roles()->pluck('role_id')->toArray();
+        $user_roles = $account->roles()->pluck('role_id')->toArray();
         $user_configs = $account->configs()->pluck('tenant')->toArray();
         return view('admin.account.item', ['isAction' => 'edit', 'item' =>  $account, 'roles' => $roles, 'user_roles' => $user_roles, 'user_configs' => $user_configs]);
     }
@@ -217,13 +217,11 @@ class AccountController extends AdminController
         $data->updated_at = time();
         $data->updated_id = $user->id;
 
-        // $roles =  $request->get('roles');
-        // if(!empty($roles)){
-        //     $arr_roles = Role::query()->whereIn('id', $roles)->get()->pluck('name')->toArray();
-        //     $data->syncRoles($arr_roles);
-        // }
+
 
         if ($data->save()) {
+
+            // tạo, sửa tài khoản API
             $user_config = UserConfig::query()->where('user_id', $data->id)->get();
             $user_budvar = $user_config->where('tenant', 'Budvar')->first();
             $user_techicoo = $user_config->where('tenant', 'Techicoo')->first();
@@ -283,12 +281,18 @@ class AccountController extends AdminController
                 }
             }
 
- 
+            // phân quyền
+            $roles =  $request->get('roles');
+            if (!empty($roles)) {
+                $arr_roles = Role::query()->whereIn('id', $roles)->get()->pluck('name')->toArray();
+                $data->syncRoles($arr_roles);
+            }
+
             $ref = $request->get('ref', '');
             if (!empty($ref)) {
                 return redirect($ref)->with('success', 'Thêm mới người dùng thành công');
             }
-            return redirect('admin.account')->with('success', 'Thêm mới người dùng thành công');
+            return redirect()->route('admin.account.index')->with('success', 'Thêm mới người dùng thành công');
         }
 
 
@@ -362,7 +366,7 @@ class AccountController extends AdminController
             if (!empty($ref)) {
                 return redirect($ref)->with('success', 'Đặt mật khẩu cho người dùng thành công');
             }
-            return redirect('admin.account')->with('success', 'Đặt mật khẩu cho người dùng thành công');
+            return redirect()->route('admin.account.index')->with('success', 'Đặt mật khẩu cho người dùng thành công');
         }
 
         return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi xảy ra']);

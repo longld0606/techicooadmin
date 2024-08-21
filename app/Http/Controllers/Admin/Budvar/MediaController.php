@@ -51,7 +51,7 @@ class MediaController extends AdminController
             if (!empty($ref)) {
                 return redirect($ref)->with('success', 'Thêm thông tin Media thành công');
             }
-            return redirect('admin.budvar.media.index')->with('success', 'Thêm thông tin Media thành công');
+            return redirect()->route('admin.budvar.media.index')->with('success', 'Thêm thông tin Media thành công');
         }
         return redirect()->back()->withInput()->withErrors(['message' => $response->message ?? 'Có lỗi trong quá trình xử lý!']);
     }
@@ -95,7 +95,7 @@ class MediaController extends AdminController
             if (!empty($ref)) {
                 return redirect($ref)->with('success', 'Chỉnh sửa thông tin Media thành công');
             }
-            return redirect('admin.budvar.media.index')->with('success', 'Chỉnh sửa thông tin Media thành công');
+            return redirect()->route('admin.budvar.media.index')->with('success', 'Chỉnh sửa thông tin Media thành công');
         }
 
         return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi trong quá trình xử lý!']);

@@ -48,7 +48,7 @@ class CategoryController extends AdminController
             if (!empty($ref)) {
                 return redirect($ref)->with('success', 'Thêm thông tin Category thành công');
             }
-            return redirect('admin.budvar.category.index')->with('success', 'Thêm thông tin Category thành công');
+            return redirect()->route('admin.budvar.category.index')->with('success', 'Thêm thông tin Category thành công');
         }
         return redirect()->back()->withInput()->withErrors(['message' => $response->message ?? 'Có lỗi trong quá trình xử lý!']);
     }
@@ -92,7 +92,7 @@ class CategoryController extends AdminController
             if (!empty($ref)) {
                 return redirect($ref)->with('success', 'Chỉnh sửa thông tin Category thành công');
             }
-            return redirect('admin.budvar.category.index')->with('success', 'Chỉnh sửa thông tin Category thành công');
+            return redirect()->route('admin.budvar.category.index')->with('success', 'Chỉnh sửa thông tin Category thành công');
         }
 
         return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi trong quá trình xử lý!']);

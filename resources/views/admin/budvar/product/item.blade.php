@@ -107,7 +107,7 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'SẢN PHẨM' => route($ct
                     </div>
 
                     <div class="card-body">
-                        <?php $ref = request()->get('ref', '') != '' ? request()->get('ref') : route($ctrl . '.index'); ?>
+                        <?php $ref = request()->get('ref', '') != '' ? request()->get('ref') : route($ctrl . '.edit', $item['_id']); ?>
                         <input type="hidden" name="ref" value="{{ $ref }}" />
                     </div>
                     @include('admin.partials._save_button')

@@ -339,7 +339,8 @@ function initInput(ckInput_id) {
     // CKEDITOR.config.entities = false;
     // CKEDITOR.config.basicEntities = false;
     // CKEDITOR.config.height = '25em';     ;
- 
+    CKEDITOR.config.extraPlugins = 'justify';
+
     // CKEDITOR.config.extraPlugins = "file-manager";
     // CKEDITOR.config.Flmngr ={
     //     apiKey: "FLMNFLMN",

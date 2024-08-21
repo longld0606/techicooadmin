@@ -52,7 +52,7 @@ class SliderController extends AdminController
             if (!empty($ref)) {
                 return redirect($ref)->with('success', 'Thêm thông tin Slider thành công');
             }
-            return redirect('admin.budvar.slider.index')->with('success', 'Thêm thông tin Slider thành công');
+            return redirect()->route('admin.budvar.slider.index')->with('success', 'Thêm thông tin Slider thành công');
         }
         return redirect()->back()->withInput()->withErrors(['message' => $response->message ?? 'Có lỗi trong quá trình xử lý!']);
     }
@@ -97,7 +97,7 @@ class SliderController extends AdminController
             if (!empty($ref)) {
                 return redirect($ref)->with('success', 'Chỉnh sửa thông tin Slider thành công');
             }
-            return redirect('admin.budvar.slider.index')->with('success', 'Chỉnh sửa thông tin Slider thành công');
+            return redirect()->route('admin.budvar.slider.index')->with('success', 'Chỉnh sửa thông tin Slider thành công');
         }
 
         return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi trong quá trình xử lý!']);

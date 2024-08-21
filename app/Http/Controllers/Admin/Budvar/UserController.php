@@ -46,7 +46,7 @@ class UserController extends AdminController
             if (!empty($ref)) {
                 return redirect($ref)->with('success', 'Thêm thông tin User thành công');
             }
-            return redirect('admin.budvar.user.index')->with('success', 'Thêm thông tin User thành công');
+            return redirect()->route('admin.budvar.user.index')->with('success', 'Thêm thông tin User thành công');
         }
         return redirect()->back()->withInput()->withErrors(['message' => $response->message ?? 'Có lỗi trong quá trình xử lý!']);
     }
@@ -89,7 +89,7 @@ class UserController extends AdminController
             if (!empty($ref)) {
                 return redirect($ref)->with('success', 'Chỉnh sửa thông tin User thành công');
             }
-            return redirect('admin.budvar.user.index')->with('success', 'Chỉnh sửa thông tin User thành công');
+            return redirect()->route('admin.budvar.user.index')->with('success', 'Chỉnh sửa thông tin User thành công');
         }
 
         return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi trong quá trình xử lý!']);

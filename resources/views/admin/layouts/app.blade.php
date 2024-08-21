@@ -60,7 +60,8 @@
     <script src="/assets/admin/vendor/select2/select2.min.js"></script>
     <script src="/assets/admin/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
     <script src="/assets/admin/vendor/ckeditor/ckeditor.js"></script>
-    <script src="/assets/admin/vendor/ckeditor/plugins/file-manager/plugin.js"></script>
+    <script src="/assets/admin/vendor/ckeditor/plugins/justify/plugin.js"></script>
+    {{-- <script src="/assets/admin/vendor/ckeditor/plugins/file-manager/plugin.js"></script> --}}
     <script src="/assets/admin/vendor/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
     <!-- iCheck -->
     <!-- sweetalert thong bao - longld -->

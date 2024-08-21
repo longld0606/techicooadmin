@@ -128,7 +128,8 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'TÀI KHOẢN' => route($ct
                                  $isTechicoo = in_array("Techicoo", $user_configs) ? 1 : 0;
                                  $isAdmin = in_array("Administrator", $user_configs) ? 1 : 0;
                                 ?>
-                                <div class="col-sm-12">
+                                <div class="col-sm-12 mb-3">
+                                    <h5 >Tài khoản API</h5>
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <div class="checkbox icheck">
@@ -156,6 +157,35 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'TÀI KHOẢN' => route($ct
                                                 </label>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+  
+                                <div class="col-sm-12 mb-3 roles">
+                                    <h5>Phân quyền</h5>
+                                    <div class="row">
+                                        @if ($isAction == 'edit') 
+                                        @foreach ($roles as $p)
+                                        <div class="col-sm-4">
+                                            <div class="">
+                                                <label class="fw-none">
+                                                    <input type="checkbox" name="roles[]" value="{{ $p['id'] }}" {{ in_array($p['id'], old('roles[]', $user_roles?? [])) ?'checked':'' }}>{{  $p['name'] }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                        @elseif($isAction == 'view') 
+                                        @foreach ($roles as $p)
+                                        <div class="col-sm-4">
+                                            <div class="">
+                                                <label class="fw-none">
+                                                    <input type="checkbox" name="roles[]" value="{{ $p['id'] }}" {{ in_array($p['id'], old('roles[]', $user_roles?? [])) ?'checked':'' }}>{{  $p['name'] }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                        @endif
+                                        
+
                                     </div>
                                 </div>
 

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class AdminMiddleware
+class AdminRouteMiddleware
 {
     /**
      * Handle an incoming request.
@@ -26,8 +26,6 @@ class AdminMiddleware
             Auth::guard('web')->logout();
         }
         if( $request->ajax()) return \App\Common\Response::success('Tài khoản không hợp lệ vui lòng thử lại!');
-        return redirect()->route('admin.login');
-        
-        //  return redirect()->back()->withInput()->withErrors(['Tài khoản không hợp lệ vui lòng thử lại.']);
+        return redirect()->route('admin.login'); 
     }
 }

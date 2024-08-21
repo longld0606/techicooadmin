@@ -37,7 +37,12 @@ class PermissionController extends AdminController
                 // You can also use explode('@', $action['controller']); here
                 // to separate the class name from the method
                 $act =  $action['controller'];
-                if (str_starts_with($act, "App\Http\Controllers") && !str_starts_with($act, "App\Http\Controllers\Auth"))
+                if (
+                    str_starts_with($act, "App\Http\Controllers\Admin")
+                    && !str_contains($act, "PermissionController")
+                    && !str_contains($act, "Admin\DashboardController")
+                    && !str_contains($act, "LoginController")
+                )
                     $controllers[] = $action['controller'];
             }
         }
@@ -50,15 +55,15 @@ class PermissionController extends AdminController
         $data = Permission::query()->where('name', $name)->first();
         if (!$data instanceof Permission) {
             $data = new Permission();
-            $data->created_at = time(); 
+            $data->created_at = time();
         } else {
-            $data->updated_at = time(); 
+            $data->updated_at = time();
         }
         $data->name = $name;
         $data->title = $name;
         $data->guard_name = 'admin';
-        $data->controller = '';
-        $data->action = '';
+        $data->controller = $name;
+        $data->action = $name;
         if (!$data->save())
             return Response::error();
         return Response::success();
@@ -83,9 +88,9 @@ class PermissionController extends AdminController
             $data = Permission::query()->where('name', $name)->first();
             if (!$data instanceof Permission) {
                 $data = new Permission();
-                $data->created_at = time(); 
+                $data->created_at = time();
             } else {
-                $data->updated_at = time(); 
+                $data->updated_at = time();
             }
             $data->name = $name;
             $data->title = $name;

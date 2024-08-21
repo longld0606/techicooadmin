@@ -54,7 +54,7 @@ class PageController extends AdminController
             if (!empty($ref)) {
                 return redirect($ref)->with('success', 'Thêm mới mô tả dự án thành công');
             }
-            return redirect('admin.budvar.page.index')->with('success', 'Thêm mới mô tả dự án thành công');
+            return redirect()->route('admin.budvar.page.index')->with('success', 'Thêm mới mô tả dự án thành công');
         }
         return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi xảy ra']);
     }
@@ -97,7 +97,7 @@ class PageController extends AdminController
             if (!empty($ref)) {
                 return redirect($ref)->with('success', 'Chỉnh sửa thông tin Page thành công');
             }
-            return redirect('admin.budvar.page.index')->with('success', 'Chỉnh sửa thông tin Page thành công');
+            return redirect()->route('admin.budvar.page.index')->with('success', 'Chỉnh sửa thông tin Page thành công');
         }
 
         return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi '.(empty($response->message) ? '' : $response->message).'!']);

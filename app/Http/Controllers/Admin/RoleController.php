@@ -29,6 +29,7 @@ class RoleController extends AdminController
     {
         //
         $data = new Role();
+        $data->guard_name = 'admin';
         return view('admin.role.item', ['isAction' => 'create', 'item' => $data]);
     }
 
@@ -36,9 +37,7 @@ class RoleController extends AdminController
      * Store a newly created resource in storage.
      */
     public function store(FormRequest $request)
-    {
-        //Role::create(['name' =>  $request->get('name')]);
-
+    { 
         if (!empty($request->get('name'))) {
             $exists = Role::query()
                 ->where("name", $request->get('name'))
@@ -55,7 +54,7 @@ class RoleController extends AdminController
         if (!empty($ref)) {
             return redirect($ref)->with('success', 'Thêm mới thành công');
         }
-        return redirect('admin.role')->with('success', 'Thêm mới thành công');
+        return redirect()->route('admin.role.index')->with('success', 'Thêm mới thành công');
     }
 
     /**
@@ -66,7 +65,7 @@ class RoleController extends AdminController
         //  
         $allPers = Permission::query()->get()->toArray();
         $role_pers = $role->permissions()->pluck('id')->toArray(); 
-        return view('admin.role.edit', ['isAction' => 'edit', 'item' => $role, 'allPers' =>  $allPers, 'admin.role_pers' => $role_pers]);
+        return view('admin.role.edit', ['isAction' => 'edit', 'item' => $role, 'allPers' =>  $allPers, 'role_pers' => $role_pers]);
     }
 
     /**
@@ -95,7 +94,8 @@ class RoleController extends AdminController
 
         $permissions = Permission::query()->whereIn('id', $new_pers)->get();
         $data->syncPermissions($permissions);
-        return redirect('admin.role')->with('success', 'Cập nhật thành công');
+        
+        return redirect()->route('admin.role.index')->with('success', 'Cập nhật thành công');
     }
 
     /**

@@ -63,7 +63,7 @@ class ProductController extends AdminController
             if (!empty($ref)) {
                 return redirect($ref)->with('success', 'Thêm thông tin Product thành công');
             }
-            return redirect('admin.budvar.product.index')->with('success', 'Thêm thông tin Product thành công');
+            return redirect()->route('admin.budvar.product.index')->with('success', 'Thêm thông tin Product thành công');
         }
         return redirect()->back()->withInput()->withErrors(['message' => $response->message ?? 'Có lỗi trong quá trình xử lý!']);
     }
@@ -114,7 +114,7 @@ class ProductController extends AdminController
             if (!empty($ref)) {
                 return redirect($ref)->with('success', 'Chỉnh sửa thông tin Product thành công');
             }
-            return redirect('admin.budvar.product.index')->with('success', 'Chỉnh sửa thông tin Product thành công');
+            return redirect()->route('admin.budvar.product.index')->with('success', 'Chỉnh sửa thông tin Product thành công');
         }
 
         return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi trong quá trình xử lý!']);

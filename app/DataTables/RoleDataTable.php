@@ -22,7 +22,7 @@ class RoleDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'role.action')
+            ->addColumn('action', 'admin.role.action')
             ->addColumn('created_at',  '{{\App\Common\Utility::displayDatetime($created_at)}}')
             ->addColumn('updated_at',  '{{\App\Common\Utility::displayDatetime($updated_at)}}')
             ->setRowId('id');

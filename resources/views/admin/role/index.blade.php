@@ -1,5 +1,5 @@
 <?php
-$nav = ['Nhóm quyền' => route('admin.role.index')];
+$nav = ['NHÓM QUYỀN' => route('admin.role.index')];
 $ctrl = 'admin.role';
 ?>
 
@@ -8,40 +8,39 @@ $ctrl = 'admin.role';
 
 @section('content')
 
-    <section class="app-content ">
-        @include('admin.partials._alerts')
+<section class="app-content ">
+    @include('admin.partials._alerts')
 
 
-        <div class="card card-secondary  mb-4 mt-4 search-box">
-            @include('admin.partials._card_title')
-            <!-- /.box-header -->
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-12 mb-3">
-                        <div class="form-group">
-                            <label for="search">{{ __('Tìm kiếm') }}</label>
-                            <input type="text" class="form-control" name="search" autocomplete="search"
-                                placeholder="Từ khóa">
-                        </div>
+    <div class="card card-secondary  mb-4 mt-4 search-box">
+        @include('admin.partials._card_title')
+        <!-- /.box-header -->
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-12 mb-3">
+                    <div class="form-group">
+                        <label for="search">{{ __('Tìm kiếm') }}</label>
+                        <input type="text" class="form-control" name="search" autocomplete="search" placeholder="Từ khóa">
                     </div>
-                    @include('admin.partials._search_button', [])
                 </div>
-                <!-- /.box-body -->
-            </div>
-        </div>
-
-        <div class="card card-secondary card-outline mb-4 mt-4 table-box">
-
-            <!-- /.box-header -->
-            <div class="card-body">
-                {{ $dataTable->table() }}
+                @include('admin.partials._search_button', [])
             </div>
             <!-- /.box-body -->
         </div>
+    </div>
 
-    </section>
-    <!-- /.content -->
+    <div class="card card-secondary card-outline mb-4 mt-4 table-box">
+
+        <!-- /.box-header -->
+        <div class="card-body">
+            {{ $dataTable->table() }}
+        </div>
+        <!-- /.box-body -->
+    </div>
+
+</section>
+<!-- /.content -->
 @endsection
 @push('scripts')
-    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+{{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush

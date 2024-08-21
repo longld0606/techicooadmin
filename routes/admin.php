@@ -8,7 +8,7 @@ Route::get('login', [App\Http\Controllers\Admin\LoginController::class, 'loginFo
 Route::post('login', [App\Http\Controllers\Admin\LoginController::class, 'login']);
 Route::post('logout', [App\Http\Controllers\Admin\LoginController::class, 'logout'])->name('logout');
 
-Route::middleware(['admin'])->group(function () {
+Route::middleware(['admin','hasPermission'])->group(function () {
 
     Route::get('', [App\Http\Controllers\Admin\DashboardController::class, 'index']);
     Route::get('dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
