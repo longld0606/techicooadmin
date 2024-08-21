@@ -167,7 +167,7 @@ class BudvarApi
         $request = new Request('PUT', env('API_BUDVAR', '') . $url, $headers);
         $response = $client->send($request, $multipart_data)->getBody()->getContents();
         $json = json_decode($response, true);
-        BudvarApi::LogApi("PUT", $url, $data, $json);
+        BudvarApi::LogApi("PUT", $url, $data, $response);
         return BudvarApi::toResponse($json);
     }
     public static function postMultipart($url, $data)
@@ -178,7 +178,7 @@ class BudvarApi
         $request = new Request('POST', env('API_BUDVAR', '') . $url, $headers);
         $response = $client->send($request, $multipart_data)->getBody()->getContents();
         $json = json_decode($response, true);
-        BudvarApi::LogApi("PUT", $url, $data, $json);
+        BudvarApi::LogApi("PUT", $url, $data, $response);
         return BudvarApi::toResponse($json);
     }
 
