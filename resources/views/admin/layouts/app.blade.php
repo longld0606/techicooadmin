@@ -39,7 +39,7 @@
         <!--begin::Header--> 
         @include('admin.layouts.header') 
         
-        @if(auth("admin")->user()->hasRole('Budvar'))
+        @if(auth("admin")->user()->hasRole('Budvar') && !auth("admin")->user()->hasRole('Administrator'))
         @include('admin.layouts.sidebar_main_budvar')
         @else
         @include('admin.layouts.sidebar_main')
