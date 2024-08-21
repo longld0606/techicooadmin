@@ -59,7 +59,7 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'TIN TỨC' => route($ctrl 
                         'title' => 'Mô tả ngắn',
                         'name' => 'short',
                         'val' => old('short', isset($item['short']) ? $item['short'] : ''),
-                        'row'=>5
+                        'row'=>3
                         ])
                         @include('admin.partials._input_ckeditor', [
                         'title' => 'Bài viết',

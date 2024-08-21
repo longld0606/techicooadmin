@@ -95,7 +95,7 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'KHÁCH HÀNG' => route($ct
                     @include('admin.partials._input_text', [
                         'title' => 'Nội dung',
                         'name' => 'message',
-                        'row' => 5,
+                        'row' => 4,
                         'val' => old('message', isset($item['message']) ? $item['message'] : ''),
                     ])
 

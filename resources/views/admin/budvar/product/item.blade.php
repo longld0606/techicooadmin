@@ -78,7 +78,7 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'SẢN PHẨM' => route($ct
                                 'title' => 'Mô tả',
                                 'name' => 'short',
                                 'val' => old('short', isset($item['short']) ? $item['short'] : ''),
-                                'row' => 5,
+                                'row' => 3,
                                 'isRequired' => true,
                             ])
                             @include('admin.partials._input_ckeditor', [
