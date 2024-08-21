@@ -56,6 +56,7 @@ class LoginController extends AdminController
 
         if (Auth::guard('admin')->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
             $user = Auth::guard('admin')->user();
+            if($user->type !='admin') return redirect()->back()->withInput()->withErrors(['Tài khoản không hợp lệ vui lòng thử lại.']);
             // cho login FE luoon
             Auth::guard('web')->attempt(array('email' => $input['email'], 'password' => $input['password']));
             if ($user) {

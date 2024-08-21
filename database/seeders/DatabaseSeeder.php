@@ -15,47 +15,48 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-
+        //admin
         DB::table('users')->insert([
             'name' => 'David Hoang Tran',
             'email' => 'dht.docs@gmail.com',
-            'password' => bcrypt('123456'),
+            'password' => bcrypt('12345678'),
             'type' => 'admin'
         ]);
         DB::table('users')->insert([
             'name' => 'Lê Đăng Long',
             'email' => 'longld0606@gmail.com',
-            'password' => bcrypt('123456'),
+            'password' => bcrypt('123456781'),
             'type' => 'admin'
         ]);
         DB::table('users')->insert([
             'name' => 'Long LD',
             'email' => 'longld.8x@gmail.com',
-            'password' => bcrypt('123456'),
-            'type' => 'user'
+            'password' => bcrypt('123456782'),
+            'type' => 'admin'
         ]);
 
         DB::table('users')->insert([
+            'name' => 'Phước Trần',
+            'email' => 'trantrungphuoc7@gmail.com',
+            'password' => bcrypt('12345678'),
+            'type' => 'admin'
+        ]);
+        DB::table('users')->insert([
+            'name' => 'Nguyễn Việt Đoàn',
+            'email' => 'doannv.241199@gmail.com',
+            'password' => bcrypt('12345678'),
+            'type' => 'admin'
+        ]);
+        DB::table('users')->insert([
+            'name' => 'Nguyễn Đảm',
+            'email' => 'nguyendam5555@gmail.com',
+            'password' => bcrypt('12345678'),
+            'type' => 'admin'
+        ]);
+        // admin
+        DB::table('users')->insert([
             'name' => 'Long 1',
             'email' => 'longld1@gmail.com',
-            'password' => bcrypt('123456'),
-            'type' => 'admin'
-        ]); 
-        DB::table('users')->insert([
-            'name' => 'Long 2',
-            'email' => 'longld2@gmail.com',
-            'password' => bcrypt('123456'),
-            'type' => 'admin'
-        ]);
-        DB::table('users')->insert([
-            'name' => 'Long 3',
-            'email' => 'longld3@gmail.com',
-            'password' => bcrypt('123456'),
-            'type' => 'admin'
-        ]);
-        DB::table('users')->insert([
-            'name' => 'Long 4',
-            'email' => 'longld4@gmail.com',
             'password' => bcrypt('123456'),
             'type' => 'user'
         ]);

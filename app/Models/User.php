@@ -54,6 +54,7 @@ class User extends Authenticatable
         return $this->hasMany(UserConfig::class, 'user_id', 'id');
     }
 
+   
     public function shortName()
     {
         $array = explode(' ', $this->name);
