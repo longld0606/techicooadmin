@@ -116,7 +116,7 @@ class BudvarApi
             $file_contents = file_get_contents($files->getRealPath());
             $file_name = $files->getClientOriginalName();
             $response = $response->attach('file', $file_contents,  $file_name);
-        } 
+        }
         $response =  $response->put(env('API_BUDVAR', '') . $url, $data);
         BudvarApi::LogApi("PUT", $url, $data, $response);
         return BudvarApi::toResponse($response->json());
@@ -128,12 +128,7 @@ class BudvarApi
     {
         $data['multipart'] = [];
         foreach ($body as $key => $value) {
-            if (gettype($value) == 'string') {
-                array_push($data['multipart'], [
-                    'name' => $key,
-                    'contents' => $value,
-                ]);
-            } else if (gettype($value) == 'array') {
+            if (gettype($value) == 'array') {
                 foreach ($value as $k =>  $v) {
                     if (file_exists($v)) {
                         $file_contents = file_get_contents($v->getRealPath());
@@ -150,6 +145,16 @@ class BudvarApi
                         ]);
                     }
                 }
+            } else if (gettype($value) == 'string') {
+                array_push($data['multipart'], [
+                    'name' => $key,
+                    'contents' => $value,
+                ]);
+            } else {
+                array_push($data['multipart'], [
+                    'name' => $key,
+                    'contents' => $value,
+                ]);
             }
         }
         return $data;
@@ -162,6 +167,7 @@ class BudvarApi
         $request = new Request('PUT', env('API_BUDVAR', '') . $url, $headers);
         $response = $client->send($request, $multipart_data)->getBody()->getContents();
         $json = json_decode($response, true);
+        BudvarApi::LogApi("PUT", $url, $data, $json);
         return BudvarApi::toResponse($json);
     }
     public static function postMultipart($url, $data)
@@ -172,6 +178,7 @@ class BudvarApi
         $request = new Request('POST', env('API_BUDVAR', '') . $url, $headers);
         $response = $client->send($request, $multipart_data)->getBody()->getContents();
         $json = json_decode($response, true);
+        BudvarApi::LogApi("PUT", $url, $data, $json);
         return BudvarApi::toResponse($json);
     }
 
