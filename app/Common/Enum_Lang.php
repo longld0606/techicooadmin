@@ -13,15 +13,18 @@ namespace App\Common;
  */
 class Enum_LANG
 {
-    const VI = 'Vi';
-    const EN = 'En';
-    const CZ = 'Cz';
+    // EN = 'en',
+    // VN = 'vn',
+    // CZ = 'cz',
+    const VI = 'vn';
+    const EN = 'en';
+    const CZ = 'cz';
 
 
     private static $messages = array(
-        'VI' => 'Vi',
-        'EN' => 'Vi',
-        'CZ' => 'Cz'
+        'vn' => 'VN',
+        'en' => 'EN',
+        'cz' => 'CZ'
     );
 
     public static function getMessage($code)

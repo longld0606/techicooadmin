@@ -1,11 +1,18 @@
-##  php artisan migrate
+##  
+extensition php
+
+composer install
 
 
-# migrate
- php artisan migrate
+php artisan key:generate  
 
-# seed
+
+php artisan migrate
+
+
 php artisan db:seed
 
-
-40552
+ php artisan datatables:make Contact
+ 
+ 
+ php artisan migrate --path=database/migrations/2024_08_14_162157_create_user_configs_table.php

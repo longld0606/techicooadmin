@@ -26,10 +26,12 @@ class HasPermissionMiddleware
 
     public function handle(Request $request, Closure $next)
     {
-        if (!$request->user()) {
-            return $next($request);
-        }
+        if (!$request->user()) return $next($request);
+        
         $user = $request->user();
+        // administrator 
+        if($user->hasPermissionTo('Administrator', 'admin')) return $next($request);
+
         $action = Route::getCurrentRoute()->getAction();
         $_controller = "";
         if (array_key_exists('controller', $action)) {

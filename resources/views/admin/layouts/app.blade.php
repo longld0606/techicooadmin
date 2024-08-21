@@ -36,9 +36,15 @@
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
     <!--begin::App Wrapper-->
     <div class="app-wrapper">
-        <!--begin::Header-->
-        @include('admin.layouts.header')
+        <!--begin::Header--> 
+        @include('admin.layouts.header') 
+        
+        @if(auth("admin")->user()->hasPermissionTo('Budvar', 'admin'))
+        @include('admin.layouts.sidebar_main_budvar')
+        @else
         @include('admin.layouts.sidebar_main')
+        @endif
+      
         <main class="app-main">
             <!--begin::App Content Header-->
             @yield('content')
