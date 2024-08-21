@@ -20,10 +20,6 @@ class HasPermissionMiddleware
      *
      * @return mixed
      */
-
-
-
-
     public function handle(Request $request, Closure $next)
     {
         if (!$request->user()) return $next($request);
