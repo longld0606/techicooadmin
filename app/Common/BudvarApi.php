@@ -22,9 +22,12 @@ use Illuminate\Support\Facades\Log;
 class BudvarApi
 {
 
-    public static function LogApi($method, $url, $data, $response)
+    public static function LogApi($method, $url, $data, $response, $type = "none")
     {
-        Log::info('Budvar api; method: ' . $method . '; Url: ' . $url . '; data:' . json_encode($data) . '; response:' . json_encode($response->json()));
+        if($type == "json")
+            Log::info('Budvar api; method: ' . $method . '; Url: ' . $url . '; data:' . json_encode($data) . '; response:' . ($response));
+        else
+         Log::info('Budvar api; method: ' . $method . '; Url: ' . $url . '; data:' . json_encode($data) . '; response:' . json_encode($response->json()));
     }
     public static function toResponse($data)
     {
@@ -167,7 +170,7 @@ class BudvarApi
         $request = new Request('PUT', env('API_BUDVAR', '') . $url, $headers);
         $response = $client->send($request, $multipart_data)->getBody()->getContents();
         $json = json_decode($response, true);
-        BudvarApi::LogApi("PUT", $url, $data, $response);
+        BudvarApi::LogApi("PUT", $url, $data, $json, 'json');
         return BudvarApi::toResponse($json);
     }
     public static function postMultipart($url, $data)
@@ -178,7 +181,7 @@ class BudvarApi
         $request = new Request('POST', env('API_BUDVAR', '') . $url, $headers);
         $response = $client->send($request, $multipart_data)->getBody()->getContents();
         $json = json_decode($response, true);
-        BudvarApi::LogApi("PUT", $url, $data, $response);
+        BudvarApi::LogApi("PUT", $url, $data, $json, 'json');
         return BudvarApi::toResponse($json);
     }
 
