@@ -28,10 +28,10 @@ class AccountDataTable extends DataTable
             ->addColumn('created_at',  '{{\App\Common\Utility::displayDatetime($created_at)}}')
             ->addColumn('updated_at',  '{{\App\Common\Utility::displayDatetime($updated_at)}}')
             ->addColumn('status', '{{\App\Common\Enum_STATUS::getMessage($status) }}') 
-            ->addColumn('last_activity', function (User  $u) {
-                dd($u->sessions());
-                return "1" ; //$u->session()->orderBy('last_activity', 'desc')->first()->last_activity
-            })
+            // ->addColumn('last_activity', function (User  $u) {
+            //     dd($u->sessions());
+            //     return "1" ; //$u->session()->orderBy('last_activity', 'desc')->first()->last_activity
+            // })
             ->setRowId('id');
     }
 
@@ -90,7 +90,7 @@ class AccountDataTable extends DataTable
             Column::make('email')->width(200),
             Column::make('phone')->title('SĐT')->width(200),
             Column::make('status')->title('Trạng thái')->width(100),
-            Column::make('last_activity')->width(100),
+            //Column::make('last_activity')->width(100),
             Column::make('created_at')->width(100),
             Column::make('updated_at')->width(100),
         ];
