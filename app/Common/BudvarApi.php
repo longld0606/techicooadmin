@@ -25,7 +25,7 @@ class BudvarApi
     public static function LogApi($method, $url, $data, $response, $type = "none")
     {
         if($type == "json")
-            Log::info('Budvar api; method: ' . $method . '; Url: ' . $url . '; data:' . json_encode($data) . '; response:' . ($response));
+            Log::info('Budvar api; method: ' . $method . '; Url: ' . $url . '; data:' . json_encode($data) . '; response:' . join(',',$response));
         else
          Log::info('Budvar api; method: ' . $method . '; Url: ' . $url . '; data:' . json_encode($data) . '; response:' . json_encode($response->json()));
     }
