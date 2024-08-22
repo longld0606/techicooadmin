@@ -38,6 +38,9 @@ Route::middleware(['admin','hasPermission'])->group(function () {
             Route::resource('slider', App\Http\Controllers\Admin\Budvar\SliderController::class);
             Route::resource('menu', App\Http\Controllers\Admin\Budvar\MenuController::class);
             Route::resource('user', App\Http\Controllers\Admin\Budvar\UserController::class);
+            Route::resource('setting', App\Http\Controllers\Admin\Budvar\SettingController::class);
+            Route::resource('promotion', App\Http\Controllers\Admin\Budvar\PromotionController::class);
+            Route::resource('voucher', App\Http\Controllers\Admin\Budvar\VoucherController::class);
         });
 
     //Route::resource('budvar/page', App\Http\Controllers\Admin\Budvar\PageController::class);

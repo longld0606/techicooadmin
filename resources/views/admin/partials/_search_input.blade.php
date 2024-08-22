@@ -1,7 +1,9 @@
+@if(isset($searchText) && $searchText == true)
 <div class="col-sm-12 mb-3">
     <label class="form-label" for="search">{{ __('Tìm kiếm') }}</label>
     <input type="text" class="form-control" name="search" autocomplete="search" placeholder="Từ khóa">
 </div>
+@endif
 @if(isset($lang) && $lang == true)
 <div class="col-sm-3 mb-3">
     @include('admin.partials._input_select2', [

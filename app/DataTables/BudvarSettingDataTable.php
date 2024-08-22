@@ -10,7 +10,7 @@ use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class BudvarMenuDataTable extends DataTable
+class BudvarSettingDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -19,34 +19,20 @@ class BudvarMenuDataTable extends DataTable
      */
     public function dataTable()
     {
-        $name = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
-        $parent_id =  isset($this->request->get('search')['parent_id']) ?  $this->request->get('search')['parent_id'] : '';
+        $name = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : ''; 
         $lang =  isset($this->request->get('search')['lang']) ?  $this->request->get('search')['lang'] : '';
 
-        $data = BudvarApi::get('/menu/findAllCms', ['name' => $name, 'lang' => $lang, 'parent_id' => $parent_id]);
+        $data = BudvarApi::get('/menu/findAllCms', ['name' => $name, 'lang' => $lang]);
         return datatables()
             ->collection($data->data)
             ->filter(function () {})
             ->skipPaging()
 
-            ->addColumn('action', 'admin.budvar.menu.action')
+            ->addColumn('action', 'admin.budvar.setting.action')
             ->addColumn('lang', '{{empty($lang) ? "Vi" : $lang}} ')
-            ->addColumn('name', '{{empty($name) ? "none" : $name}} ')
-            ->addColumn('link', '{{empty($link) ? "" : $link}}')
-            // ->addColumn('status', '{{empty($status) ? "" : $status}}')
-            ->addColumn('location', '{{empty($location) ? "" : $location}}')
-            //->addColumn('parentID', '{{empty($parentID) ? "" : $parentID}}')
-            ->addColumn('parentID', function ($item) {
-                if(!isset($item)) return '';
-                if(!isset($item['parentID'])) return '';
-                return $item['parentID']['name']; 
-            })
+            ->addColumn('name', '{{empty($name) ? "none" : $name}} ') 
             ->setRowId('_id');
-
-        // return (new EloquentDataTable($query))
-        //     ->addColumn('timestamp',  '<a href="/vcc/{{$id}}">{{\App\Common\Utility::displayDatetime($timestamp)}}</a>')
-        //     ->rawColumns(['timestamp'])
-        //     ->setRowId('id');
+ 
     }
 
 
@@ -62,7 +48,6 @@ class BudvarMenuDataTable extends DataTable
             ->paging(false)
             ->minifiedAjax('', null, [
                 'search["value"]' => '$("[name=search]").val()',
-                'search["parent_id"]' => '$("[name=parent_id]").val()',
                 'search["lang"]' => '$("[name=lang]").val()',
             ])
             ->dom('<"row"<"col-sm-12"itr>><"row"<"col-sm-4"l><"col-sm-8"p>>')
@@ -91,12 +76,7 @@ class BudvarMenuDataTable extends DataTable
                 ->width(50)->title('#'),
             Column::make('_id')->title('Id')->width(100),
             Column::make('lang')->title('Ngôn ngữ')->width(100),
-            Column::make('name')->title('Tên')->width(300),
-            Column::make('location')->title('Vị trí')->width(100),
-            Column::make('parentID')->title('Cấp trên')->width(300),
-            // Column::make('status')->title('Trạng thái')->width(100),
-            Column::make('link')->title('Link'),
-            //Column::make('createdAt')->title('Ngày tạo')->width(150),
+            Column::make('name')->title('Tên')->width(300), 
         ];
     }
 
