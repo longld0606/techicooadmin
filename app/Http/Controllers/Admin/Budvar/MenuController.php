@@ -25,7 +25,8 @@ class MenuController extends AdminController
     public function create()
     {
         $data = ['title' => '', 'status' => 'A'];
-        return view('admin.budvar.menu.item', ['isAction' => 'create', 'item' => $data]);
+        $menus = BudvarApi::get('/menu/findAllCms', []);
+        return view('admin.budvar.menu.item', ['isAction' => 'create', 'item' => $data, 'menus' => $menus->data]);
     }
 
     /**
@@ -35,10 +36,12 @@ class MenuController extends AdminController
     {
         //  
         $json = [
-            'title' => $request->get('title'),
+            'name' => $request->get('name'),
+            'link' => $request->get('link'),
             'lang' => $request->get('lang'),
-            'type' => $request->get('type'),
-            'status' => $request->get('status'),
+            'parentID' => $request->get('parentID'),
+            'location' => $request->get('location'), 
+            'status' => $request->get('status'), 
         ];
         $response = BudvarApi::post('/menu/create', $json);
         if ($response->status == 'success') {
@@ -59,7 +62,8 @@ class MenuController extends AdminController
         $data = BudvarApi::get('/menu/findOne/' . $id);
         $item = $data->data;
         if (empty($item['type'])) $item['type'] = 'BANNER';
-        return view('admin.budvar.menu.item', ['isAction' => 'show', 'item' =>  $item]);
+        $menus = BudvarApi::get('/menu/findAllCms', []);
+        return view('admin.budvar.menu.item', ['isAction' => 'show', 'item' =>  $item, 'menus' => $menus->data]);
     }
 
     /**
@@ -70,7 +74,8 @@ class MenuController extends AdminController
         $data = BudvarApi::get('/menu/findOne/' . $id);
         $item = $data->data;
         if (empty($item['type'])) $item['type'] = 'BANNER';
-        return view('admin.budvar.menu.item', ['isAction' => 'edit', 'item' =>  $item]);
+        $menus = BudvarApi::get('/menu/findAllCms', []);
+        return view('admin.budvar.menu.item', ['isAction' => 'edit', 'item' =>  $item, 'menus' => $menus->data]);
     }
 
     /**
@@ -79,10 +84,12 @@ class MenuController extends AdminController
     public function update(FormRequest $request, string $id)
     {
         $json = [
-            'title' => $request->get('title'),
+            'name' => $request->get('name'),
+            'link' => $request->get('link'),
             'lang' => $request->get('lang'),
-            'type' => $request->get('type'),
-            'status' => $request->get('status'),
+            'parentID' => $request->get('parentID'),
+            'location' => $request->get('location'), 
+            'status' => $request->get('status'), 
         ];
         $response = BudvarApi::put('/menu/update/' . $id, $json);
         if ($response->status == 'success') {

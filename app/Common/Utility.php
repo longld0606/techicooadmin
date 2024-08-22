@@ -90,8 +90,9 @@ class Utility
         return $media['source'];
     }
 
-    public static function getViewTitle($route){
-        return $route;
+    public static function getViewTitle($route)
+    {
+        return Utility::getCtrlName($route);
     }
     public static function getCtrlName($route, $func = "")
     {
@@ -99,6 +100,16 @@ class Utility
         if ($func == 'show') return "XEM THÔNG TIN";
         if ($func == 'edit') return "CHỈNH SỬA";
         if ($func == 'clone') return "THÊM MỚI";
+        if ($route == 'dashboard') return "Dashboard";
+        if (str_contains($route, 'product')) return "SẢN PHẨM";
+        if (str_contains($route, 'category')) return "DANH MỤC";
+        if (str_contains($route, 'post')) return "TIN TỨC";
+        if (str_contains($route, 'page')) return "TRANG - SỰ KIỆN";
+        if (str_contains($route, 'contact')) return "LIÊN HỆ - ĐẶT HÀNG";
+        if (str_contains($route, 'user')) return "TÀI KHOẢN KHÁCH HÀNG";
+        if (str_contains($route, 'slider')) return "SLIDER - BANNER";
+        if (str_contains($route, 'media')) return "MEDIA";
+        if (str_contains($route, 'menu')) return "MENU";
         return strtoupper($route);
     }
 
@@ -110,7 +121,7 @@ class Utility
         $name = str_replace('.show', "|", $name);
         $name = str_replace('.index', "|", $name);
         $name = str_replace('.update', "|", $name);
-        $name = str_replace('.destroy', "|", $name); 
+        $name = str_replace('.destroy', "|", $name);
         @list($v) = explode('|', $name);
         return $v;
     }
@@ -124,13 +135,13 @@ class Utility
             if ($v == 'admin' && Route::has('admin.dashboard')) $array['HOME'] = route('admin.dashboard');
             else if ($v == 'budvar' && Route::has('admin.budvar.dashboard'))  $array['BUDVAR'] = route('admin.budvar.dashboard');
             else if ($v == 'techicoo' && Route::has('admin.techicoo.dashboard'))  $array['TECHICOO'] = route('admin.techicoo.dashboard');
-            else if (($v == 'create' || $v == 'clone' || $v == 'show' || $v == 'edit')  ){
+            else if (($v == 'create' || $v == 'clone' || $v == 'show' || $v == 'edit')) {
                 // thêm, sửa, xóa
                 $array[Utility::getCtrlName($route_path, $v)] = '#';
             } else if ($v != 'index' && Route::has($r . '.index')) {
                 $array[Utility::getCtrlName($v)] = route($r . '.index');
             }
-        } 
+        }
         // check budvar  
         return $array;
     }

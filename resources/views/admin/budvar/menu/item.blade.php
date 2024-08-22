@@ -35,9 +35,32 @@ if ($isAction == 'create') {
                     <div class="col-sm-12">
                         @include('admin.partials._input_val', [
                         'title' => 'Tên',
-                        'name' => 'title',
-                        'val' => old('title', isset($item['title']) ? $item['title'] : ''),
+                        'name' => 'name',
+                        'val' => old('name', isset($item['name']) ? $item['name'] : ''),
+                        'isRequired' => true,
                         ])
+                    </div>
+                    <div class="col-sm-6">
+                        @include('admin.partials._input_val', [
+                        'title' => 'Link',
+                        'name' => 'link',
+                        'val' => old('link', isset($item['link']) ? $item['link'] : ''),
+                        'isRequired' => true,
+                        ])
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ 'input_parentID'}}">{{ 'Cấp trên' }}</label>
+                            <select class="form-control  select2" style="width: 100%;" id="{{ 'input_parentID' }}" name="{{ 'parentID' }}">
+                                <option value=""> {{ '-- Chọn cấp trên --' }}</option>
+                                <?php $_val = old('parentID', isset($item['parentID']) ? $item['parentID'] : ''); ?>
+                                @if (count($menus) > 0)
+                                @foreach ($menus as $k => $v)
+                                <option value="{{ $v['_id'] }}" {{ ($v['_id']==$_val) ? 'selected' : '' }}>{{ $v['name'] . ' (' . $v['location'] .')' }}</option>
+                                @endforeach
+                                @endif
+                            </select>
+                        </div>
                     </div>
                     <div class="col-sm-6">
                         @include('admin.partials._input_select2', [
@@ -50,10 +73,19 @@ if ($isAction == 'create') {
                     </div>
                     <div class="col-sm-6">
                         @include('admin.partials._input_select2', [
+                        'title' => 'Vị trí',
+                        'name' => 'location',
+                        'array' => ['TOP' => 'TOP', 'BOTTOM' => 'BOTTOM'],
+                        'val' => old('location', isset($item['location']) ? $item['location'] : ''),
+                        ])
+                    </div>
+                    <div class="col-sm-6">
+                        @include('admin.partials._input_select2', [
                         'title' => 'Status',
                         'name' => 'status',
                         'array' => ['A' => 'A', 'F' => 'F'],
                         'val' => old('status', isset($item['status']) ? $item['status'] : ''),
+                        //'hiden' => true
                         ])
                     </div>
                 </div>

@@ -23,7 +23,7 @@ class BudvarMenuDataTable extends DataTable
         $parent_id =  isset($this->request->get('search')['parent_id']) ?  $this->request->get('search')['parent_id'] : '';
         $lang =  isset($this->request->get('search')['lang']) ?  $this->request->get('search')['lang'] : '';
 
-        $data = BudvarApi::get('/menu/findAll', ['name' => $name, 'lang' => $lang, 'parent_id' => $parent_id]);
+        $data = BudvarApi::get('/menu/findAllCms', ['name' => $name, 'lang' => $lang, 'parent_id' => $parent_id]);
         return datatables()
             ->collection($data->data)
             ->filter(function () {})
@@ -33,6 +33,14 @@ class BudvarMenuDataTable extends DataTable
             ->addColumn('lang', '{{empty($lang) ? "Vi" : $lang}} ')
             ->addColumn('name', '{{empty($name) ? "none" : $name}} ')
             ->addColumn('link', '{{empty($link) ? "" : $link}}')
+            // ->addColumn('status', '{{empty($status) ? "" : $status}}')
+            ->addColumn('location', '{{empty($location) ? "" : $location}}')
+            //->addColumn('parentID', '{{empty($parentID) ? "" : $parentID}}')
+            ->addColumn('parentID', function ($menu) {
+                if(!isset($menu)) return '';
+                if(!isset($menu['parentID'])) return '';
+                return $menu['parentID']['name']; 
+            })
             ->setRowId('_id');
 
         // return (new EloquentDataTable($query))
@@ -82,8 +90,11 @@ class BudvarMenuDataTable extends DataTable
                 ->searchable(false)
                 ->width(50)->title('#'),
             Column::make('_id')->title('Id')->width(100),
-            Column::make('name')->title('Tên')->width(100),
             Column::make('lang')->title('Ngôn ngữ')->width(100),
+            Column::make('name')->title('Tên')->width(300),
+            Column::make('location')->title('Vị trí')->width(100),
+            Column::make('parentID')->title('Cấp trên')->width(300),
+            // Column::make('status')->title('Trạng thái')->width(100),
             Column::make('link')->title('Link'),
             //Column::make('createdAt')->title('Ngày tạo')->width(150),
         ];
