@@ -19,22 +19,12 @@
                 <li class="nav-item"> <a href="{{ route('admin.dashboard') }}" class="nav-link"> <i class="nav-icon bi bi-speedometer"></i>
                         <p>Dashboard</p>
                     </a> </li>
-
-
                 @can('Techicoo')
                 <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-box-seam-fill"></i>
                         <p>TECHICOO CMS<i class="nav-arrow bi bi-chevron-right"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item"> <a href="./widgets/small-box.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                <p>Small Box</p>
-                            </a> </li>
-                        <li class="nav-item"> <a href="./widgets/info-box.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                <p>info Box</p>
-                            </a> </li>
-                        <li class="nav-item"> <a href="./widgets/cards.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                <p>Cards</p>
-                            </a> </li>
+                        @include('admin.layouts.sidebar.techicoo')
                     </ul>
                 </li>
                 @endcan
@@ -44,59 +34,7 @@
                         <p>BUDVAR CMS<i class="nav-arrow bi bi-chevron-right"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
-                        @can('Admin\Budvar\DashboardController@index')
-                        <li class="nav-item"> <a href="{{ route('admin.budvar.dashboard') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                <p>Dashboard</p>
-                            </a> </li>
-                        @endcan
-                        @can('Admin\Budvar\ProductController@index')
-                        <li class="nav-item"> <a href="{{ route('admin.budvar.product.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                <p>Sản phẩm</p>
-                            </a> </li>
-                        @endcan
-                        @can('Admin\Budvar\PostController@index')
-                        <li class="nav-item"> <a href="{{ route('admin.budvar.post.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                <p>Tin tức</p>
-                            </a> </li>
-                        @endcan
-                        @can('Admin\Budvar\PageController@index')
-                        <li class="nav-item"> <a href="{{ route('admin.budvar.page.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                <p>Page</p>
-                            </a> </li>
-                        @endcan
-                        @can('Admin\Budvar\ContactController@index')
-                        <li class="nav-item"> <a href="{{ route('admin.budvar.contact.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                <p>Khách hàng liên hệ</p>
-                            </a> </li>
-                        @endcan
-                        @can('Admin\Budvar\UserController@index')
-                        <li class="nav-item"> <a href="{{ route('admin.budvar.user.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                <p>Tài khoản khách hàng</p>
-                            </a> </li>
-                        @endcan
-                        @can('Admin\Budvar\CategoryController@index')
-                        {{-- <li class="nav-item"> <a href="{{ route('admin.budvar.brand.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                <p>Brand</p>
-                            </a> </li> --}}
-                        <li class="nav-item"> <a href="{{ route('admin.budvar.category.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                <p>Danh mục sản phẩm</p>
-                            </a> </li>
-                        @endcan
-                        @can('Admin\Budvar\SliderController@index')
-                        <li class="nav-item"> <a href="{{ route('admin.budvar.slider.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                <p>Slider</p>
-                            </a> </li>
-                        @endcan
-                        @can('Admin\Budvar\MediaController@index')
-                        <li class="nav-item"> <a href="{{ route('admin.budvar.media.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                <p>Media</p>
-                            </a> </li>
-                        @endcan
-                        @can('Admin\Budvar\MenuController@index')
-                        <li class="nav-item"> <a href="{{ route('admin.budvar.menu.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                <p>Menu</p>
-                            </a> </li>
-                        @endcan
+                        @include('admin.layouts.sidebar.budvar')
                     </ul>
                 </li>
                 @endcan
@@ -106,26 +44,7 @@
                         <p>ADMINISTRATOR<i class="nav-arrow bi bi-chevron-right"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
-                        @can('Admin\AccountController@index')
-                        <li class="nav-item"> <a href="{{ route('admin.account.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                <p>Tài khoản</p>
-                            </a> </li>
-                        @endcan
-                        @can('Admin\RoleController@index')
-                        <li class="nav-item"> <a href="{{ route('admin.role.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                <p>Phân quyền</p>
-                            </a> </li>
-                        @endcan
-                        @can('Admin\PermissionController@index')
-                        {{-- <li class="nav-item"> <a href="{{ route('admin.permission.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                <p>Quyền hệ thống</p>
-                            </a> </li> --}}
-                        @endcan
-                        @can('Admin\LogsController@index')
-                        <li class="nav-item"> <a href="{{ route('admin.logs.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                <p>Logs</p>
-                            </a> </li>
-                        @endcan
+                        @include('admin.layouts.sidebar.administrator')
                     </ul>
                 </li>
                 @endcan

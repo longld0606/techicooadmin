@@ -75,8 +75,8 @@ class PermissionDataTable extends DataTable
             Column::make('guard_name')->title('GuardName'),
             Column::make('controller')->title('Controller'),
             Column::make('action_name')->title('Action'),
-            Column::make('created_at')->title('CreatedAt'),
-            Column::make('updated_at')->title('UpdatedAt'),
+            Column::make('created_at')->title('Ngày tạo')->width(150),
+            Column::make('updated_at')->title('Ngày sửa')->width(150),
         ];
     }
 

@@ -1,37 +1,28 @@
 
 <?php
-$ctrl = 'admin.budvar.brand';
-$url = '';
-$title = 'Brand';
+$url = ''; 
 $btn = '';
 $isDisabled = true;
 if ($isAction == 'create') {
-    $title = 'Thêm mới Brand';
     $url = route($ctrl . '.store');
     $isDisabled = false;
     $btn = 'Lưu';
 } elseif ($isAction == 'edit') {
-    $title = 'Chỉnh sửa Brand';
     $url = route($ctrl . '.update', $item['_id']);
     $isDisabled = false;
     $btn = 'Cập nhật';
 } elseif ($isAction == 'show') {
-    $title = 'Xem thông tin Brand';
     $url = '';
     $isDisabled = true;
-}
-
-$nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'BRAND' => route($ctrl . '.index'), $title => '#'];
+} 
 ?>
-
-@section('title', $title)
+ 
 @extends('admin.layouts.app') 
 @section('content')
 
     <section class="app-content ">
 
-        <div class="card card-secondary  mb-4 mt-4 item-box">
-            @include('admin.partials._card_title', ['title' => $title])
+        <div class="card card-secondary card-outline  mb-4 mt-4 search-box">
             <div class="card-body">
 
                 @include('admin.partials._alerts')

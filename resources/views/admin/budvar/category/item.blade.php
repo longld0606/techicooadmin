@@ -1,36 +1,27 @@
-<?php
-$ctrl = 'admin.budvar.category';
-$url = '';
-$title = 'Danh mục';
+<?php 
+$url = ''; 
 $btn = '';
 $isDisabled = true;
-if ($isAction == 'create') {
-    $title = 'Thêm mới Danh mục';
+if ($isAction == 'create') { 
     $url = route($ctrl . '.store');
     $isDisabled = false;
     $btn = 'Lưu';
-} elseif ($isAction == 'edit') {
-    $title = 'Chỉnh sửa Danh mục';
+} elseif ($isAction == 'edit') { 
     $url = route($ctrl . '.update', $item['_id']);
     $isDisabled = false;
     $btn = 'Cập nhật';
-} elseif ($isAction == 'show') {
-    $title = 'Xem thông tin Danh mục';
+} elseif ($isAction == 'show') { 
     $url = '';
     $isDisabled = true;
-}
-
-$nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'DANH MỤC' => route($ctrl . '.index'), $title => '#'];
+} 
 ?>
-
-@section('title', $title)
+ 
 @extends('admin.layouts.app')
 @section('content')
 
 <section class="app-content ">
 
-    <div class="card card-secondary  mb-4 mt-4 item-box">
-        @include('admin.partials._card_title', ['title' => $title])
+    <div class="card card-secondary card-outline mb-4 mt-4 item-box"> 
         <div class="card-body">
 
             @include('admin.partials._alerts')

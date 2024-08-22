@@ -74,12 +74,12 @@ class BudvarPostDataTable extends DataTable
         return [
 
             Column::computed('action')->exportable(false)->printable(false)->width(50)->title('#'),
-            Column::make('_id')->width(100),
+            Column::make('_id')->title('Id')->width(100),
             // Column::make('type')->title('Loại')->width(100),
             Column::make('lang')->title('Ngôn ngữ')->width(100),
             Column::make('title')->title('Tiêu đề')->width(300),
-            Column::make('short')->title('Mô tả'),
-            Column::make('createdAt')->title('createdAt')->width(100),
+            // Column::make('short')->title('Mô tả'),
+            Column::make('createdAt')->title('Ngày tạo')->width(150),
             Column::make('thumb')->title('Ảnh')->width(100),
         ];
     }

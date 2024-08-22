@@ -79,8 +79,8 @@ class RoleDataTable extends DataTable
             Column::make('id'),
             Column::make('name')->title('Name'),
             Column::make('guard_name')->title('GuardName'),
-            Column::make('created_at')->title('CreatedAt'),
-            Column::make('updated_at')->title('UpdatedAt'),
+            Column::make('created_at')->title('Ngày tạo')->width(150),
+            // Column::make('updated_at')->title('UpdatedAt'),
         ];
     }
 

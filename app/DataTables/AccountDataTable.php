@@ -85,14 +85,14 @@ class AccountDataTable extends DataTable
                 ->exportable(false)
                 ->printable(false)
                 ->addClass('text-center'),
-            Column::make('id')->width(100),
+            Column::make('id')->title('Id')->width(100),
             Column::make('name')->title('Họ Tên'),
-            Column::make('email')->width(200),
+            Column::make('email')->title('Email')->width(200),
             Column::make('phone')->title('SĐT')->width(200),
             Column::make('status')->title('Trạng thái')->width(100),
             //Column::make('last_activity')->width(100),
-            Column::make('created_at')->width(100),
-            Column::make('updated_at')->width(100),
+            Column::make('created_at')->title('Ngày tạo')->width(150),
+            //Column::make('updated_at')->width(100),
         ];
     }
 

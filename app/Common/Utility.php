@@ -7,6 +7,8 @@
 
 namespace App\Common;
 
+use \Illuminate\Support\Facades\Route;
+
 /**
  * Class Utility
  * @package App\Commons
@@ -79,12 +81,57 @@ class Utility
     {
         if (empty($media)) {
             return '';
-        } 
+        }
         $type = gettype($media);
-        
-        if( $type == 'array' && empty($media['source'])) {
+
+        if ($type == 'array' && empty($media['source'])) {
             return '';
         }
         return $media['source'];
+    }
+
+    public static function getViewTitle($route){
+        return $route;
+    }
+    public static function getCtrlName($route, $func = "")
+    {
+        if ($func == 'create') return "THÊM MỚI";
+        if ($func == 'show') return "XEM THÔNG TIN";
+        if ($func == 'edit') return "CHỈNH SỬA";
+        if ($func == 'clone') return "THÊM MỚI";
+        return strtoupper($route);
+    }
+
+    public static function getRouterName($route_path)
+    {
+        $name = str_replace('.create', "|", $route_path);
+        $name = str_replace('.clone', "|", $name);
+        $name = str_replace('.edit', "|", $name);
+        $name = str_replace('.show', "|", $name);
+        $name = str_replace('.index', "|", $name);
+        $name = str_replace('.update', "|", $name);
+        $name = str_replace('.destroy', "|", $name); 
+        @list($v) = explode('|', $name);
+        return $v;
+    }
+
+    public static function getNavView($route_path)
+    {
+        $array = [];
+        $paths = explode('.', $route_path);
+        $r = Utility::getRouterName($route_path);
+        foreach ($paths as $v) {
+            if ($v == 'admin' && Route::has('admin.dashboard')) $array['HOME'] = route('admin.dashboard');
+            else if ($v == 'budvar' && Route::has('admin.budvar.dashboard'))  $array['BUDVAR'] = route('admin.budvar.dashboard');
+            else if ($v == 'techicoo' && Route::has('admin.techicoo.dashboard'))  $array['TECHICOO'] = route('admin.techicoo.dashboard');
+            else if (($v == 'create' || $v == 'clone' || $v == 'show' || $v == 'edit')  ){
+                // thêm, sửa, xóa
+                $array[Utility::getCtrlName($route_path, $v)] = '#';
+            } else if ($v != 'index' && Route::has($r . '.index')) {
+                $array[Utility::getCtrlName($v)] = route($r . '.index');
+            }
+        } 
+        // check budvar  
+        return $array;
     }
 }

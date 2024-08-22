@@ -1,48 +1,34 @@
 
 <?php
-$ctrl = 'admin.budvar.media';
 $url = '';
-$title = 'Media';
 $btn = '';
 $isDisabled = true;
 if ($isAction == 'create') {
-    $title = 'Thêm mới Media';
     $url = route($ctrl . '.store');
     $isDisabled = false;
     $btn = 'Lưu';
 } elseif ($isAction == 'edit') {
-    $title = 'Chỉnh sửa Media';
     $url = route($ctrl . '.update', $item['_id']);
     $isDisabled = false;
     $btn = 'Cập nhật';
 } elseif ($isAction == 'show') {
-    $title = 'Xem thông tin Media';
     $url = '';
     $isDisabled = true;
 }
-
-$nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'MEDIA' => route($ctrl . '.index'), $title => '#'];
 ?>
-
-
-@section('title', $title)
 @extends('admin.layouts.app') 
 @section('content')
 
     <section class="app-content ">
 
-        <div class="card card-secondary  mb-4 mt-4 item-box">
-            @include('admin.partials._card_title', ['title' => $title])
+        <div class="card card-secondary card-outline  mb-4 mt-4 item-box">
             <div class="card-body">
-
                 @include('admin.partials._alerts')
-
                 <form class="form-item" method="POST" action="{{ $url }}" enctype="multipart/form-data">
                     @if ($isAction == 'edit')
                         <input name="_method" type="hidden" value="PATCH">
                     @endif
                     @csrf
-
                     <div class="row">
                         <div class="col-sm-6">
                             @include('admin.partials._input_val', [
@@ -88,7 +74,6 @@ $nav = ['BUDVAR' => route('admin.budvar.dashboard'), 'MEDIA' => route($ctrl . '.
             </div>
         </div>
     </section>
-    <!-- /.content -->
 @endsection
 @push('scripts')
     <script type="text/javascript">

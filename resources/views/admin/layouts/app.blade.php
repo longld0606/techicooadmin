@@ -4,7 +4,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>CONOORAN | @yield('title')</title>
+    <title>CONOORAN | {{ $title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="title" content="CONOORAN | Dashboard v2">
     <meta name="author" content="CONOORAN">
@@ -37,14 +37,18 @@
     <!--begin::App Wrapper-->
     <div class="app-wrapper">
         <!--begin::Header--> 
-        @include('admin.layouts.header') 
-        
+        @if(auth("admin")->user()->hasRole('Budvar') && !auth("admin")->user()->hasRole('Administrator'))
+        @include('admin.layouts.header_budvar')
+        @else
+        @include('admin.layouts.header')
+        @endif
+
         @if(auth("admin")->user()->hasRole('Budvar') && !auth("admin")->user()->hasRole('Administrator'))
         @include('admin.layouts.sidebar_main_budvar')
         @else
         @include('admin.layouts.sidebar_main')
         @endif
-      
+
         <main class="app-main">
             <!--begin::App Content Header-->
             @yield('content')

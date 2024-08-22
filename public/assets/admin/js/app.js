@@ -432,7 +432,8 @@ $(function () {
                     });
                 }
                 else alert('Thao tác lỗi: ' + e.message);
-            }).fail(function () {
+            }).fail(function (e) {
+                console.log(e);
                 alert("error");
             })
         });

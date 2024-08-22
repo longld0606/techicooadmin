@@ -1,16 +1,16 @@
 <nav class="app-header navbar navbar-expand bg-body">
     <!--begin::Container-->
-    <div class="container-fluid">
+    <div class="container-fluid"> 
         <!--begin::Start Navbar Links-->
+  
         <ul class="navbar-nav">
             <li class="nav-item"> <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button"> <i class="bi bi-list"></i> </a> </li>
-            <li class="nav-item d-none d-md-block"> <a href="{{ route('admin.dashboard') }}" class="nav-link">HOME</a>
-            </li>
+            {{-- <li class="nav-item d-none d-md-block"> <a href="{{ route('admin.dashboard') }}" class="nav-link">HOME</a> </li>  --}}
             @if(!empty($nav))
                 @foreach ($nav as $k => $n )               
                     <li class="nav-item d-none d-md-block"> <a href="{{ $n }}" class="nav-link">{{ $k }}</a>
                 @endforeach
-            @endif
+            @endif 
                 
             {{-- <li class="nav-item d-none d-md-block"> <a href="#" class="nav-link">Contact</a> </li> --}}
 

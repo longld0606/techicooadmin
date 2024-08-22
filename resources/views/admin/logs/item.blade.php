@@ -1,20 +1,14 @@
-@extends('admin.layouts.app')
-<?php
-$title = 'Thông tin Log';
-$nav = ['LOGS' => route('admin.logs.index'), $title => '#'];
-$ctrl = 'logs';
+
+<?php 
 $isDisabled = true;
 ?>
-
-
-@section('title', 'Tài khoản')
+@extends('admin.layouts.app')
 @section('content')
 
 <section class="app-content ">
     @include('admin.partials._alerts')
 
-    <div class="card card-secondary  mb-4 mt-4 search-box">
-        @include('admin.partials._card_title', ['title' => $title])
+    <div class="card card-secondary card-outline mb-4 mt-4 search-box"> 
         <!-- /.box-header -->
         <div class="card-body">
 

@@ -33,7 +33,7 @@ class BudvarContactDataTable extends DataTable
             ->addColumn('firstname', '{{empty($firstname) ? "" : $firstname}} {{empty($lastname) ? "" : $lastname}}')
             ->addColumn('message', '{{empty($message) ? "" : $message}}')
             ->addColumn('phoneNumber', '{{empty($phoneNumber) ? "" : $phoneNumber}} ')
-            ->addColumn('updatedAt', '{{empty($updatedAt) ? "" :  \App\Common\Utility::displayDateTime($updatedAt) }}')
+            ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
             ->setRowId('_id');
 
         // return (new EloquentDataTable($query))
@@ -77,14 +77,13 @@ class BudvarContactDataTable extends DataTable
     {
         return [
             Column::computed('action')->exportable(false)->printable(false)->width(50)->title('#'),
-            Column::make('_id')->width(100),
+            Column::make('_id')->title('Id')->width(100),
 
             Column::make('type')->title('Loại')->width(100),
             Column::make('firstname')->title('Họ Tên')->width(200),
             Column::make('phoneNumber')->title('SĐT')->width(100),
-            Column::make('message')->title('Nội dung'),
-
-            Column::make('updatedAt')->title('updatedAt')->width(100),
+            Column::make('message')->title('Nội dung'), 
+            Column::make('createdAt')->title('Ngày tạo')->width(150),
         ];
     }
 

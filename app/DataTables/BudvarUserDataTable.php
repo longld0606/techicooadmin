@@ -79,12 +79,12 @@ class BudvarUserDataTable extends DataTable
                 ->printable(false)
                 ->searchable(false)
                 ->width(50)->title('#'),
-            Column::make('_id')->width(100),
+            Column::make('_id')->title('Id')->width(100),
             Column::make('fullname')->title('Tên'),
-            Column::make('email')->title('email')->width(200),
-            Column::make('phone')->title('phone')->width(200),
-            Column::make('status')->title('status')->width(200),
-            Column::make('createdAt')->title('createdAt')->width(200),
+            Column::make('email')->title('Email')->width(200),
+            Column::make('phone')->title('SĐT')->width(200),
+            Column::make('status')->title('Trạng thái')->width(200),
+            Column::make('createdAt')->title('Ngày tạo')->width(150),
         ];
     }
 

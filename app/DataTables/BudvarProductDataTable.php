@@ -30,12 +30,14 @@ class BudvarProductDataTable extends DataTable
             ->skipPaging()
 
             ->addColumn('action', 'admin.budvar.product.action')
-            ->addColumn('name', '{{empty($name) ? "" : $name}} ')
+            // ->addColumn('name', '{{empty($name) ? "" : $name}} ')
             ->addColumn('lang', '{{empty($lang) ? "Vi" : $lang}} ')
+            ->addColumn('name', '<a target="_blank" href="https://biabudvar.cz/products/{{$slug}}">{{empty($name) ? "" : $name}}</a>')
+
             ->addColumn('category', '{{empty($category) ? "" : $category["title"]}} ')
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
             ->addColumn('thumb', '<img src="{{ empty($media) ? "" : $media["source"]}}" width="150px" style="border: 1px solid #dee2e6" />')
-            ->rawColumns(['thumb', 'action'])
+            ->rawColumns(['thumb', 'action', 'name'])
             ->setRowId('_id');
     }
 
@@ -74,11 +76,11 @@ class BudvarProductDataTable extends DataTable
         return [
 
             Column::computed('action')->exportable(false)->printable(false)->width(50)->title('#'),
-            Column::make('_id')->width(100),
+            Column::make('_id')->title('Id')->width(100),
             Column::make('name')->title('Tiêu đề')->width(300),
             Column::make('lang')->title('Ngôn ngữ')->width(100),
             Column::make('category')->title('Loại')->width(300),
-            Column::make('createdAt')->title('createdAt')->width(100),
+            Column::make('createdAt')->title('Ngày tạo')->width(150),
             Column::make('thumb')->title('Ảnh')->width(100),
         ];
     }

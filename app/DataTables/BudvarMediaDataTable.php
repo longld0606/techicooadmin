@@ -36,6 +36,8 @@ class BudvarMediaDataTable extends DataTable
             ->addColumn('name', '{{empty($name) ? "" : $name}} ') 
             ->addColumn('link',  '{{empty($source) ? "" : $source}} ') 
             ->addColumn('originalname', '{{empty($originalname) ? "" : $originalname}} ') 
+            ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
+
             ->rawColumns(['source', 'action'])
             ->setRowId('_id');
     }
@@ -74,12 +76,13 @@ class BudvarMediaDataTable extends DataTable
         return [
 
             Column::computed('action')->exportable(false)->printable(false)->width(50)->title('#'),
-            Column::make('_id')->width(100),
+            Column::make('_id')->title('Id')->width(100),  
             Column::make('type')->title('Loại')->width(100),  
             //Column::make('name')->title('Tên')->width(200),
             Column::make('originalname')->title('Tên cũ')->width(200),
-            Column::make('link')->title('Link'),
-            Column::make('source')->title('Ảnh')->width(200),
+            // Column::make('link')->title('Link')->width(200),
+            Column::make('source')->title('Ảnh')->width(150),
+            Column::make('createdAt')->title('Ngày tạo')->width(150),
         ];
     }
 

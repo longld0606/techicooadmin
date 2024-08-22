@@ -1,1 +1,1 @@
- @include('admin.partials._action', ['ctrl' => 'admin.account', 'id' => $id])
+ @include('admin.partials._action', ['ctrl' => $ctrl, 'id' => $id])
