@@ -34,6 +34,18 @@
     </a> </li>
 @endcan
 
+@can('Admin\Budvar\PromotionController@index')
+<li class="nav-item"> <a href="{{ route('admin.budvar.promotion.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
+        <p>Khuyến mãi - Promotion</p>
+    </a> </li>
+@endcan
+@can('Admin\Budvar\VoucherController@index')
+<li class="nav-item"> <a href="{{ route('admin.budvar.voucher.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
+        <p>Phiếu quà tặng - Voucher</p>
+    </a> </li>
+@endcan
+
+
 @can('Admin\Budvar\SliderController@index')
 <li class="nav-item"> <a href="{{ route('admin.budvar.slider.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
         <p>Slider - Banner</p>
@@ -49,13 +61,11 @@
         <p>Menu</p>
     </a> </li>
 @endcan
-@can('Admin\Budvar\PromotionController@index')
-<li class="nav-item"> <a href="{{ route('admin.budvar.promotion.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-        <p>Promotion</p>
+
+@can('Admin\Budvar\SettingController@index')
+<li class="nav-item"> <a href="{{ route('admin.budvar.setting.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
+        <p>Cấu hình - Setting</p>
     </a> </li>
 @endcan
-@can('Admin\Budvar\VoucherController@index')
-<li class="nav-item"> <a href="{{ route('admin.budvar.voucher.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-        <p>Voucher</p>
-    </a> </li>
-@endcan
+
+

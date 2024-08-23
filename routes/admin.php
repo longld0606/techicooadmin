@@ -8,8 +8,10 @@ Route::get('login', [App\Http\Controllers\Admin\LoginController::class, 'loginFo
 Route::post('login', [App\Http\Controllers\Admin\LoginController::class, 'login']);
 Route::post('logout', [App\Http\Controllers\Admin\LoginController::class, 'logout'])->name('logout');
 
-Route::middleware(['admin','hasPermission'])->group(function () {
- 
+Route::middleware(['admin', 'hasPermission'])->group(function () {
+
+
+    Route::get('', [App\Http\Controllers\Admin\DashboardController::class, 'index']);
     Route::get('dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::get('profile', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('profile');
 
@@ -24,7 +26,8 @@ Route::middleware(['admin','hasPermission'])->group(function () {
 
     Route::prefix('budvar')
         ->name('budvar.')
-        ->group(function () { 
+        ->group(function () {
+            Route::get('', [App\Http\Controllers\Admin\DashboardController::class, 'index']);
             Route::get('dashboard', [App\Http\Controllers\Admin\Budvar\DashboardController::class, 'index'])->name('dashboard');
             Route::resource('category', App\Http\Controllers\Admin\Budvar\CategoryController::class);
             Route::resource('contact', App\Http\Controllers\Admin\Budvar\ContactController::class);
@@ -38,9 +41,11 @@ Route::middleware(['admin','hasPermission'])->group(function () {
             Route::resource('slider', App\Http\Controllers\Admin\Budvar\SliderController::class);
             Route::resource('menu', App\Http\Controllers\Admin\Budvar\MenuController::class);
             Route::resource('user', App\Http\Controllers\Admin\Budvar\UserController::class);
-            Route::resource('setting', App\Http\Controllers\Admin\Budvar\SettingController::class);
+
             Route::resource('promotion', App\Http\Controllers\Admin\Budvar\PromotionController::class);
             Route::resource('voucher', App\Http\Controllers\Admin\Budvar\VoucherController::class);
+            Route::get('setting', [App\Http\Controllers\Admin\Budvar\SettingController::class,  'index'])->name('setting.index');
+            Route::patch('setting', [App\Http\Controllers\Admin\Budvar\SettingController::class, 'update'])->name('setting.update');
         });
 
     //Route::resource('budvar/page', App\Http\Controllers\Admin\Budvar\PageController::class);

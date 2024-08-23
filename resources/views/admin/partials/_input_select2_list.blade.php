@@ -34,7 +34,7 @@ if (!isset($val_field)) {
     <select class="form-control  select2" style="width: 100%;" id="{{ 'input_' . $name }}" name="{{ $name }}"
          {{ $isMultiple ? 'multiple=multiple' : '' }}
          {{ isset($isRequired) && $isRequired ? 'required' : '' }} {{ $_readonly }} {{ $_disabled }} >
-        @if (isset($all_title))
+        @if (isset($all_title) && $all_title != '')
             <option value=""> {{ $all_title }}</option>
         @endif
         @if (count($array) > 0)
