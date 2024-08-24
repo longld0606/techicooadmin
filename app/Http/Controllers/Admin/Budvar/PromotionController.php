@@ -66,7 +66,7 @@ class PromotionController extends AdminController
         foreach ($inputs as $inp) {
             $val = $request->get($inp->name);
             if ($inp->type == 'date') {
-                $json[$inp->name] = Carbon::createFromFormat('d/m/Y',$val)->format('Y-m-d\TH:i:s.uP');
+                $json[$inp->name] = Carbon::createFromFormat('d/m/Y',$val)->format('Y-m-d');
             } else {
                 $json[$inp->name] = $request->get($inp->name);
             }

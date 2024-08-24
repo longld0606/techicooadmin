@@ -45,7 +45,7 @@ Route::middleware(['admin', 'hasPermission'])->group(function () {
             Route::resource('promotion', App\Http\Controllers\Admin\Budvar\PromotionController::class);
             Route::resource('voucher', App\Http\Controllers\Admin\Budvar\VoucherController::class);
             Route::get('setting', [App\Http\Controllers\Admin\Budvar\SettingController::class,  'index'])->name('setting.index');
-            Route::patch('setting', [App\Http\Controllers\Admin\Budvar\SettingController::class, 'update'])->name('setting.update');
+            Route::post('setting/update', [App\Http\Controllers\Admin\Budvar\SettingController::class, 'update'])->name('setting.update');
         });
 
     //Route::resource('budvar/page', App\Http\Controllers\Admin\Budvar\PageController::class);

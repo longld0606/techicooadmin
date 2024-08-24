@@ -13,13 +13,23 @@ class SettingController extends AdminController
 {
 
     public function index()
-    {
-        return view('admin.budvar.setting.item');
+    { 
+        try {
+            $data = (BudvarApi::get('/setting/findAll', []))->data['setting']; 
+        } catch (Exception $e) {
+            return abort(404);
+        }
+    
+        return view('admin.budvar.setting.item', ['data' => $data]);
     }
 
     public function update(FormRequest $request)
     {
-
-        return redirect()->back()->withInput()->withErrors(['message' => $response->message ?? 'Có lỗi trong quá trình xử lý!']);
+        $json = $request->get('setting');
+        $response = BudvarApi::put('/setting/update/', $json);
+        if ($response->status == 'success') {
+            return response()->json(\App\Common\Response::success());
+        }
+        return response()->json(\App\Common\Response::error('Có lỗi trong quá trình xử lý!'));
     }
 }

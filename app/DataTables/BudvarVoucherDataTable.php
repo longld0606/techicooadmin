@@ -30,9 +30,13 @@ class BudvarVoucherDataTable extends DataTable
             ->skipPaging()
 
             ->addColumn('action', 'admin.budvar.voucher.action')
-            ->addColumn('lang', '{{empty($lang) ? "Vi" : $lang}} ')
-            ->addColumn('type', '{{empty($type) ? "none" : $type}} ')
-            ->addColumn('title', '{{empty($title) ? "" : $title}}')
+            ->addColumn('promotion', '{{empty($promotion) ? "" : $promotion}} ')
+            ->addColumn('code', '{{empty($code) ? "" : $code}} ')
+            ->addColumn('usageLimit', '{{empty($usageLimit) ? "" : $usageLimit}} ')
+            ->addColumn('userLimit', '{{empty($userLimit) ? "" : $userLimit}}')
+            ->addColumn('minimumPurchaseAmount', '{{empty($minimumPurchaseAmount) ? "" : $minimumPurchaseAmount}}')
+            ->addColumn('usageCount', '{{empty($usageCount) ? "" : $usageCount}}')
+            ->addColumn('startDate', '{{empty($startDate) ? "" :  \App\Common\Utility::displayDateTime($startDate) }} - {{empty($endDate) ? "" :  \App\Common\Utility::displayDateTime($endDate) }}') 
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
             ->setRowId('_id');
 
@@ -83,9 +87,13 @@ class BudvarVoucherDataTable extends DataTable
                 ->searchable(false)
                 ->width(50)->title('#'),
             Column::make('_id')->title('Id')->width(100),
-            Column::make('type')->title('Loại')->width(100),
-            Column::make('lang')->title('Ngôn ngữ')->width(100),
-            Column::make('title')->title('Tiêu đề'),
+            Column::make('promotion')->title('Khuyến mãi')->width(200),
+            Column::make('code')->title('Mã')->width(200),
+            Column::make('usageLimit')->title('Tổng SL')->width(100),
+            Column::make('userLimit')->title('Giới hạn')->width(100),
+            Column::make('minimumPurchaseAmount')->title('Mua tối thiểu')->width(100),
+            Column::make('usageCount')->title('SL đã sử dụng')->width(100),
+            Column::make('startDate')->title('Thời gian')->width(250),
             Column::make('createdAt')->title('Ngày tạo')->width(150),
         ];
     }

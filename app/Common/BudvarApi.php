@@ -36,7 +36,7 @@ class BudvarApi
         $message  = '';
         if (!empty($data['message'])) {
             $t = gettype($data['message']);
-            if ($t == 'array') $message = $data['message'][0];
+            if ($t == 'array') $message = join("; ",$data['message']);
             else if ($t == 'NULL') $message = '';
             else
                 $message = strval($data['message']);

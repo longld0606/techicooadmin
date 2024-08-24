@@ -46,7 +46,33 @@ class ApiInputModel
 
     public function __construct() {}
 
-    public static function input($title, $name, $type = 'val', $col = 6,  $isRequired = false, $minlength = 3, $maxlength = 255,)
+    public static function input($title, $name, $type = 'val', $col = 6,  $isRequired = false, $minlength = 0, $maxlength = 0,)
+    {
+        $instance = new self();
+        $instance->type = $type;
+        $instance->title = $title;
+        $instance->name = $name;
+        $instance->isRequired = $isRequired;
+        $instance->minlength = $minlength;
+        $instance->maxlength = $maxlength;
+        $instance->col = $col;
+        return $instance;
+    }
+
+    public static function text($title, $name, $type = 'text', $col = 6,  $isRequired = false, $minlength = 0, $maxlength = 0,)
+    {
+        $instance = new self();
+        $instance->type = $type;
+        $instance->title = $title;
+        $instance->name = $name;
+        $instance->isRequired = $isRequired;
+        $instance->minlength = $minlength;
+        $instance->maxlength = $maxlength;
+        $instance->col = $col;
+        return $instance;
+    }
+
+    public static function ckeditor($title, $name, $type = 'text', $col = 6,  $isRequired = false, $minlength = 0, $maxlength = 0,)
     {
         $instance = new self();
         $instance->type = $type;

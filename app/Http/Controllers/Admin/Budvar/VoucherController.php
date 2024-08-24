@@ -2,13 +2,43 @@
 
 namespace App\Http\Controllers\Admin\Budvar;
 
+use App\Common\ApiInputModel;
 use App\Common\BudvarApi;
+use App\Common\Response;
 use App\DataTables\BudvarVoucherDataTable;
-use App\Http\Controllers\Admin\AdminController; 
-use Illuminate\Foundation\Http\FormRequest; 
+use App\Http\Controllers\Admin\AdminController;
+use Illuminate\Foundation\Http\FormRequest;
+use Carbon\Carbon;
 
 class VoucherController extends AdminController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    protected function instanceInputs($isData = true)
+    {
+        $promotions = [];
+        if ($isData)
+            $promotions = (BudvarApi::get('/promotion/findAll', []))->data;
+        $inputs = [];
+        $inputs[] = ApiInputModel::selectList('Khuyến mãi - Promotion', 'promotion', 6, $promotions, '', $id_field = '_id', $val_field = 'name', true, false);
+        $inputs[] = ApiInputModel::select('Trạng thái', 'status', 6, ['A' => 'A', 'F' => 'F']);
+
+        $inputs[] = ApiInputModel::input('Từ ngày', 'startDate', 'date',  6, true);
+        $inputs[] = ApiInputModel::input('Đến ngày', 'endDate', 'date', 6,  true);
+
+        $inputs[] = ApiInputModel::input('Số lượng sử dụng ', 'usageLimit', 'number', 6, true);
+        $inputs[] = ApiInputModel::input('Giới hạn sử dụng', 'userLimit', 'number', 6, true);
+
+        $inputs[] = ApiInputModel::input('Số lượng mua tối thiểu', 'minimumPurchaseAmount', 'number', 6, true);
+        // $inputs[] = ApiInputModel::input('Số lượng sử dụng', 'usageCount', 'number', 6, true);
+        // $inputs[] = ApiInputModel::input('status', 'status', 'val', 6, true);
+        $inputs[] = ApiInputModel::text('Giới thiệu', 'description', 'text', 12, true);
+        return $inputs;
+    }
 
     public function index(BudvarVoucherDataTable $dataTable)
     {
@@ -20,8 +50,8 @@ class VoucherController extends AdminController
      */
     public function create()
     {
-        $data = ['title' => '', 'status' => 'A'];
-        return view('admin.budvar.voucher.item', ['isAction' => 'create', 'item' => $data]);
+        $item = [];
+        return view('admin.budvar.voucher.item', ['isAction' => 'create', 'item' => $item, 'inputs' => $this->instanceInputs()]);
     }
 
     protected function storeImage(FormRequest $request)
@@ -35,14 +65,22 @@ class VoucherController extends AdminController
      */
     public function store(FormRequest $request)
     {
-        //  
-        $json = [
-            'title' => $request->get('title'),
-            'lang' => $request->get('lang'),
-            'type' => $request->get('type'),
-            'status' => $request->get('status'),
-        ];
+        $inputs = $this->instanceInputs(false);
+        $json = [];
+        foreach ($inputs as $inp) {
+            $val = $request->get($inp->name);
+            if ($inp->type == 'date') {
+                $json[$inp->name] = Carbon::createFromFormat('d/m/Y', $val)->format('Y-m-d');
+            // } else if ($inp->type == 'number') {
+            //     $json[$inp->name] = (int)$request->get($inp->name);
+            } 
+            else {
+                $json[$inp->name] = $request->get($inp->name);
+            }
+        }
+        $json['usageCount'] = 0;
         $response = BudvarApi::post('/voucher/create', $json);
+        //$response = Response::error();
         if ($response->status == 'success') {
             $ref = $request->get('ref', '');
             if (!empty($ref)) {
@@ -61,7 +99,7 @@ class VoucherController extends AdminController
         $data = BudvarApi::get('/voucher/findOne/' . $id);
         $item = $data->data;
         if (empty($item['type'])) $item['type'] = 'BANNER';
-        return view('admin.budvar.voucher.item', ['isAction' => 'show', 'item' =>  $item]);
+        return view('admin.budvar.voucher.item', ['isAction' => 'show', 'item' =>  $item, 'inputs' => $this->instanceInputs()]);
     }
 
     /**
@@ -72,7 +110,7 @@ class VoucherController extends AdminController
         $data = BudvarApi::get('/voucher/findOne/' . $id);
         $item = $data->data;
         if (empty($item['type'])) $item['type'] = 'BANNER';
-        return view('admin.budvar.voucher.item', ['isAction' => 'edit', 'item' =>  $item]);
+        return view('admin.budvar.voucher.item', ['isAction' => 'edit', 'item' =>  $item, 'inputs' => $this->instanceInputs()]);
     }
 
     /**
@@ -80,12 +118,11 @@ class VoucherController extends AdminController
      */
     public function update(FormRequest $request, string $id)
     {
-        $json = [
-            'title' => $request->get('title'),
-            'lang' => $request->get('lang'),
-            'type' => $request->get('type'),
-            'status' => $request->get('status'),
-        ];
+        $inputs = $this->instanceInputs(false);
+        $json = [];
+        foreach ($inputs as $inp) {
+            $json[$inp->name] = $request->get($inp->name);
+        }
         $response = BudvarApi::put('/voucher/update/' . $id, $json);
         if ($response->status == 'success') {
             $ref = $request->get('ref', '');

@@ -509,3 +509,14 @@ function onExport(type) {
         alertError('Vui lòng thử lại sau!')
     }
 }
+
+
+function onModal(title, content, size, fnSave) {
+    $('#modal').find('.modal-dialog').addClass('modal-' + size);
+    $('#modal').find('.modal-title').html(title);
+    $('#modal').find('.modal-body').html(content);
+    $btn = $('#modal').find('.modal-footer .btn-primary');
+    $btn.unbind("click");
+    if (typeof fnSave == 'function') $btn.on('click', fnSave);
+    $('#modal').modal('show');
+}

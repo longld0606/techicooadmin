@@ -25,10 +25,7 @@ class Utility
     }
 
     public static function displayDate($time, $format = 'd/m/Y')
-    {
-        if (gettype($time) == 'string') {
-            return $time;
-        }
+    { 
         return self::displayDatetime($time, $format);
     }
 
@@ -36,10 +33,7 @@ class Utility
     {
         if (empty($time)) {
             return '';
-        }
-        if (gettype($time) == 'string') {
-            return $time;
-        }
+        } 
         if (
             $time == '00:00:00 0000:00:00'
             || $time == '0000:00:00 00:00:00'

@@ -30,15 +30,12 @@ if ($isAction == 'create') {
                 @if ($isAction == 'edit')
                 <input name="_method" type="hidden" value="PATCH">
                 @endif
-                <input name="type" type="hidden" value="product">
                 @csrf
 
                 <div class="row">
                     @foreach ($inputs as $input )
                     <div class="col-sm-{{ $input->col }}">
-                        <?php $vie = 'admin.partials.'.\App\Common\ApiInputModel::getView($input->type);
-                        var_dump(old($input->name,isset($item[$input->name]) ? $item[$input->name] : ($input->multiple ? []: '')) );
-                        ?>
+                        <?php $vie = 'admin.partials.'.\App\Common\ApiInputModel::getView($input->type); ?>
                         @include($vie, [
                         'title' => $input->title,
                         'name' => $input->name. ($input->multiple ? '[]': ''),
@@ -58,6 +55,7 @@ if ($isAction == 'create') {
                         <input type="hidden" name="ref" value="{{ $ref }}" />
                     </div>
                     @include('admin.partials._save_button')
+                </div>
             </form>
         </div>
     </div>

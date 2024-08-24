@@ -30,9 +30,11 @@ class BudvarPromotionDataTable extends DataTable
             ->skipPaging()
 
             ->addColumn('action', 'admin.budvar.promotion.action')
-            ->addColumn('lang', '{{empty($lang) ? "Vi" : $lang}} ')
-            ->addColumn('type', '{{empty($type) ? "none" : $type}} ')
-            ->addColumn('title', '{{empty($title) ? "" : $title}}')
+            ->addColumn('name', '{{empty($name) ? "" : $name}} ')
+            ->addColumn('code', '{{empty($code) ? "none" : $code}} ')
+            ->addColumn('discountPercent', '{{empty($discountPercent) ? "" : $discountPercent}}')
+            ->addColumn('discountPrice', '{{empty($discountPrice) ? "" : $discountPrice}}') 
+            ->addColumn('startDate', '{{empty($startDate) ? "" :  \App\Common\Utility::displayDateTime($startDate) }} - {{empty($dueDate) ? "" :  \App\Common\Utility::displayDateTime($dueDate) }}') 
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
             ->setRowId('_id');
 
@@ -83,9 +85,11 @@ class BudvarPromotionDataTable extends DataTable
                 ->searchable(false)
                 ->width(50)->title('#'),
             Column::make('_id')->title('Id')->width(100),
-            Column::make('type')->title('Loại')->width(100),
-            Column::make('lang')->title('Ngôn ngữ')->width(100),
-            Column::make('title')->title('Tiêu đề'),
+            Column::make('name')->title('Tên')->width(100),
+            Column::make('code')->title('Mã')->width(100),
+            Column::make('discountPercent')->title('Tiêu đề'),
+            Column::make('discountPrice')->title('Tiêu đề'),
+            Column::make('startDate')->title('Thời gian'),
             Column::make('createdAt')->title('Ngày tạo')->width(150),
         ];
     }

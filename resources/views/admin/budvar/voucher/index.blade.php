@@ -1,1 +1,1 @@
-@extends('admin.partials._index')
+@extends('admin.partials._index', ['lang'=>false])
