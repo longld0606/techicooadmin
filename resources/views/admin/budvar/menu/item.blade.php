@@ -53,7 +53,7 @@ if ($isAction == 'create') {
                             <label class="form-label" for="{{ 'input_parentID'}}">{{ 'Cấp trên' }}</label>
                             <select class="form-control  select2" style="width: 100%;" id="{{ 'input_parentID' }}" name="{{ 'parentID' }}">
                                 <option value=""> {{ '-- Chọn cấp trên --' }}</option>
-                                <?php $_val = old('parentID', isset($item['parentID']) ? $item['parentID'] : ''); ?>
+                                <?php $_val = old('parentID', isset($item['parentID']) ? $item['parentID']['_id'] : ''); ?>
                                 @if (count($menus) > 0)
                                 @foreach ($menus as $k => $v)
                                 <option value="{{ $v['_id'] }}" {{ ($v['_id']==$_val) ? 'selected' : '' }}>{{ $v['name'] . ' (' . $v['location'] .')' }}</option>

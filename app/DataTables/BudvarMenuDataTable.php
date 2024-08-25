@@ -22,8 +22,11 @@ class BudvarMenuDataTable extends DataTable
         $name = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
         $parent_id =  isset($this->request->get('search')['parent_id']) ?  $this->request->get('search')['parent_id'] : '';
         $lang =  isset($this->request->get('search')['lang']) ?  $this->request->get('search')['lang'] : '';
-
-        $data = BudvarApi::get('/menu/findAllCms', ['name' => $name, 'lang' => $lang, 'parent_id' => $parent_id]);
+        $location =  isset($this->request->get('search')['location']) ?  $this->request->get('search')['location'] : '';
+        $sear_input = ['name' => $name, 'lang' => $lang, 'parent_id' => $parent_id];
+        if (!empty($location) && $location != '')
+            $sear_input['location'] = $location;
+        $data = BudvarApi::get('/menu/findAllCms', $sear_input);
         return datatables()
             ->collection($data->data)
             ->filter(function () {})
@@ -37,9 +40,9 @@ class BudvarMenuDataTable extends DataTable
             ->addColumn('location', '{{empty($location) ? "" : $location}}')
             //->addColumn('parentID', '{{empty($parentID) ? "" : $parentID}}')
             ->addColumn('parentID', function ($item) {
-                if(!isset($item)) return '';
-                if(!isset($item['parentID'])) return '';
-                return $item['parentID']['name']; 
+                if (!isset($item)) return '';
+                if (!isset($item['parentID'])) return '';
+                return $item['parentID']['name'];
             })
             ->setRowId('_id');
 
@@ -64,6 +67,7 @@ class BudvarMenuDataTable extends DataTable
                 'search["value"]' => '$("[name=search]").val()',
                 'search["parent_id"]' => '$("[name=parent_id]").val()',
                 'search["lang"]' => '$("[name=lang]").val()',
+                'search["location"]' => '$("[name=location]").val()',
             ])
             ->dom('<"row"<"col-sm-12"itr>><"row"<"col-sm-4"l><"col-sm-8"p>>')
             ->orderBy(1)
