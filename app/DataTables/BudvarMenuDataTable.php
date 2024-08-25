@@ -20,13 +20,20 @@ class BudvarMenuDataTable extends DataTable
     public function dataTable()
     {
         $name = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
-        $parent_id =  isset($this->request->get('search')['parent_id']) ?  $this->request->get('search')['parent_id'] : '';
         $lang =  isset($this->request->get('search')['lang']) ?  $this->request->get('search')['lang'] : '';
         $location =  isset($this->request->get('search')['location']) ?  $this->request->get('search')['location'] : '';
-        $sear_input = ['name' => $name, 'lang' => $lang, 'parent_id' => $parent_id];
-        if (!empty($location) && $location != '')
-            $sear_input['location'] = $location;
-        $data = BudvarApi::get('/menu/findAllCms', $sear_input);
+        $parent_id =  isset($this->request->get('search')['parent_id']) ?  $this->request->get('search')['parent_id'] : '';
+        $params = [];
+        if (!empty($name))
+            $params['name'] = $name;
+        if (!empty($lang))
+            $params['lang'] = $lang;
+        if (!empty($parent_id))
+            $params['parentID'] = $parent_id;
+        if (!empty($location))
+            $params['location'] = $location; 
+
+        $data = BudvarApi::get('/menu/findAllCms', $params);
         return datatables()
             ->collection($data->data)
             ->filter(function () {})
