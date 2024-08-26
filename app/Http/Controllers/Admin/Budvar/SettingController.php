@@ -6,6 +6,7 @@ use App\Common\BudvarApi;
 use App\DataTables\BudvarSettingDataTable;
 use App\Http\Controllers\Admin\AdminController;
 use App\Models\Budvar\Brand;
+use Exception;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
