@@ -1,0 +1,1 @@
+@extends('admin.partials._index', ['lang'=>true])
