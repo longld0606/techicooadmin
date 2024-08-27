@@ -10,7 +10,7 @@ use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class BudvarPromotionDataTable extends DataTable
+class BudvarCustomerDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -19,22 +19,23 @@ class BudvarPromotionDataTable extends DataTable
      */
     public function dataTable()
     {
-        $title = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
-        $lang = isset($this->request->get('search')['lang']) ?  $this->request->get('search')['lang'] : '';
-        $type =  isset($this->request->get('search')['lang']) ?  $this->request->get('search')['lang'] : 'product';
+        $title = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : ''; 
+        
+        $params = [];
+        if (!empty($title))
+            $params['title'] = $title; 
 
-        $data = BudvarApi::get('/promotion/findAll', ['title' => $title, 'lang' => $lang, 'type' => $type]);
+
+        $data = BudvarApi::get('/customer/findAll', $params);
         return datatables()
             ->collection($data->data)
             ->filter(function () {})
             ->skipPaging()
 
-            ->addColumn('action', 'admin.budvar.promotion.action')
-            ->addColumn('name', '{{empty($name) ? "" : $name}} ')
-            ->addColumn('code', '{{empty($code) ? "none" : $code}} ')
-            ->addColumn('discountPercent', '{{empty($discountPercent) ? "" : $discountPercent}}')
-            ->addColumn('discountPrice', '{{empty($discountPrice) ? "" : $discountPrice}}') 
-            ->addColumn('startDate', '{{empty($startDate) ? "" :  \App\Common\Utility::displayDateTime($startDate) }} - {{empty($dueDate) ? "" :  \App\Common\Utility::displayDateTime($dueDate) }}') 
+            ->addColumn('action', 'admin.budvar.customer.action')
+            ->addColumn('lang', '{{empty($lang) ? "Vi" : $lang}} ')
+            ->addColumn('year', '{{empty($year) ? "none" : $year}} ')
+            ->addColumn('topic', '{{empty($topic) ? "" : $topic}}') 
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
             ->setRowId('_id');
 
@@ -56,8 +57,7 @@ class BudvarPromotionDataTable extends DataTable
             ->columns($this->getColumns())
             ->paging(false)
             ->minifiedAjax('', null, [
-                'search["value"]' => '$("[name=search]").val()',
-                'search["type"]' => '$("[name=type]").val()',
+                'search["value"]' => '$("[name=search]").val()', 
                 'search["lang"]' => '$("[name=lang]").val()',
             ])
             ->dom('<"row"<"col-sm-12"itr>><"row"<"col-sm-4"l><"col-sm-8"p>>')
@@ -84,12 +84,10 @@ class BudvarPromotionDataTable extends DataTable
                 ->printable(false)
                 ->searchable(false)
                 ->width(50)->title('#'),
-            Column::make('_id')->title('Id')->width(100),
-            Column::make('name')->title('Tên')->width(100),
-            Column::make('code')->title('Mã')->width(100),
-            Column::make('discountPercent')->title('Tiêu đề'),
-            Column::make('discountPrice')->title('Tiêu đề'),
-            Column::make('startDate')->title('Thời gian'),
+            Column::make('_id')->title('Id')->width(100), 
+            Column::make('lang')->title('Ngôn ngữ')->width(150),
+            Column::make('year')->title('Năm')->width(150),
+            Column::make('topic')->title('Tiêu đề'),
             Column::make('createdAt')->title('Ngày tạo')->width(150),
         ];
     }
@@ -99,6 +97,6 @@ class BudvarPromotionDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'BudvarPromotion_' . date('YmdHis');
+        return 'Customer_' . date('YmdHis');
     }
 }

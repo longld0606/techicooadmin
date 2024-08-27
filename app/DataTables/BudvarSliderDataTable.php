@@ -92,6 +92,6 @@ class BudvarSliderDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'brand_' . date('YmdHis');
+        return 'BudvarSlider_' . date('YmdHis');
     }
 }

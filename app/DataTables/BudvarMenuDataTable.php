@@ -116,6 +116,6 @@ class BudvarMenuDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Contact_' . date('YmdHis');
+        return 'BudvarMenu_' . date('YmdHis');
     }
 }

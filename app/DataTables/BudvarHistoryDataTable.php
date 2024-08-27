@@ -101,6 +101,6 @@ class BudvarHistoryDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Contact_' . date('YmdHis');
+        return 'History_' . date('YmdHis');
     }
 }

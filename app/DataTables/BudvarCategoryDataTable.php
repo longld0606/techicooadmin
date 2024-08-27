@@ -95,6 +95,6 @@ class BudvarCategoryDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Contact_' . date('YmdHis');
+        return 'BudvarCategory_' . date('YmdHis');
     }
 }

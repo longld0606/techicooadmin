@@ -93,6 +93,6 @@ class BudvarUserDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Contact_' . date('YmdHis');
+        return 'BudvarUser_' . date('YmdHis');
     }
 }

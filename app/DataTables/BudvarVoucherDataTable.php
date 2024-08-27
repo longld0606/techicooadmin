@@ -103,6 +103,6 @@ class BudvarVoucherDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Contact_' . date('YmdHis');
+        return 'BudvarVoucher_' . date('YmdHis');
     }
 }
