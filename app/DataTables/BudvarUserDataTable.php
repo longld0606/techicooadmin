@@ -80,7 +80,7 @@ class BudvarUserDataTable extends DataTable
                 ->searchable(false)
                 ->width(50)->title('#'),
             Column::make('_id')->title('Id')->width(100),
-            Column::make('fullname')->title('Tên'),
+            Column::make('fullname')->title('Họ Tên'),
             Column::make('email')->title('Email')->width(200),
             Column::make('phone')->title('SĐT')->width(200),
             Column::make('status')->title('Trạng thái')->width(200),

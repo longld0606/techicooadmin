@@ -7,23 +7,31 @@ use App\Common\BudvarApi;
 use App\DataTables\BudvarCustomerDataTable;
 use App\Http\Controllers\Admin\AdminController;
 use Carbon\Carbon;
-use Illuminate\Foundation\Http\FormRequest; 
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class CustomerController extends AdminController
 {
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    // public function __construct()
+    // {
+    //     parent::__construct();
+    // }
 
     protected function instanceInputs($isData = true)
     {
         $inputs = [];
-        $inputs[] = ApiInputModel::input('Năm', 'year', 'val', 6, true);
-        $inputs[] = ApiInputModel::input('Tiêu đề', 'topic', 'val', 6, true);
-        $inputs[] = ApiInputModel::select('Ngôn ngữ', 'lang', 6, \App\Common\Enum_LANG::getArray(), '', true);
-        $inputs[] = ApiInputModel::input('Mô tả', 'description', 'text', 12, true); 
+        $inputs[] = ApiInputModel::input('Họ tên', 'fullname', 'val', 6, true);
+        $inputs[] = ApiInputModel::input('Email', 'email', 'email', 6, true);
+        $inputs[] = ApiInputModel::input('Số điện thoại', 'phoneNumber', 'val', 6, true);
+        $inputs[] = ApiInputModel::input('Ngày sinh', 'birthday', 'date', 6, false);
+        $inputs[] = ApiInputModel::select('Giới tính', 'gender', 6, ['other' => 'Không xác định', 'male' => 'Nam', 'female' => 'Nữ'], '', false);
+        $inputs[] = ApiInputModel::row();
+        $inputs[] = ApiInputModel::input('Mật khẩu', 'password', 'password', 6, true);
+        $inputs[] = ApiInputModel::input('Nhập lại khẩu', 'repassword', 'password', 6, true);
+        $inputs[] = ApiInputModel::input('Địa chỉ', 'address', 'val', 12, false);
+        // $inputs[] = ApiInputModel::select('Trạng thái', 'status', 6, ['A' => 'A', 'F' => 'F'], '', true);
         return $inputs;
     }
 
@@ -31,6 +39,7 @@ class CustomerController extends AdminController
     {
         return $dataTable->render('admin.budvar.customer.index');
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -55,14 +64,15 @@ class CustomerController extends AdminController
         $inputs = $this->instanceInputs(false);
         $json = [];
         foreach ($inputs as $inp) {
+            if ($inp->type == 'row' || $inp->type == 'line') continue;
             $val = $request->get($inp->name);
             if ($inp->type == 'date') {
-                $json[$inp->name] = Carbon::createFromFormat('d/m/Y',$val)->format('Y-m-d');
+                $json[$inp->name] = Carbon::createFromFormat('d/m/Y', $val)->format('Y-m-d');
             } else {
                 $json[$inp->name] = $request->get($inp->name);
             }
         }
-        $response = BudvarApi::post('/customer/create', $json); 
+        $response = BudvarApi::post('/customer/create', $json);
         if ($response->status == 'success') {
             $ref = $request->get('ref', '');
             if (!empty($ref)) {
@@ -103,7 +113,13 @@ class CustomerController extends AdminController
         $inputs = $this->instanceInputs(false);
         $json = [];
         foreach ($inputs as $inp) {
-            $json[$inp->name] = $request->get($inp->name);
+            if ($inp->type == 'row' || $inp->type == 'line') continue;
+            $val = $request->get($inp->name);
+            if ($inp->type == 'date') {
+                $json[$inp->name] = Carbon::createFromFormat('d/m/Y', $val)->format('Y-m-d');
+            } else {
+                $json[$inp->name] = $request->get($inp->name);
+            }
         }
         $response = BudvarApi::put('/customer/update/' . $id, $json);
         if ($response->status == 'success') {
@@ -127,5 +143,17 @@ class CustomerController extends AdminController
             return response()->json(\App\Common\Response::success());
         }
         return response()->json(\App\Common\Response::error('Có lỗi trong quá trình xử lý!'));
+    }
+
+
+    public function address(Request $request)
+    {
+        $q = $request->query('query');
+        $url = 'https://maps.googleapis.com/maps/api/place/textsearch/json?key='.env('GOOLE_MAPS_API_KEY', '').'&query='.$q ;
+        $data = [];
+        $response = Http::get( $url);
+        var_dump($response->json());
+        dd($response);
+        return response()->json(['query' =>$q , 'suggestions' => $data]);
     }
 }

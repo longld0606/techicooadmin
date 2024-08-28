@@ -13,10 +13,10 @@ use Carbon\Carbon;
 class PromotionController extends AdminController
 {
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    // public function __construct()
+    // {
+    //     parent::__construct();
+    // }
 
     protected function instanceInputs($isData = true)
     {

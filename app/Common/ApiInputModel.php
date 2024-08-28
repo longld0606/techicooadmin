@@ -46,6 +46,17 @@ class ApiInputModel
 
     public function __construct() {}
 
+    public static function row(){
+        $instance = new self();
+        $instance->type = 'row';
+        return $instance;
+    }
+
+    public static function line(){
+        $instance = new self();
+        $instance->type = 'line';
+        return $instance;
+    }
     public static function input($title, $name, $type = 'val', $col = 6,  $isRequired = false, $minlength = 0, $maxlength = 0,)
     {
         $instance = new self();
@@ -117,7 +128,7 @@ class ApiInputModel
     public static function getView($type)
     {
         $view = '_input_val';
-        switch ($type) {
+        switch ($type) { 
             case 'select':
                 $view =  '_input_select2';
                 break;
@@ -127,6 +138,9 @@ class ApiInputModel
 
             case 'date':
                 $view =  '_input_date';
+                break;
+            case 'password':
+                $view =  '_input_val';
                 break;
             case 'ckeditor':
                 $view =  '_input_ckeditor';

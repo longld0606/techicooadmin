@@ -33,9 +33,11 @@ class BudvarCustomerDataTable extends DataTable
             ->skipPaging()
 
             ->addColumn('action', 'admin.budvar.customer.action')
-            ->addColumn('lang', '{{empty($lang) ? "Vi" : $lang}} ')
-            ->addColumn('year', '{{empty($year) ? "none" : $year}} ')
-            ->addColumn('topic', '{{empty($topic) ? "" : $topic}}') 
+            ->addColumn('fullname', '{{empty($fullname) ? "" : $fullname}} ')
+            ->addColumn('email', '{{empty($email) ? "" : $email}} ')
+            ->addColumn('phone', '{{empty($phone) ? "" : $phone}} ')
+            ->addColumn('address', '{{empty($address) ? "" : $address}} ')
+            ->addColumn('status', '{{empty($status) ? "" : $status}} ')
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
             ->setRowId('_id');
 
@@ -85,9 +87,11 @@ class BudvarCustomerDataTable extends DataTable
                 ->searchable(false)
                 ->width(50)->title('#'),
             Column::make('_id')->title('Id')->width(100), 
-            Column::make('lang')->title('Ngôn ngữ')->width(150),
-            Column::make('year')->title('Năm')->width(150),
-            Column::make('topic')->title('Tiêu đề'),
+            Column::make('fullname')->title('Họ Tên'),
+            Column::make('email')->title('Email')->width(200),
+            Column::make('phone')->title('SĐT')->width(200),
+            Column::make('address')->title('Địa chỉ'),
+            Column::make('status')->title('Trạng thái')->width(150),
             Column::make('createdAt')->title('Ngày tạo')->width(150),
         ];
     }

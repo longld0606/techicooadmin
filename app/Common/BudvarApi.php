@@ -62,6 +62,7 @@ class BudvarApi
             ->post(env('API_BUDVAR', '') . $url, $data);
 
         BudvarApi::LogApi("POST", $url, $data, $response);
+        //dd($response);
         return  BudvarApi::toResponse($response->json());
     }
 
@@ -179,9 +180,9 @@ class BudvarApi
         $headers = ['Authorization' => 'Bearer ' . BudvarApi::accessToken()];
         $multipart_data = BudvarApi::toMultipart($data);
         $request = new Request('POST', env('API_BUDVAR', '') . $url, $headers);
-        $response = $client->send($request, $multipart_data)->getBody()->getContents();
+        $response = $client->send($request, $multipart_data)->getBody()->getContents(); 
         $json = json_decode($response, true);
-        BudvarApi::LogApi("PUT", $url, $data, $json, 'json');
+        BudvarApi::LogApi("POST", $url, $data, $json, 'json');
         return BudvarApi::toResponse($json);
     }
 

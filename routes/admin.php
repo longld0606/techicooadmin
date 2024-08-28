@@ -47,7 +47,10 @@ Route::middleware(['admin', 'hasPermission'])->group(function () {
 
             Route::resource('contact', App\Http\Controllers\Admin\Budvar\ContactController::class);
             Route::resource('user', App\Http\Controllers\Admin\Budvar\UserController::class);
+
+            Route::get('customer/address', [App\Http\Controllers\Admin\Budvar\CustomerController::class,  'address'])->name('customer.address');
             Route::resource('customer', App\Http\Controllers\Admin\Budvar\CustomerController::class);
+
             Route::get('setting', [App\Http\Controllers\Admin\Budvar\SettingController::class,  'index'])->name('setting.index');
             Route::post('setting/update', [App\Http\Controllers\Admin\Budvar\SettingController::class, 'update'])->name('setting.update');
         });
