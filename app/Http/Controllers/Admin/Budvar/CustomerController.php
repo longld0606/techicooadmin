@@ -18,7 +18,7 @@ class CustomerController extends AdminController
     // {
     //     parent::__construct();
     // }
-
+    
     protected function instanceInputs($isData = true)
     {
         $inputs = [];
@@ -49,13 +49,7 @@ class CustomerController extends AdminController
         $data = ['title' => '', 'status' => 'A'];
         return view('admin.budvar.customer.item', ['isAction' => 'create', 'item' => $data, 'inputs' => $this->instanceInputs()]);
     }
-
-    protected function storeImage(FormRequest $request)
-    {
-        $file_str = $request->file('thumb')->store('public/budvar/customer');
-        $path = substr($file_str, strlen('public/'));
-        return $path;
-    }
+ 
     /**
      * Store a newly created resource in storage.
      */
@@ -149,11 +143,13 @@ class CustomerController extends AdminController
     public function address(Request $request)
     {
         $q = $request->query('query');
-        $url = 'https://maps.googleapis.com/maps/api/place/textsearch/json?key='.env('GOOLE_MAPS_API_KEY', '').'&query='.$q ;
+        //$url = 'https://maps.googleapis.com/maps/api/place/textsearch/json?key='.env('GOOLE_MAPS_API_KEY', '').'&query='.$q ;        
+        //$response = Http::get( $url);
+        //var_dump($response->json());
+        //dd($response);
         $data = [];
-        $response = Http::get( $url);
-        var_dump($response->json());
-        dd($response);
-        return response()->json(['query' =>$q , 'suggestions' => $data]);
+        $data[] = ['value' => 'Hà nội', 'data' => ' hà nội việt nam', 'lat' => 123.444, 'long' => 12344];
+        $data[] = ['value' => 'thanh hóa', 'data' => ' thanh  hoa việt nam', 'lat' => 123.444, 'long' => 12344];
+        return response()->json(['query' => $q, 'suggestions' => $data]);
     }
 }

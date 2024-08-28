@@ -50,7 +50,7 @@ class Utility
             return $d->format($format);
             // return date($format, intval($time));
         }
-
+        if( str_contains($time,'/')) return date($format, strtotime(str_replace('/','.',$time)));
         return date($format, strtotime($time));
     }
 

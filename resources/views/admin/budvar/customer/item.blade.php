@@ -40,18 +40,19 @@ if ($isAction == 'create') {
                     <div class="col-sm-{{ $input->col }}">
                         <?php $vie = 'admin.partials.'.\App\Common\ApiInputModel::getView($input->type); ?>
                         @include($vie, [
-                        'type' => (isset($input->type) ? $input->type : 'text'),
-                        'title' => (isset($input->title) ? $input->title : ''),
-                        'name' => (isset($input->name) ? $input->name : ''). (isset($input->multiple) && $input->multiple ? '[]': ''),
-                        'val' => old($input->name,isset($item[$input->name]) ? $item[$input->name] : ($input->multiple ? []: '')),
-                        'isRequired' => isset($input->isRequired) ? $input->isRequired : false ,
-                        'array' => isset($input->array) ? $input->array : [],
-                        'all_title' => isset($input->all_title) ? $input->all_title : '',
-                        'id_field' => isset($input->id_field) ? $input->id_field : 'id',
-                        'val_field' => isset($input->val_field) ? $input->val_field : 'title',
-                        'multiple' => isset($input->multiple) ? $input->multiple : 'title',
-                        'isDisabled' => $isDisabled,
-                        ])
+                            'type' => (isset($input->type) ? $input->type : 'text'),
+                            'title' => (isset($input->title) ? $input->title : ''),
+                            'name' => (isset($input->name) ? $input->name : ''). (isset($input->multiple) && $input->multiple ? '[]': ''),
+                            'val' => old($input->name,isset($item[$input->name]) ? $item[$input->name] : ($input->multiple ? []: '')),
+                            'isRequired' => isset($input->isRequired) ? $input->isRequired : false ,
+                            'array' => isset($input->array) ? $input->array : [],
+                            'all_title' => isset($input->all_title) ? $input->all_title : '',
+                            'id_field' => isset($input->id_field) ? $input->id_field : 'id',
+                            'val_field' => isset($input->val_field) ? $input->val_field : 'title',
+                            'multiple' => isset($input->multiple) ? $input->multiple : 'title',
+                            'isDisabled' => $isDisabled,
+                            'hidden' => $isDisabled && $input->type =='password',
+                            ])
                     </div>
                     @endif
                     @endforeach
@@ -59,6 +60,8 @@ if ($isAction == 'create') {
                     <div class="card-body">
                         <?php $ref = request()->get('ref', '') != '' ? request()->get('ref') : route($ctrl . '.index'); ?>
                         <input type="hidden" name="ref" value="{{ $ref }}" />
+                        <input type="hidden" name="lat" value="" />
+                        <input type="hidden" name="long" value="" />
                     </div>
                     @include('admin.partials._save_button')
                 </div>
@@ -73,17 +76,51 @@ if ($isAction == 'create') {
 {{-- <script src="https://maps.googleapis.com/maps/api/js?key=" async defer></script> --}}
 <script type="text/javascript">
     $(function() {
+        var flagSelect = false;
+        var flagChange = false;
+        var flagAjax = false;
         $('#input_address')
             .autocomplete({
-                noCache: true,
                 minChars: 3,
-                autoSelectFirst: true,
                 serviceUrl: '/admin/budvar/customer/address',
                 onSelect: function (suggestion) {
-                    //  alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+                    console.log('suggestion',suggestion);
+                    $('input[name=lat]').val(suggestion.lat);
+                    $('input[name=long]').val(suggestion.long);
+                    flagSelect = true;
+                },                
+                // ajaxSettings:{
+                //     beforeSend: showLoading,
+                //     complete: hideLoading
+                // }
+                onHide: function(e){
+                    // $('#input_address').val('');
+                    // console.log('onHide',e);
+                    setTimeout(() => {
+                        checkAddress();
+                    }, 250);
+                },
+                onSearchStart: function(e){ 
+                    $('input[name=lat]').val('');
+                    $('input[name=long]').val('');
                 }
-            });       
-        
+            })
+            .on('change',function(){
+                flagChange = true; 
+            });
+
+        function checkAddress(){
+            console.log('check address',flagChange,flagSelect)
+            // có đổi val mà ko phải từ selected
+            if(flagChange == true && flagSelect == false){
+                $('#input_address').val('');
+                $('input[name=lat]').val('');
+                $('input[name=long]').val('');
+            }
+
+            flagChange = false;
+            flagSelect = false;
+        }
     });
 </script>
 @endpush
