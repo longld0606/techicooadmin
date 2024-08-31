@@ -31,6 +31,15 @@ class ProductController extends AdminController
         return view('admin.budvar.product.item', ['isAction' => 'create', 'item' => $data, 'categories' => $categories->data]);
     }
 
+    public function clone(string $id)
+    {
+        $data = BudvarApi::get('/product/findOne/' . $id);
+        $item = $data->data;
+        $item['category'] = $data->data['category']['_id'];
+        $categories = BudvarApi::get('/category/findAll', ['type' => 'product']); 
+        return view('admin.budvar.product.item', ['isAction' => 'create', 'item' => $item, 'categories' => $categories->data]);
+    }
+
     protected function storeImage(FormRequest $request)
     {
         // $path = $request->file('thumb')->store('public/budvar/product');

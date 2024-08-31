@@ -34,9 +34,8 @@ Route::middleware(['admin', 'hasPermission'])->group(function () {
             Route::get('page/clone/{id}', [App\Http\Controllers\Admin\Budvar\PageController::class, 'clone'])->name('page.clone');
             Route::resource('post', App\Http\Controllers\Admin\Budvar\PostController::class);
             Route::get('post/clone/{id}', [App\Http\Controllers\Admin\Budvar\PostController::class, 'clone'])->name('post.clone');
-
-
             Route::resource('product', App\Http\Controllers\Admin\Budvar\ProductController::class);            
+            Route::get('product/clone/{id}', [App\Http\Controllers\Admin\Budvar\ProductController::class, 'clone'])->name('product.clone');
             Route::resource('history', App\Http\Controllers\Admin\Budvar\HistoryController::class);            
             Route::resource('brand', App\Http\Controllers\Admin\Budvar\BrandController::class);
             Route::resource('media', App\Http\Controllers\Admin\Budvar\MediaController::class);
