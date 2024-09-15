@@ -50,8 +50,8 @@ if ($isAction == 'create') {
                             'id_field' => isset($input->id_field) ? $input->id_field : 'id',
                             'val_field' => isset($input->val_field) ? $input->val_field : 'title',
                             'multiple' => isset($input->multiple) ? $input->multiple : 'title',
-                            'isDisabled' => $isDisabled,
-                            'hidden' => $isDisabled && $input->type =='password',
+                            'isDisabled' => $isDisabled || ((isset($input->type) ? $input->type : 'text') == "password" &&  $isAction != 'create'),
+                            'hidden' => $isDisabled || ((isset($input->type) ? $input->type : 'text') == "password" &&  $isAction != 'create')
                             ])
                     </div>
                     @endif
@@ -76,51 +76,51 @@ if ($isAction == 'create') {
 {{-- <script src="https://maps.googleapis.com/maps/api/js?key=" async defer></script> --}}
 <script type="text/javascript">
     $(function() {
-        var flagSelect = false;
-        var flagChange = false;
-        var flagAjax = false;
-        $('#input_address')
-            .autocomplete({
-                minChars: 3,
-                serviceUrl: '/admin/budvar/customer/address',
-                onSelect: function (suggestion) {
-                    console.log('suggestion',suggestion);
-                    $('input[name=lat]').val(suggestion.lat);
-                    $('input[name=long]').val(suggestion.long);
-                    flagSelect = true;
-                },                
-                // ajaxSettings:{
-                //     beforeSend: showLoading,
-                //     complete: hideLoading
-                // }
-                onHide: function(e){
-                    // $('#input_address').val('');
-                    // console.log('onHide',e);
-                    setTimeout(() => {
-                        checkAddress();
-                    }, 250);
-                },
-                onSearchStart: function(e){ 
-                    $('input[name=lat]').val('');
-                    $('input[name=long]').val('');
-                }
-            })
-            .on('change',function(){
-                flagChange = true; 
-            });
+        // var flagSelect = false;
+        // var flagChange = false;
+        // var flagAjax = false;
+        // $('#input_address')
+        //     .autocomplete({
+        //         minChars: 3,
+        //         serviceUrl: '/admin/budvar/customer/address',
+        //         onSelect: function (suggestion) {
+        //             console.log('suggestion',suggestion);
+        //             $('input[name=lat]').val(suggestion.lat);
+        //             $('input[name=long]').val(suggestion.long);
+        //             flagSelect = true;
+        //         },                
+        //         // ajaxSettings:{
+        //         //     beforeSend: showLoading,
+        //         //     complete: hideLoading
+        //         // }
+        //         onHide: function(e){
+        //             // $('#input_address').val('');
+        //             // console.log('onHide',e);
+        //             setTimeout(() => {
+        //                 checkAddress();
+        //             }, 250);
+        //         },
+        //         onSearchStart: function(e){ 
+        //             $('input[name=lat]').val('');
+        //             $('input[name=long]').val('');
+        //         }
+        //     })
+        //     .on('change',function(){
+        //         flagChange = true; 
+        //     });
 
-        function checkAddress(){
-            console.log('check address',flagChange,flagSelect)
-            // có đổi val mà ko phải từ selected
-            if(flagChange == true && flagSelect == false){
-                $('#input_address').val('');
-                $('input[name=lat]').val('');
-                $('input[name=long]').val('');
-            }
+        // function checkAddress(){
+        //     console.log('check address',flagChange,flagSelect)
+        //     // có đổi val mà ko phải từ selected
+        //     if(flagChange == true && flagSelect == false){
+        //         $('#input_address').val('');
+        //         $('input[name=lat]').val('');
+        //         $('input[name=long]').val('');
+        //     }
 
-            flagChange = false;
-            flagSelect = false;
-        }
+        //     flagChange = false;
+        //     flagSelect = false;
+        // }
     });
 </script>
 @endpush

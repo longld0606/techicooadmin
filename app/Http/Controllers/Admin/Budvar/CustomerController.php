@@ -25,6 +25,8 @@ class CustomerController extends AdminController
         $inputs[] = ApiInputModel::input('Họ tên', 'fullname', 'val', 6, true);
         $inputs[] = ApiInputModel::input('Email', 'email', 'email', 6, true);
         $inputs[] = ApiInputModel::input('Số điện thoại', 'phoneNumber', 'val', 6, true);
+        $inputs[] = ApiInputModel::input('MST', 'taxCode', 'val', 6, true);
+        $inputs[] = ApiInputModel::input('Link Facebook', 'fb', 'val', 6, true);
         $inputs[] = ApiInputModel::input('Ngày sinh', 'birthday', 'date', 6, false);
         $inputs[] = ApiInputModel::select('Giới tính', 'gender', 6, ['other' => 'Không xác định', 'male' => 'Nam', 'female' => 'Nữ'], '', false);
         $inputs[] = ApiInputModel::row();
