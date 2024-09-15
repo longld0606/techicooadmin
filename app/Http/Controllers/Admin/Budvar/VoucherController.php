@@ -21,8 +21,9 @@ class VoucherController extends AdminController
     protected function instanceInputs($isData = true)
     {
         $promotions = [];
-        if ($isData)
-            $promotions = (BudvarApi::get('/promotion/findAll', []))->data;
+        if ($isData){
+            $promotions = BudvarApi::get('/promotion/findAll', [])->data;
+        }
         $inputs = [];
         $inputs[] = ApiInputModel::selectList('Khuyến mãi - Promotion', 'promotion', 6, $promotions, '', $id_field = '_id', $val_field = 'name', true, false);
         $inputs[] = ApiInputModel::select('Trạng thái', 'status', 6, ['A' => 'A', 'F' => 'F']);

@@ -19,11 +19,11 @@ class BudvarCustomerDataTable extends DataTable
      */
     public function dataTable()
     {
-        $title = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : ''; 
-        
+        $title = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
+
         $params = [];
         if (!empty($title))
-            $params['title'] = $title; 
+            $params['title'] = $title;
 
 
         $data = BudvarApi::get('/customer/findAll', $params);
@@ -35,10 +35,20 @@ class BudvarCustomerDataTable extends DataTable
             ->addColumn('action', 'admin.budvar.customer.action')
             ->addColumn('fullname', '{{empty($fullname) ? "" : $fullname}} ')
             ->addColumn('email', '{{empty($email) ? "" : $email}} ')
-            ->addColumn('phone', '{{empty($phone) ? "" : $phone}} ')
-            ->addColumn('address', '{{empty($address) ? "" : $address}} ')
+            ->addColumn('phoneNumber', '{{empty($phoneNumber) ? "" : $phoneNumber}} ')
+            ->addColumn('taxCode', '{{empty($taxCode) ? "" : $taxCode}} ')
+            //->addColumn('address', '{{empty($company) && empty($company->name) ? "" : $company->name}} ')
             ->addColumn('status', '{{empty($status) ? "" : $status}} ')
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
+            ->addColumn('address', function ($obj) {
+                if (empty($obj["company"])) return "";
+                $addr =  json_decode($obj["company"][0], true);
+                //var_dump($addr);
+                if (empty($addr['name'])) return "";
+                return $addr['name'];
+                //return $obj["company"];
+                //return gettype($obj["company"]);
+            })
             ->setRowId('_id');
 
         // return (new EloquentDataTable($query))
@@ -59,7 +69,7 @@ class BudvarCustomerDataTable extends DataTable
             ->columns($this->getColumns())
             ->paging(false)
             ->minifiedAjax('', null, [
-                'search["value"]' => '$("[name=search]").val()', 
+                'search["value"]' => '$("[name=search]").val()',
                 'search["lang"]' => '$("[name=lang]").val()',
             ])
             ->dom('<"row"<"col-sm-12"itr>><"row"<"col-sm-4"l><"col-sm-8"p>>')
@@ -86,10 +96,11 @@ class BudvarCustomerDataTable extends DataTable
                 ->printable(false)
                 ->searchable(false)
                 ->width(50)->title('#'),
-            Column::make('_id')->title('Id')->width(100), 
+            Column::make('_id')->title('Id')->width(100),
             Column::make('fullname')->title('Họ Tên'),
             Column::make('email')->title('Email')->width(200),
-            Column::make('phone')->title('SĐT')->width(200),
+            Column::make('phoneNumber')->title('SĐT')->width(200),
+            Column::make('taxCode')->title('MST')->width(200),
             Column::make('address')->title('Địa chỉ'),
             Column::make('status')->title('Trạng thái')->width(150),
             Column::make('createdAt')->title('Ngày tạo')->width(150),

@@ -24,13 +24,14 @@ class BudvarVoucherDataTable extends DataTable
         $type =  isset($this->request->get('search')['lang']) ?  $this->request->get('search')['lang'] : 'product';
 
         $data = BudvarApi::get('/voucher/findAll', ['title' => $title, 'lang' => $lang, 'type' => $type]);
+        //dd($data);
         return datatables()
             ->collection($data->data)
             ->filter(function () {})
             ->skipPaging()
 
             ->addColumn('action', 'admin.budvar.voucher.action')
-            ->addColumn('promotion', '{{empty($promotion) ? "" : $promotion}} ')
+            //->addColumn('promotion', '{{empty($promotion) ? "" : $promotion}} ')
             ->addColumn('code', '{{empty($code) ? "" : $code}} ')
             ->addColumn('usageLimit', '{{empty($usageLimit) ? "" : $usageLimit}} ')
             ->addColumn('userLimit', '{{empty($userLimit) ? "" : $userLimit}}')
@@ -38,6 +39,12 @@ class BudvarVoucherDataTable extends DataTable
             ->addColumn('usageCount', '{{empty($usageCount) ? "" : $usageCount}}')
             ->addColumn('startDate', '{{empty($startDate) ? "" :  \App\Common\Utility::displayDateTime($startDate) }} - {{empty($endDate) ? "" :  \App\Common\Utility::displayDateTime($endDate) }}') 
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
+            ->addColumn('promotion', function ($obj) {
+                if (empty($obj["promotion"])) return "";
+                $promotion =  $obj["promotion"];
+                if (empty($promotion['name'])) return "";
+                return $promotion['name'];
+            })
             ->setRowId('_id');
 
         // return (new EloquentDataTable($query))
@@ -86,13 +93,13 @@ class BudvarVoucherDataTable extends DataTable
                 ->printable(false)
                 ->searchable(false)
                 ->width(50)->title('#'),
-            Column::make('_id')->title('Id')->width(100),
+            //Column::make('_id')->title('Id')->width(100),
             Column::make('promotion')->title('Khuyến mãi')->width(200),
             Column::make('code')->title('Mã')->width(200),
             Column::make('usageLimit')->title('Tổng SL')->width(100),
             Column::make('userLimit')->title('Giới hạn')->width(100),
-            Column::make('minimumPurchaseAmount')->title('Mua tối thiểu')->width(100),
-            Column::make('usageCount')->title('SL đã sử dụng')->width(100),
+            //Column::make('minimumPurchaseAmount')->title('Mua tối thiểu')->width(100),
+            //Column::make('usageCount')->title('SL đã sử dụng')->width(100),
             Column::make('startDate')->title('Thời gian')->width(250),
             Column::make('createdAt')->title('Ngày tạo')->width(150),
         ];

@@ -154,7 +154,7 @@ class BudvarApi
                     'name' => $key,
                     'contents' => $value,
                 ]);
-            } else {
+            } else if (isset($value)) {
                 array_push($data['multipart'], [
                     'name' => $key,
                     'contents' => $value,
@@ -170,7 +170,8 @@ class BudvarApi
         $multipart_data = BudvarApi::toMultipart($data);
         $request = new Request('PUT', env('API_BUDVAR', '') . $url, $headers);
         $response = $client->send($request, $multipart_data)->getBody()->getContents();
-        $json = json_decode($response, true);
+        dd($response);
+        $json = json_decode($response, true);        
         BudvarApi::LogApi("PUT", $url, $data, $json, 'json');
         return BudvarApi::toResponse($json);
     }

@@ -84,6 +84,7 @@ class CustomerController extends AdminController
     {
         $data = BudvarApi::get('/customer/findOne/' . $id);
         $item = $data->data;
+        //dd($item);
         if (empty($item['type'])) $item['type'] = 'BANNER';
         return view('admin.budvar.customer.item', ['isAction' => 'show', 'item' =>  $item, 'inputs' => $this->instanceInputs()]);
     }

@@ -1,0 +1,65 @@
+/**  =====================
+      button css start
+==========================  **/
+.btn-page {
+    .btn {
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+
+    .btn-group,
+    .btn-group-vertical {
+        .btn {
+            margin-right: 0;
+            margin-bottom: 0;
+        }
+    }
+}
+
+.btn.btn-icon {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+@each $color, $value in $theme-colors {
+    .btn-light-#{$color} {
+        background: shift-color($value, $soft-bg-level);
+        color: $value;
+        border-color: shift-color($value, $soft-bg-level);
+
+        &:hover {
+            background: $value;
+            color: #fff;
+            border-color: $value;
+        }
+
+        &.focus,
+        &:focus {
+            background: $value;
+            color: #fff;
+            border-color: $value;
+        }
+
+        &:not(:disabled):not(.disabled).active,
+        &:not(:disabled):not(.disabled):active,
+        .show > &.dropdown-toggle {
+            background: $value;
+            color: #fff;
+            border-color: $value;
+        }
+    }
+
+    .btn-check:active,
+    .btn-check:checked {
+        + .btn-light-#{$color} {
+            background: $value;
+            color: #fff;
+            border-color: $value;
+        }
+    }
+}
