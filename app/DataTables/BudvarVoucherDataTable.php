@@ -37,7 +37,7 @@ class BudvarVoucherDataTable extends DataTable
             ->addColumn('userLimit', '{{empty($userLimit) ? "" : $userLimit}}')
             ->addColumn('minimumPurchaseAmount', '{{empty($minimumPurchaseAmount) ? "" : $minimumPurchaseAmount}}')
             ->addColumn('usageCount', '{{empty($usageCount) ? "" : $usageCount}}')
-            ->addColumn('startDate', '{{empty($startDate) ? "" :  \App\Common\Utility::displayDateTime($startDate) }} - {{empty($endDate) ? "" :  \App\Common\Utility::displayDateTime($endDate) }}') 
+            ->addColumn('startDate', '{{empty($startDate) ? "" :  \App\Common\Utility::displayDateTime($startDate) }} - {{empty($endDate) ? "" :  \App\Common\Utility::displayDateTime($endDate) }}')
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
             ->addColumn('promotion', function ($obj) {
                 if (empty($obj["promotion"])) return "";
@@ -45,6 +45,19 @@ class BudvarVoucherDataTable extends DataTable
                 if (empty($promotion['name'])) return "";
                 return $promotion['name'];
             })
+            ->addColumn('customer', function ($v) {
+                $obj = $v['owner'];
+                if(!isset($obj)) return "";
+                if (isset($obj["authenticated"]) && $obj["authenticated"] == true) $auth= "<span class='btn btn-sm text-bg-success'>Đã xác thực</span>";
+                else $auth= "<span class='btn btn-sm text-bg-secondary'>Chưa xác thực</span>";
+
+                return "<span>".$obj["fullname"]."</span><br/>".
+                "<span>".$obj["phoneNumber"]."</span><br/>".
+                "<span>".$obj["email"]."</span><br/>".
+                "<span>".$obj["taxCode"]."</span><br/>".
+                "<span>".$auth."</span>";
+            })
+            ->rawColumns(['customer_authenticated','customer', 'action'])
             ->setRowId('_id');
 
         // return (new EloquentDataTable($query))
@@ -94,7 +107,8 @@ class BudvarVoucherDataTable extends DataTable
                 ->searchable(false)
                 ->width(50)->title('#'),
             //Column::make('_id')->title('Id')->width(100),
-            Column::make('promotion')->title('Khuyến mãi')->width(200),
+            //Column::make('promotion')->title('Khuyến mãi')->width(200),
+            Column::make('customer')->title('Khách hàng')->width(200),
             Column::make('code')->title('Mã')->width(200),
             Column::make('usageLimit')->title('Tổng SL')->width(100),
             Column::make('userLimit')->title('Giới hạn')->width(100),

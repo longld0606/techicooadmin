@@ -38,7 +38,7 @@ class BudvarCustomerDataTable extends DataTable
             ->addColumn('phoneNumber', '{{empty($phoneNumber) ? "" : $phoneNumber}} ')
             ->addColumn('taxCode', '{{empty($taxCode) ? "" : $taxCode}} ')
             //->addColumn('address', '{{empty($company) && empty($company->name) ? "" : $company->name}} ')
-            ->addColumn('authenticated', '{{empty($authenticated) || $authenticated != true ? "Chưa xác thực" : "Đã xác thực"}} ')
+            //->addColumn('authenticated', '{{empty($authenticated) || $authenticated != true ? "Chưa xác thực" : "Đã xác thực"}} ')
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
             ->addColumn('address', function ($obj) {
                 if (empty($obj["company"])) return "";
@@ -49,7 +49,13 @@ class BudvarCustomerDataTable extends DataTable
                 //return $obj["company"];
                 //return gettype($obj["company"]);
             })
-            ->setRowId('_id');
+            ->addColumn('authenticated', function ($obj) {
+                if (isset($obj["authenticated"]) && $obj["authenticated"] == true) return "<span class='btn btn-sm text-bg-success'>Đã xác thực</span>";
+                return "<span class='btn btn-sm text-bg-secondary'>Chưa xác thực</span>";
+            })
+            ->rawColumns(['authenticated', 'action'])
+            ->setRowId('_id'); //<span class="badge badge-primary">Primary</span>
+
 
         // return (new EloquentDataTable($query))
         //     ->addColumn('timestamp',  '<a href="/vcc/{{$id}}">{{\App\Common\Utility::displayDatetime($timestamp)}}</a>')
@@ -96,7 +102,7 @@ class BudvarCustomerDataTable extends DataTable
                 ->printable(false)
                 ->searchable(false)
                 ->width(50)->title('#'),
-            Column::make('_id')->title('Id')->width(100),
+            //Column::make('_id')->title('Id')->width(100),
             Column::make('fullname')->title('Họ Tên'),
             Column::make('email')->title('Email')->width(200),
             Column::make('phoneNumber')->title('SĐT')->width(200),
