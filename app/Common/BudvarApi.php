@@ -24,26 +24,29 @@ class BudvarApi
 
     public static function LogApi($method, $url, $data, $response, $type = "none")
     {
-        if($type == "json")
+        if ($type == "json")
             Log::info('Budvar api; method: ' . $method . '; Url: ' . $url . '; data:' . json_encode($data) . '; response:' . json_encode($response));
         else
-         Log::info('Budvar api; method: ' . $method . '; Url: ' . $url . '; data:' . json_encode($data) . '; response:' . json_encode($response->json()));
+            Log::info('Budvar api; method: ' . $method . '; Url: ' . $url . '; data:' . json_encode($data) . '; response:' . json_encode($response->json()));
     }
     public static function toResponse($data)
     {
         if (empty($data)) return \App\Common\Response::error();
         $code = !empty($data['statusCode']) ? $data['statusCode'] : 404;
         $message  = '';
-        if (!empty($data['message'])) {
-            $t = gettype($data['message']);
-            if ($t == 'array') $message = join("; ",$data['message']);
-            else if ($t == 'NULL') $message = '';
+        $arrrData = [];
+        //dd($data);
+        if ($data['statusCode'] < 200 || $data['statusCode'] >= 300) {
+            $_type = gettype($data['data']['message']);
+            if ($_type == 'array') $message = join("; ", $data['data']['message']);
+            else if ($_type == 'NULL') $message = '';
             else
-                $message = strval($data['message']);
+                $message = strval($data['data']['message']);
+        } else {
+            $arrrData = !empty($data['data']) ? $data['data'] : [];
         }
-        $arrr = !empty($data['data']) ? $data['data'] : [];
 
-        return  new \App\Common\Response($code, $message, $arrr);
+        return  new \App\Common\Response($code, $message, $arrrData);
     }
 
     public static function get($url, $data = null)
@@ -62,7 +65,8 @@ class BudvarApi
             ->post(env('API_BUDVAR', '') . $url, $data);
 
         BudvarApi::LogApi("POST", $url, $data, $response);
-        //dd($response);
+        //var_dump($data);
+        //dd($response->json());
         return  BudvarApi::toResponse($response->json());
     }
 
@@ -71,6 +75,8 @@ class BudvarApi
         $response =  Http::withToken(BudvarApi::accessToken())
             ->put(env('API_BUDVAR', '') . $url, $data);
         BudvarApi::LogApi("PUT", $url, $data, $response);
+        //var_dump($data);
+        //dd($response->json());
         return BudvarApi::toResponse($response->json());
     }
 
@@ -171,7 +177,7 @@ class BudvarApi
         $request = new Request('PUT', env('API_BUDVAR', '') . $url, $headers);
         $response = $client->send($request, $multipart_data)->getBody()->getContents();
         dd($response);
-        $json = json_decode($response, true);        
+        $json = json_decode($response, true);
         BudvarApi::LogApi("PUT", $url, $data, $json, 'json');
         return BudvarApi::toResponse($json);
     }
@@ -181,7 +187,7 @@ class BudvarApi
         $headers = ['Authorization' => 'Bearer ' . BudvarApi::accessToken()];
         $multipart_data = BudvarApi::toMultipart($data);
         $request = new Request('POST', env('API_BUDVAR', '') . $url, $headers);
-        $response = $client->send($request, $multipart_data)->getBody()->getContents(); 
+        $response = $client->send($request, $multipart_data)->getBody()->getContents();
         $json = json_decode($response, true);
         BudvarApi::LogApi("POST", $url, $data, $json, 'json');
         return BudvarApi::toResponse($json);

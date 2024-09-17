@@ -38,7 +38,7 @@ class BudvarCustomerDataTable extends DataTable
             ->addColumn('phoneNumber', '{{empty($phoneNumber) ? "" : $phoneNumber}} ')
             ->addColumn('taxCode', '{{empty($taxCode) ? "" : $taxCode}} ')
             //->addColumn('address', '{{empty($company) && empty($company->name) ? "" : $company->name}} ')
-            ->addColumn('status', '{{empty($status) ? "" : $status}} ')
+            ->addColumn('authenticated', '{{empty($authenticated) || $authenticated != true ? "Chưa xác thực" : "Đã xác thực"}} ')
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
             ->addColumn('address', function ($obj) {
                 if (empty($obj["company"])) return "";
@@ -102,7 +102,7 @@ class BudvarCustomerDataTable extends DataTable
             Column::make('phoneNumber')->title('SĐT')->width(200),
             Column::make('taxCode')->title('MST')->width(200),
             Column::make('address')->title('Địa chỉ'),
-            Column::make('status')->title('Trạng thái')->width(150),
+            Column::make('authenticated')->title('Trạng thái')->width(150),
             Column::make('createdAt')->title('Ngày tạo')->width(150),
         ];
     }

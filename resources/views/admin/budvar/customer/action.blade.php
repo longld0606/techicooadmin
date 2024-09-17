@@ -11,14 +11,24 @@
         <li><a class="dropdown-item" href="{{ route($ctrl . '.edit', $_id) }}"> <i class="fa fa-fw fa-edit"></i>
                 Chỉnh
                 sửa</a></li>
-        <li><a class="dropdown-item" href="{{ route($ctrl . '.edit', $_id) }}"> <i class="fa fa-fw fa-edit"></i>
-                Xác nhận tài khoản</a></li>
+        @if(!isset($authenticated) || $authenticated != true)
+        <li><a class="dropdown-item confirm-action" href="javascript:void(0);" data-href="{{ route($ctrl . '.authenticated', $_id) }}" data-msg="{{ 'Bạn chắc chắn muốn xác thực tài khoản này?' }}" data-id={{ $_id }}>
+            <i class="fa fa-fw fa-check"></i>
+                Xác thực</a></li>
+        @endif
         <li class="dropdown-divider"> </li>
+        @if(!isset($authenticated) || $authenticated != true)
         <li>
-            <a class="dropdown-item delete-item" title="Xóa" href="javascript:void(0);"
-                data-href="{{ route($ctrl . '.destroy', $_id) }}" data-id={{ $_id }}>
+            <a class="dropdown-item delete-item" title="Xóa" href="javascript:void(0);" data-href="{{ route($ctrl . '.destroy', $_id) }}" data-id={{ $_id }}>
+                <i class="fa fa-fw fa-trash-o"></i> Từ chối xác nhận
+            </a>
+        </li>
+        @else
+        <li>
+            <a class="dropdown-item delete-item" title="Xóa" href="javascript:void(0);" data-href="{{ route($ctrl . '.destroy', $_id) }}" data-id={{ $_id }}>
                 <i class="fa fa-fw fa-trash-o"></i> Xóa
             </a>
         </li>
+        @endif
     </ul>
 </div>

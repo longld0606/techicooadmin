@@ -18,20 +18,20 @@ class CustomerController extends AdminController
     // {
     //     parent::__construct();
     // }
-    
+
     protected function instanceInputs($isData = true)
     {
         $inputs = [];
         $inputs[] = ApiInputModel::input('Họ tên', 'fullname', 'val', 6, true);
         $inputs[] = ApiInputModel::input('Email', 'email', 'email', 6, true);
-        $inputs[] = ApiInputModel::input('Số điện thoại', 'phoneNumber', 'val', 6, true);
+        $inputs[] = ApiInputModel::input('Số điện thoại', 'phoneNumber', 'val', 6, true, 10, 10);
         $inputs[] = ApiInputModel::input('MST', 'taxCode', 'val', 6, true);
-        $inputs[] = ApiInputModel::input('Link Facebook', 'fb', 'val', 6, true);
+        $inputs[] = ApiInputModel::input('Link Facebook', 'facebook', 'val', 6, false);
         $inputs[] = ApiInputModel::input('Ngày sinh', 'birthday', 'date', 6, false);
         $inputs[] = ApiInputModel::select('Giới tính', 'gender', 6, ['other' => 'Không xác định', 'male' => 'Nam', 'female' => 'Nữ'], '', false);
         $inputs[] = ApiInputModel::row();
-        $inputs[] = ApiInputModel::input('Mật khẩu', 'password', 'password', 6, true);
-        $inputs[] = ApiInputModel::input('Nhập lại khẩu', 'repassword', 'password', 6, true);
+        //$inputs[] = ApiInputModel::input('Mật khẩu', 'password', 'password', 6, true);
+        //$inputs[] = ApiInputModel::input('Nhập lại khẩu', 'repassword', 'password', 6, true);
         $inputs[] = ApiInputModel::input('Địa chỉ', 'address', 'val', 12, false);
         // $inputs[] = ApiInputModel::select('Trạng thái', 'status', 6, ['A' => 'A', 'F' => 'F'], '', true);
         return $inputs;
@@ -48,10 +48,10 @@ class CustomerController extends AdminController
      */
     public function create()
     {
-        $data = ['title' => '', 'status' => 'A'];
+        $data = [];
         return view('admin.budvar.customer.item', ['isAction' => 'create', 'item' => $data, 'inputs' => $this->instanceInputs()]);
     }
- 
+
     /**
      * Store a newly created resource in storage.
      */
@@ -59,16 +59,21 @@ class CustomerController extends AdminController
     {
         $inputs = $this->instanceInputs(false);
         $json = [];
-        foreach ($inputs as $inp) {
-            if ($inp->type == 'row' || $inp->type == 'line') continue;
-            $val = $request->get($inp->name);
-            if ($inp->type == 'date') {
-                $json[$inp->name] = Carbon::createFromFormat('d/m/Y', $val)->format('Y-m-d');
+        foreach ($inputs as $input) {
+            if ($input->type == 'row' || $input->type == 'line') continue;
+
+            $val = $request->get($input->name);
+            if ($input->type == 'date') {
+                if (empty($val)) $json[$input->name] = null;
+                else $json[$input->name] = Carbon::createFromFormat('d/m/Y', $val)->format('Y-m-d');
             } else {
-                $json[$inp->name] = $request->get($inp->name);
+                $json[$input->name] = $request->get($input->name);
             }
         }
-        $response = BudvarApi::post('/customer/create', $json);
+        $json['company'] = [];
+        $json['company'][0] = json_encode(['longitude' => 0, 'latitude' => 0, 'name' =>  $json['address']]);
+
+        $response = BudvarApi::post('/customer/upsert', $json);
         if ($response->status == 'success') {
             $ref = $request->get('ref', '');
             if (!empty($ref)) {
@@ -86,7 +91,12 @@ class CustomerController extends AdminController
     {
         $data = BudvarApi::get('/customer/findOne/' . $id);
         $item = $data->data;
-        //dd($item);
+
+        $item['address'] = "";
+        if (isset($item['company'][0])) {
+            $adds = json_decode($item['company'][0]);
+            $item['address'] = $adds->name;
+        }
         if (empty($item['type'])) $item['type'] = 'BANNER';
         return view('admin.budvar.customer.item', ['isAction' => 'show', 'item' =>  $item, 'inputs' => $this->instanceInputs()]);
     }
@@ -98,6 +108,12 @@ class CustomerController extends AdminController
     {
         $data = BudvarApi::get('/customer/findOne/' . $id);
         $item = $data->data;
+
+        $item['address'] = "";
+        if (isset($item['company'][0])) {
+            $adds = json_decode($item['company'][0]);
+            $item['address'] = $adds->name;
+        }
         if (empty($item['type'])) $item['type'] = 'BANNER';
         return view('admin.budvar.customer.item', ['isAction' => 'edit', 'item' =>  $item, 'inputs' => $this->instanceInputs()]);
     }
@@ -118,6 +134,9 @@ class CustomerController extends AdminController
                 $json[$inp->name] = $request->get($inp->name);
             }
         }
+        $json['company'] = [];
+        $json['company'][0] = json_encode(['longitude' => 0, 'latitude' => 0, 'name' =>  $json['address']]);
+
         $response = BudvarApi::put('/customer/update/' . $id, $json);
         if ($response->status == 'success') {
             $ref = $request->get('ref', '');
@@ -142,11 +161,20 @@ class CustomerController extends AdminController
         return response()->json(\App\Common\Response::error('Có lỗi trong quá trình xử lý!'));
     }
 
+    public function authenticated(string $id)
+    {
+        $response = BudvarApi::put('/customer/authenticated/' . $id, []);
+        if ($response->status == 'success') {
+            return response()->json(\App\Common\Response::success());
+        }
+        return response()->json(\App\Common\Response::error('Có lỗi trong quá trình xử lý!'));
+    }
+
 
     public function address(Request $request)
     {
         $q = $request->query('query');
-        //$url = 'https://maps.googleapis.com/maps/api/place/textsearch/json?key='.env('GOOLE_MAPS_API_KEY', '').'&query='.$q ;        
+        //$url = 'https://maps.googleapis.com/maps/api/place/textsearch/json?key='.env('GOOLE_MAPS_API_KEY', '').'&query='.$q ;
         //$response = Http::get( $url);
         //var_dump($response->json());
         //dd($response);
