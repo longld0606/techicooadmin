@@ -13,7 +13,7 @@
                 sửa</a></li>
         @if(!isset($authenticated) || $authenticated != true)
         <li><a class="dropdown-item confirm-action" href="javascript:void(0);" data-href="{{ route($ctrl . '.authenticated', $_id) }}" data-msg="{{ 'Bạn chắc chắn muốn xác thực tài khoản này?' }}" data-id={{ $_id }}>
-            <i class="fa fa-fw fa-check"></i>
+                <i class="fa fa-fw fa-check"></i>
                 Xác thực</a></li>
         @endif
         <li class="dropdown-divider"> </li>

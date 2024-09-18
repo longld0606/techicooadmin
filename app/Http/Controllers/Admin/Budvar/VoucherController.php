@@ -21,7 +21,7 @@ class VoucherController extends AdminController
     protected function instanceInputs($isData = true)
     {
         $promotions = [];
-        if ($isData){
+        if ($isData) {
             $promotions = BudvarApi::get('/promotion/findAll', [])->data;
         }
         $inputs = [];
@@ -72,10 +72,9 @@ class VoucherController extends AdminController
             $val = $request->get($inp->name);
             if ($inp->type == 'date') {
                 $json[$inp->name] = Carbon::createFromFormat('d/m/Y', $val)->format('Y-m-d');
-            // } else if ($inp->type == 'number') {
-            //     $json[$inp->name] = (int)$request->get($inp->name);
-            } 
-            else {
+                // } else if ($inp->type == 'number') {
+                //     $json[$inp->name] = (int)$request->get($inp->name);
+            } else {
                 $json[$inp->name] = $request->get($inp->name);
             }
         }
@@ -145,6 +144,12 @@ class VoucherController extends AdminController
         if ($response->status == 'success') {
             return response()->json(\App\Common\Response::success());
         }
+        return response()->json(\App\Common\Response::error('Có lỗi trong quá trình xử lý!'));
+    }
+
+    public function confirm(string $id)
+    {
+
         return response()->json(\App\Common\Response::error('Có lỗi trong quá trình xử lý!'));
     }
 }

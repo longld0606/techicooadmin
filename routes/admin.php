@@ -42,6 +42,8 @@ Route::middleware(['admin', 'hasPermission'])->group(function () {
             Route::resource('slider', App\Http\Controllers\Admin\Budvar\SliderController::class);
             Route::resource('menu', App\Http\Controllers\Admin\Budvar\MenuController::class);
             Route::resource('promotion', App\Http\Controllers\Admin\Budvar\PromotionController::class);
+
+            Route::put('voucher/confirm/{id}', [App\Http\Controllers\Admin\Budvar\VoucherController::class,  'confirm'])->name('customer.confirm');
             Route::resource('voucher', App\Http\Controllers\Admin\Budvar\VoucherController::class);
 
             Route::resource('contact', App\Http\Controllers\Admin\Budvar\ContactController::class);
