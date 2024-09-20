@@ -39,7 +39,7 @@ class BudvarVoucherDataTable extends DataTable
             ->addColumn('usageCount', '{{empty($usageCount) ? "" : $usageCount}}')
             ->addColumn('startDate', '{{empty($startDate) ? "" :  \App\Common\Utility::displayDateTime($startDate) }} - {{empty($endDate) ? "" :  \App\Common\Utility::displayDateTime($endDate) }}')
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
-            ->addColumn('event', '')
+            //->addColumn('event', '')
             ->addColumn('useDate', '')
             ->addColumn('promotion', function ($obj) {
                 if (empty($obj["promotion"])) return "";
@@ -66,6 +66,12 @@ class BudvarVoucherDataTable extends DataTable
                 //if($ck) return 'Đã sử dụng';
                 //else return 'Chưa sử dụng';
             })
+           // ->addColumn('event', function ($v) {
+           //     if(!isset($v['owner'])) return "";
+           //     $obj = $v['owner'];
+           //     if (isset($obj["authenticated"]) && $obj["authenticated"] == true) $auth= "<span class='btn btn-sm text-bg-success'>Đã xác thực</span>";
+           //     else $auth= "<span class='btn btn-sm text-bg-secondary'>Chưa xác thực</span>";
+           // })
             ->rawColumns(['customer_authenticated','customer', 'action','use'])
             ->setRowId('_id');
 
@@ -115,16 +121,16 @@ class BudvarVoucherDataTable extends DataTable
                 ->printable(false)
                 ->searchable(false)
                 ->width(50)->title('#'),
-            Column::make('_id')->title('Id')->width(100),
+            //Column::make('_id')->title('Id')->width(100),
             //Column::make('promotion')->title('Khuyến mãi')->width(200),
             Column::make('customer')->title('Khách hàng')->width(200),
-            Column::make('event')->title('Sự kiện')->width(200),
+            //Column::make('event')->title('Sự kiện')->width(200),
             Column::make('code')->title('Mã')->width(200),
             Column::make('usageLimit')->title('Tổng SL')->width(100),
             //Column::make('userLimit')->title('Giới hạn')->width(100),
             //Column::make('minimumPurchaseAmount')->title('Mua tối thiểu')->width(100),
             //Column::make('usageCount')->title('SL đã sử dụng')->width(100),
-            Column::make('startDate')->title('Thời gian')->width(250),
+            //Column::make('startDate')->title('Thời gian')->width(250),
             Column::make('createdAt')->title('Ngày tạo')->width(150),
             Column::make('use')->title('Trạng thái sử dụng')->width(200),
             Column::make('useDate')->title('Thời gian sử dụng')->width(150),

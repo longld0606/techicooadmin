@@ -3,31 +3,32 @@
         <span class="caret"></span>
         <span class="sr-only"></span>
     </button>
+
+    <?php
+    $authenticated = isset($owner) && $owner['authenticated'];
+    $ck = $usageCount > 0 && $usageCount   <= $usageLimit;
+?>
     <ul class="dropdown-menu" role="menu">
         <li><a class="dropdown-item" href="{{ route($ctrl . '.show', $_id) }}"> <i class="fa fa-fw fa-info-circle"></i>
                 Xem</a></li>
+        @if ($ck == false)
         <li><a class="dropdown-item" href="{{ route($ctrl . '.edit', $_id) }}"> <i class="fa fa-fw fa-edit"></i>
                 Chỉnh
                 sửa</a></li>
-        @isset($owner)
-        <?php
-
-            $authenticated = $owner['authenticated'];
-
-
-        ?>
-        @if(isset($authenticated) && $authenticated == true)
+        @endif
+        @if(isset($authenticated) && $authenticated == true && $ck == false)
         <li><a class="dropdown-item confirm-action" href="javascript:void(0);" data-href="{{ route($ctrl . '.confirm', ['id' => $_id, 'customeId' => $owner['_id'] ] ) }}" data-msg="{{ 'Bạn chắc chắn muốn xác nhận phiếu quà tặng này?' }}" data-id={{ $_id }}>
                 <i class="fa fa-fw fa-check"></i>
                 Xác nhận Voucher</a></li>
         @endif
-        @endisset
 
+        @if ($ck == false)
         <li class="dropdown-divider"> </li>
         <li>
             <a class="dropdown-item delete-item" title="Xóa" href="javascript:void(0);" data-href="{{ route($ctrl . '.destroy', $_id) }}" data-id={{ $_id }}>
                 <i class="fa fa-fw fa-trash-o"></i> Xóa
             </a>
         </li>
+        @endif
     </ul>
 </div>
