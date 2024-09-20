@@ -9,15 +9,20 @@
         <li><a class="dropdown-item" href="{{ route($ctrl . '.edit', $_id) }}"> <i class="fa fa-fw fa-edit"></i>
                 Chỉnh
                 sửa</a></li>
+        @isset($owner)
         <?php
+
             $authenticated = $owner['authenticated'];
+
 
         ?>
         @if(isset($authenticated) && $authenticated == true)
-        <li><a class="dropdown-item confirm-action" href="javascript:void(0);" data-href="{{ route($ctrl . '.confirm', $_id) }}" data-msg="{{ 'Bạn chắc chắn muốn xác nhận phiếu quà tặng này?' }}" data-id={{ $_id }}>
+        <li><a class="dropdown-item confirm-action" href="javascript:void(0);" data-href="{{ route($ctrl . '.confirm', ['id' => $_id, 'customeId' => $owner['_id'] ] ) }}" data-msg="{{ 'Bạn chắc chắn muốn xác nhận phiếu quà tặng này?' }}" data-id={{ $_id }}>
                 <i class="fa fa-fw fa-check"></i>
                 Xác nhận Voucher</a></li>
         @endif
+        @endisset
+
         <li class="dropdown-divider"> </li>
         <li>
             <a class="dropdown-item delete-item" title="Xóa" href="javascript:void(0);" data-href="{{ route($ctrl . '.destroy', $_id) }}" data-id={{ $_id }}>

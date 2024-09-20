@@ -22,8 +22,8 @@ class SliderController extends AdminController
      * Show the form for creating a new resource.
      */
     public function create()
-    { 
-        $data = ['type'=>'BANNER']; 
+    {
+        $data = ['type'=>'BANNER'];
         return view('admin.budvar.slider.item', ['isAction' => 'create', 'item' => $data]);
     }
 
@@ -38,12 +38,13 @@ class SliderController extends AdminController
      */
     public function store(FormRequest $request)
     {
-        //  
+        //
         $json = [
-            'code' => $request->get('code'),
+            'code' =>  $request->get('name'),
             'lang' => $request->get('lang'),
             'name' => $request->get('name'),
-            'type' => $request->get('type'),
+            'type' => 'BANNER',
+            'link' => $request->get('link'),
             'textButton' => $request->get('textButton'),
         ];
         $response = BudvarApi::postMultipartFile('/brand/create', $json, $request->file('thumb'));
@@ -83,12 +84,13 @@ class SliderController extends AdminController
      * Update the specified resource in storage.
      */
     public function update(FormRequest $request, string $id)
-    { 
+    {
         $json = [
-            'code' => $request->get('code'),
+            'code' =>  $request->get('name'),
             'lang' => $request->get('lang'),
             'name' => $request->get('name'),
             'type' => 'BANNER',
+            'link' => $request->get('link'),
             'textButton' => $request->get('textButton'),
         ];
         $response = BudvarApi::putMultipartFile('/brand/update/' . $id, $json, $request->file('thumb'));

@@ -176,7 +176,8 @@ class BudvarApi
         $multipart_data = BudvarApi::toMultipart($data);
         $request = new Request('PUT', env('API_BUDVAR', '') . $url, $headers);
         $response = $client->send($request, $multipart_data)->getBody()->getContents();
-        dd($response);
+        //var_dump(json_encode($multipart_data));
+        //dd(BudvarApi::accessToken());
         $json = json_decode($response, true);
         BudvarApi::LogApi("PUT", $url, $data, $json, 'json');
         return BudvarApi::toResponse($json);

@@ -88,7 +88,7 @@ class VoucherController extends AdminController
             }
             return redirect()->route('admin.budvar.voucher.index')->with('success', 'Thêm thông tin Voucher thành công');
         }
-        return redirect()->back()->withInput()->withErrors(['message' => $response->message ?? 'Có lỗi trong quá trình xử lý!']);
+        return redirect()->back()->withInput()->withErrors(['message' => isset($response->message) ? $response->message :  'Có lỗi trong quá trình xử lý!']);
     }
 
     /**
@@ -132,7 +132,7 @@ class VoucherController extends AdminController
             return redirect()->route('admin.budvar.voucher.index')->with('success', 'Chỉnh sửa thông tin Voucher thành công');
         }
 
-        return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi trong quá trình xử lý!']);
+        return redirect()->back()->withInput()->withErrors(['message' => isset($response->message) ? $response->message : 'Có lỗi trong quá trình xử lý!']);
     }
 
     /**
@@ -144,12 +144,19 @@ class VoucherController extends AdminController
         if ($response->status == 'success') {
             return response()->json(\App\Common\Response::success());
         }
-        return response()->json(\App\Common\Response::error('Có lỗi trong quá trình xử lý!'));
+        return response()->json(\App\Common\Response::error(isset($response->message) ? $response->message : 'Có lỗi trong quá trình xử lý!'));
     }
 
-    public function confirm(string $id)
+    public function confirm(string $id, string $customeId)
     {
-
-        return response()->json(\App\Common\Response::error('Có lỗi trong quá trình xử lý!'));
+        $json = [];
+        $json['voucher'] = $id;
+        $json['customer'] = $customeId;
+        $response = BudvarApi::post('/voucher/confirm', $json);
+        if ($response->status == 'success') {
+            return response()->json(\App\Common\Response::success());
+        }
+        dd($response);
+        return response()->json(\App\Common\Response::error(isset($response->message) ? $response->message : 'Có lỗi trong quá trình xử lý!'));
     }
 }
