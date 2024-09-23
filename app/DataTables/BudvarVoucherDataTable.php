@@ -39,7 +39,12 @@ class BudvarVoucherDataTable extends DataTable
             ->addColumn('usageCount', '{{empty($usageCount) ? "" : $usageCount}}')
             ->addColumn('startDate', '{{empty($startDate) ? "" :  \App\Common\Utility::displayDateTime($startDate) }} - {{empty($endDate) ? "" :  \App\Common\Utility::displayDateTime($endDate) }}')
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
-            //->addColumn('event', '')
+            ->addColumn('event_name', function ($obj) {
+                if (empty($obj["event"])) return "";
+                $event =  $obj["event"];
+                if (empty($event['title'])) return "";
+                return $event['title'];
+            })
             ->addColumn('useDate', '')
             ->addColumn('promotion', function ($obj) {
                 if (empty($obj["promotion"])) return "";
@@ -54,15 +59,24 @@ class BudvarVoucherDataTable extends DataTable
                 else $auth= "<span class='btn btn-sm text-bg-secondary'>Chưa xác thực</span>";
 
                 return "<span>".$obj["fullname"]."</span><br/>".
-                "<span>".$obj["phoneNumber"]."</span><br/>".
+                //"<span>".$obj["phoneNumber"]."</span><br/>".
                 "<span>".$obj["email"]."</span><br/>".
-                "<span>".$obj["taxCode"]."</span><br/>".
+                //"<span>".($obj["taxCode"] ?? "")."</span><br/>".
                 "<span>".$auth."</span>";
             })
             ->addColumn('use', function ($v) {
                 $ck = $v['usageCount'] > 0 && $v['usageCount']   <= $v['usageLimit'];
                 if($ck) return "<span class='btn btn-sm text-bg-success'>Đã sử dụng</span>";
                 else return "<span class='btn btn-sm text-bg-secondary'>Chưa sử dụng</span>";
+                //if($ck) return 'Đã sử dụng';
+                //else return 'Chưa sử dụng';
+            })
+            ->addColumn('address', function ($v) {
+                if(!isset($v['location'] )) { return ""; }
+                else {
+                    $ad = json_decode($v['location']);
+                    return $ad->name ?? "";
+                }
                 //if($ck) return 'Đã sử dụng';
                 //else return 'Chưa sử dụng';
             })
@@ -124,9 +138,10 @@ class BudvarVoucherDataTable extends DataTable
             //Column::make('_id')->title('Id')->width(100),
             //Column::make('promotion')->title('Khuyến mãi')->width(200),
             Column::make('customer')->title('Khách hàng')->width(200),
-            //Column::make('event')->title('Sự kiện')->width(200),
+            Column::make('address')->title('Địa chỉ cửa hàng')->width(200),
+            Column::make('event_name')->title('Sự kiện')->width(200),
             Column::make('code')->title('Mã')->width(200),
-            Column::make('usageLimit')->title('Tổng SL')->width(100),
+            //Column::make('usageLimit')->title('Tổng SL')->width(100),
             //Column::make('userLimit')->title('Giới hạn')->width(100),
             //Column::make('minimumPurchaseAmount')->title('Mua tối thiểu')->width(100),
             //Column::make('usageCount')->title('SL đã sử dụng')->width(100),

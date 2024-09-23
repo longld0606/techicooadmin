@@ -156,7 +156,8 @@ class VoucherController extends AdminController
         if ($response->status == 'success') {
             return response()->json(\App\Common\Response::success());
         }
-        dd($response);
+        //var_dump($json);
+        //dd($response);
         return response()->json(\App\Common\Response::error(isset($response->message) ? $response->message : 'Có lỗi trong quá trình xử lý!'));
     }
 }

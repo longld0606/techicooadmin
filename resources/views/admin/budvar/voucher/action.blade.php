@@ -5,8 +5,11 @@
     </button>
 
     <?php
-    $authenticated = isset($owner) && $owner['authenticated'];
-    $ck = $usageCount > 0 && $usageCount   <= $usageLimit;
+    //$owner = [];
+    //$owner['authenticated'] = true;
+    //$owner['_id'] = '11111111111111';
+    $authenticated =  isset($owner) && isset($owner['authenticated']) && $owner['authenticated'];
+    $ck = false;// $usageCount > 0 && $usageCount   <= $usageLimit;
 ?>
     <ul class="dropdown-menu" role="menu">
         <li><a class="dropdown-item" href="{{ route($ctrl . '.show', $_id) }}"> <i class="fa fa-fw fa-info-circle"></i>
