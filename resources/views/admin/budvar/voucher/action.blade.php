@@ -5,9 +5,6 @@
     </button>
 
     <?php
-    //$owner = [];
-    //$owner['authenticated'] = true;
-    //$owner['_id'] = '11111111111111';
     $authenticated =  isset($owner) && isset($owner['authenticated']) && $owner['authenticated'];
     $ck = false;// $usageCount > 0 && $usageCount   <= $usageLimit;
 ?>

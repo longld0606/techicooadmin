@@ -1,19 +1,19 @@
-<?php 
-$url = ''; 
+<?php
+$url = '';
 $btn = '';
 $isDisabled = true;
-if ($isAction == 'create') { 
+if ($isAction == 'create') {
     $url = route($ctrl . '.store');
     $isDisabled = false;
     $btn = 'Lưu';
-} elseif ($isAction == 'edit') { 
+} elseif ($isAction == 'edit') {
     $url = route($ctrl . '.update', $item['_id']);
     $isDisabled = false;
     $btn = 'Cập nhật';
-} elseif ($isAction == 'show') { 
+} elseif ($isAction == 'show') {
     $url = '';
     $isDisabled = true;
-} 
+}
 ?>
 
 @extends('admin.layouts.app')
@@ -40,19 +40,19 @@ if ($isAction == 'create') {
                     <div class="col-sm-{{ $input->col }}">
                         <?php $vie = 'admin.partials.'.\App\Common\ApiInputModel::getView($input->type); ?>
                         @include($vie, [
-                            'type' => (isset($input->type) ? $input->type : 'text'),
-                            'title' => (isset($input->title) ? $input->title : ''),
-                            'name' => (isset($input->name) ? $input->name : ''). (isset($input->multiple) && $input->multiple ? '[]': ''),
-                            'val' => old($input->name,isset($item[$input->name]) ? $item[$input->name] : ($input->multiple ? []: '')),
-                            'isRequired' => isset($input->isRequired) ? $input->isRequired : false ,
-                            'array' => isset($input->array) ? $input->array : [],
-                            'all_title' => isset($input->all_title) ? $input->all_title : '',
-                            'id_field' => isset($input->id_field) ? $input->id_field : 'id',
-                            'val_field' => isset($input->val_field) ? $input->val_field : 'title',
-                            'multiple' => isset($input->multiple) ? $input->multiple : 'title',
-                            'isDisabled' => $isDisabled || ((isset($input->type) ? $input->type : 'text') == "password" &&  $isAction != 'create'),
-                            'hidden' => $isDisabled || ((isset($input->type) ? $input->type : 'text') == "password" &&  $isAction != 'create')
-                            ])
+                        'type' => (isset($input->type) ? $input->type : 'text'),
+                        'title' => (isset($input->title) ? $input->title : ''),
+                        'name' => (isset($input->name) ? $input->name : ''). (isset($input->multiple) && $input->multiple ? '[]': ''),
+                        'val' => old($input->name,isset($item[$input->name]) ? $item[$input->name] : ($input->multiple ? []: '')),
+                        'isRequired' => isset($input->isRequired) ? $input->isRequired : false ,
+                        'array' => isset($input->array) ? $input->array : [],
+                        'all_title' => isset($input->all_title) ? $input->all_title : '',
+                        'id_field' => isset($input->id_field) ? $input->id_field : 'id',
+                        'val_field' => isset($input->val_field) ? $input->val_field : 'title',
+                        'multiple' => isset($input->multiple) ? $input->multiple : 'title',
+                        'isDisabled' => $isDisabled || ((isset($input->type) ? $input->type : 'text') == "password" && $isAction != 'create'),
+                        'hidden' =>((isset($input->type) ? $input->type : 'text') == "password" && $isAction != 'create')
+                        ])
                     </div>
                     @endif
                     @endforeach
@@ -88,7 +88,7 @@ if ($isAction == 'create') {
         //             $('input[name=lat]').val(suggestion.lat);
         //             $('input[name=long]').val(suggestion.long);
         //             flagSelect = true;
-        //         },                
+        //         },
         //         // ajaxSettings:{
         //         //     beforeSend: showLoading,
         //         //     complete: hideLoading
@@ -100,13 +100,13 @@ if ($isAction == 'create') {
         //                 checkAddress();
         //             }, 250);
         //         },
-        //         onSearchStart: function(e){ 
+        //         onSearchStart: function(e){
         //             $('input[name=lat]').val('');
         //             $('input[name=long]').val('');
         //         }
         //     })
         //     .on('change',function(){
-        //         flagChange = true; 
+        //         flagChange = true;
         //     });
 
         // function checkAddress(){

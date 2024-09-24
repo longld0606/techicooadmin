@@ -50,7 +50,9 @@ Route::middleware(['admin', 'hasPermission'])->group(function () {
             Route::resource('user', App\Http\Controllers\Admin\Budvar\UserController::class);
 
             Route::get('customer/address', [App\Http\Controllers\Admin\Budvar\CustomerController::class,  'address'])->name('customer.address');
+            Route::get('customer/showChangePass/{id}', [App\Http\Controllers\Admin\Budvar\CustomerController::class,  'showChangePass'])->name('customer.showChangePass');
             Route::put('customer/authenticated/{id}', [App\Http\Controllers\Admin\Budvar\CustomerController::class,  'authenticated'])->name('customer.authenticated');
+            Route::put('customer/changePass/{id}', [App\Http\Controllers\Admin\Budvar\CustomerController::class,  'changePass'])->name('customer.changePass');
             Route::resource('customer', App\Http\Controllers\Admin\Budvar\CustomerController::class);
 
             Route::get('setting', [App\Http\Controllers\Admin\Budvar\SettingController::class,  'index'])->name('setting.index');

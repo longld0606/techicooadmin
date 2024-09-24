@@ -81,7 +81,7 @@ class CustomerController extends AdminController
             }
             return redirect()->route('admin.budvar.customer.index')->with('success', 'Thêm thông tin Customer thành công');
         }
-        return redirect()->back()->withInput()->withErrors(['message' => $response->message ?? 'Có lỗi trong quá trình xử lý!']);
+        return redirect()->back()->withInput()->withErrors(['message' =>(isset($response->message) ? $response->message : 'Có lỗi trong quá trình xử lý!')]);
     }
 
     /**
@@ -97,13 +97,13 @@ class CustomerController extends AdminController
             $adds = json_decode($item['company'][0]);
             $item['address'] = $adds->name;
         }
-        if (empty($item['type'])) $item['type'] = 'BANNER';
         return view('admin.budvar.customer.item', ['isAction' => 'show', 'item' =>  $item, 'inputs' => $this->instanceInputs()]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
+
     public function edit(string $id)
     {
         $data = BudvarApi::get('/customer/findOne/' . $id);
@@ -114,7 +114,6 @@ class CustomerController extends AdminController
             $adds = json_decode($item['company'][0]);
             $item['address'] = $adds->name;
         }
-        if (empty($item['type'])) $item['type'] = 'BANNER';
         return view('admin.budvar.customer.item', ['isAction' => 'edit', 'item' =>  $item, 'inputs' => $this->instanceInputs()]);
     }
 
@@ -146,7 +145,7 @@ class CustomerController extends AdminController
             return redirect()->route('admin.budvar.customer.index')->with('success', 'Chỉnh sửa thông tin Customer thành công');
         }
 
-        return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi trong quá trình xử lý!']);
+        return redirect()->back()->withInput()->withErrors(['message' => (isset($response->message) ? $response->message : 'Có lỗi trong quá trình xử lý!')]);
     }
 
     /**
@@ -158,7 +157,7 @@ class CustomerController extends AdminController
         if ($response->status == 'success') {
             return response()->json(\App\Common\Response::success());
         }
-        return response()->json(\App\Common\Response::error('Có lỗi trong quá trình xử lý!'));
+        return response()->json(\App\Common\Response::error(isset($response->message) ? $response->message : 'Có lỗi trong quá trình xử lý!'));
     }
 
     public function authenticated(string $id)
@@ -167,7 +166,7 @@ class CustomerController extends AdminController
         if ($response->status == 'success') {
             return response()->json(\App\Common\Response::success());
         }
-        return response()->json(\App\Common\Response::error('Có lỗi trong quá trình xử lý!'));
+        return response()->json(\App\Common\Response::error((isset($response->message) ? $response->message : 'Có lỗi trong quá trình xử lý!')));
     }
 
 
@@ -183,4 +182,30 @@ class CustomerController extends AdminController
         $data[] = ['value' => 'thanh hóa', 'data' => ' thanh  hoa việt nam', 'lat' => 123.444, 'long' => 12344];
         return response()->json(['query' => $q, 'suggestions' => $data]);
     }
+
+    public function showChangePass(string $id){
+        $data = BudvarApi::get('/customer/findOne/' . $id);
+        $item = $data->data;
+
+        return view('admin.budvar.customer.changePass', [ 'item' =>  $item]);
+    }
+    public function changePass(string $id,FormRequest $request)
+    {
+        $json = [];
+        $json['password'] = $request->get('password', '');
+
+        $response = BudvarApi::put('/customer/changepassword/' . $id, $json);
+        if ($response->status == 'success') {
+            $ref = $request->get('ref', '');
+            if (!empty($ref)) {
+                return redirect($ref)->with('success', 'Đổi mật khẩu Customer thành công');
+            }
+            return redirect()->route('admin.budvar.customer.index')->with('success', 'Đổi mật khẩu Customer thành công');
+        }else{
+
+        }
+        return redirect()->back()->withInput()->withErrors(['message' => (isset($response->message) ? $response->message : 'Có lỗi trong quá trình xử lý!')]);
+
+    }
+
 }

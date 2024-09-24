@@ -19,32 +19,9 @@
     </a> </li>
 @endcan
 
-@can('Admin\Budvar\PageController@index')
-<li class="nav-item"> <a href="{{ route('admin.budvar.page.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-        <p>Trang - Sự kiện</p>
-    </a> </li>
-@endcan
-
 @can('Admin\Budvar\ContactController@index')
 <li class="nav-item"> <a href="{{ route('admin.budvar.contact.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
         <p>Liên hệ - Đặt hàng</p>
-    </a> </li>
-@endcan
-
-@can('Admin\Budvar\CustomerController@index')
-<li class="nav-item"> <a href="{{ route('admin.budvar.customer.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-        <p>Tài khoản khách hàng</p>
-    </a> </li>
-@endcan
-
-@can('Admin\Budvar\PromotionController@index')
-<li class="nav-item"> <a href="{{ route('admin.budvar.promotion.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-        <p>Khuyến mãi - Promotion</p>
-    </a> </li>
-@endcan
-@can('Admin\Budvar\VoucherController@index')
-<li class="nav-item"> <a href="{{ route('admin.budvar.voucher.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-        <p>Phiếu quà tặng - Voucher</p>
     </a> </li>
 @endcan
 
@@ -70,6 +47,31 @@
 @can('Admin\Budvar\MediaController@index')
 <li class="nav-item"> <a href="{{ route('admin.budvar.media.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
         <p>Media</p>
+    </a> </li>
+@endcan
+
+
+@can('Admin\Budvar\PageController@index')
+<li class="nav-item"> <a href="{{ route('admin.budvar.page.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
+        <p>Trang - Sự kiện</p>
+    </a> </li>
+@endcan
+
+@can('Admin\Budvar\PromotionController@index')
+<li class="nav-item"> <a href="{{ route('admin.budvar.promotion.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
+        <p>Khuyến mãi - Promotion</p>
+    </a> </li>
+@endcan
+@can('Admin\Budvar\VoucherController@index')
+<li class="nav-item"> <a href="{{ route('admin.budvar.voucher.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
+        <p>Phiếu quà tặng - Voucher</p>
+    </a> </li>
+@endcan
+
+
+@can('Admin\Budvar\CustomerController@index')
+<li class="nav-item"> <a href="{{ route('admin.budvar.customer.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
+        <p>Tài khoản khách hàng</p>
     </a> </li>
 @endcan
 
