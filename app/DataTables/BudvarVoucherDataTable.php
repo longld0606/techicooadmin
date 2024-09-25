@@ -55,8 +55,8 @@ class BudvarVoucherDataTable extends DataTable
             ->addColumn('customer', function ($v) {
                 if(!isset($v['owner'])) return "";
                 $obj = $v['owner'];
-                if (isset($obj["authenticated"]) && $obj["authenticated"] == true) $auth= "<span class='btn btn-sm text-bg-success text-nowrap'>Đã xác thực</span>";
-                else $auth= "<span class='btn btn-sm text-bg-secondary text-nowrap'>Chưa xác thực</span>";
+                if (isset($obj["authenticated"]) && $obj["authenticated"] == true) $auth= "<span class='btn btn-sm btn-success text-nowrap'>Đã xác thực</span>";
+                else $auth= "<span class='btn btn-sm btn-secondary text-nowrap'>Chưa xác thực</span>";
 
                 return "<span>".$obj["fullname"]."</span><br/>".
                 //"<span>".$obj["phoneNumber"]."</span><br/>".
@@ -66,8 +66,8 @@ class BudvarVoucherDataTable extends DataTable
             })
             ->addColumn('use', function ($v) {
                 $ck = $v['usageCount'] > 0 && $v['usageCount']   <= $v['usageLimit'];
-                if($ck) return "<span class='btn btn-sm text-bg-success text-nowrap'>Đã sử dụng</span>";
-                else return "<span class='btn btn-sm text-bg-secondary text-nowrap'>Chưa sử dụng</span>";
+                if($ck) return "<span class='btn btn-sm btn-success text-nowrap'>Đã sử dụng</span>";
+                else return "<span class='btn btn-sm btn-secondary text-nowrap'>Chưa sử dụng</span>";
                 //if($ck) return 'Đã sử dụng';
                 //else return 'Chưa sử dụng';
             })
@@ -83,8 +83,8 @@ class BudvarVoucherDataTable extends DataTable
            // ->addColumn('event', function ($v) {
            //     if(!isset($v['owner'])) return "";
            //     $obj = $v['owner'];
-           //     if (isset($obj["authenticated"]) && $obj["authenticated"] == true) $auth= "<span class='btn btn-sm text-bg-success'>Đã xác thực</span>";
-           //     else $auth= "<span class='btn btn-sm text-bg-secondary'>Chưa xác thực</span>";
+           //     if (isset($obj["authenticated"]) && $obj["authenticated"] == true) $auth= "<span class='btn btn-sm btn-success'>Đã xác thực</span>";
+           //     else $auth= "<span class='btn btn-sm btn-secondary'>Chưa xác thực</span>";
            // })
             ->rawColumns(['customer_authenticated','customer', 'action','use'])
             ->setRowId('_id');

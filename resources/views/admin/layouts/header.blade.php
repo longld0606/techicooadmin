@@ -1,151 +1,101 @@
-<nav class="app-header navbar navbar-expand bg-body">
-    <!--begin::Container-->
-    <div class="container-fluid"> 
-        <!--begin::Start Navbar Links-->
-  
-        <ul class="navbar-nav">
-            <li class="nav-item"> <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button"> <i class="bi bi-list"></i> </a> </li>
-            {{-- <li class="nav-item d-none d-md-block"> <a href="{{ route('admin.dashboard') }}" class="nav-link">HOME</a> </li>  --}}
-            @if(!empty($nav))
-                @foreach ($nav as $k => $n )               
-                    <li class="nav-item d-none d-md-block"> <a href="{{ $n }}" class="nav-link">{{ $k }}</a>
-                @endforeach
-            @endif 
-                
-            {{-- <li class="nav-item d-none d-md-block"> <a href="#" class="nav-link">Contact</a> </li> --}}
+<header class="navbar pcoded-header navbar-expand-lg navbar-light header-blue">
 
-        </ul>
-        <!--end::Start Navbar Links-->
-        <!--begin::End Navbar Links-->
-        <ul class="navbar-nav ms-auto">
-            <!--begin::Navbar Search-->
-            {{-- <li class="nav-item"> <a class="nav-link" data-widget="navbar-search" href="#" role="button"> <i class="bi bi-search"></i> </a> </li> --}}
-            <!--end::Navbar Search-->
-            <!--begin::Messages Dropdown Menu-->
-            {{-- <li class="nav-item dropdown"> <a class="nav-link" data-bs-toggle="dropdown" href="#"> <i class="bi bi-chat-text"></i> <span class="navbar-badge badge text-bg-danger">3</span> </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end"> <a href="#" class="dropdown-item">
-                        <!--begin::Message-->
-                        <div class="d-flex">
-                            <div class="flex-shrink-0"> <img src="/assets/theme/assets/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 rounded-circle me-3"> </div>
-                            <div class="flex-grow-1">
-                                <h3 class="dropdown-item-title">
-                                    Brad Diesel
-                                    <span class="float-end fs-7 text-danger"><i class="bi bi-star-fill"></i></span>
-                                </h3>
-                                <p class="fs-7">Call me whenever you can...</p>
-                                <p class="fs-7 text-secondary"> <i class="bi bi-clock-fill me-1"></i> 4 Hours Ago
-                                </p>
-                            </div>
-                        </div>
-                        <!--end::Message-->
-                    </a>
-                    <div class="dropdown-divider"></div> <a href="#" class="dropdown-item">
-                        <!--begin::Message-->
-                        <div class="d-flex">
-                            <div class="flex-shrink-0"> <img src="/assets/theme/assets/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 rounded-circle me-3"> </div>
-                            <div class="flex-grow-1">
-                                <h3 class="dropdown-item-title">
-                                    John Pierce
-                                    <span class="float-end fs-7 text-secondary"> <i class="bi bi-star-fill"></i> </span>
-                                </h3>
-                                <p class="fs-7">I got your message bro</p>
-                                <p class="fs-7 text-secondary"> <i class="bi bi-clock-fill me-1"></i> 4 Hours Ago
-                                </p>
-                            </div>
-                        </div>
-                        <!--end::Message-->
-                    </a>
-                    <div class="dropdown-divider"></div> <a href="#" class="dropdown-item">
-                        <!--begin::Message-->
-                        <div class="d-flex">
-                            <div class="flex-shrink-0"> <img src="/assets/theme/assets/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 rounded-circle me-3"> </div>
-                            <div class="flex-grow-1">
-                                <h3 class="dropdown-item-title">
-                                    Nora Silvester
-                                    <span class="float-end fs-7 text-warning"> <i class="bi bi-star-fill"></i> </span>
-                                </h3>
-                                <p class="fs-7">The subject goes here</p>
-                                <p class="fs-7 text-secondary"> <i class="bi bi-clock-fill me-1"></i> 4 Hours Ago
-                                </p>
-                            </div>
-                        </div>
-                        <!--end::Message-->
-                    </a>
-                    <div class="dropdown-divider"></div> <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-                </div>
-            </li> --}}
-            <!--end::Messages Dropdown Menu-->
-            <!--begin::Notifications Dropdown Menu-->
-            <li class="nav-item dropdown"> <a class="nav-link" data-bs-toggle="dropdown" href="#"> <i
-                        class="bi bi-bell-fill"></i> <span class="navbar-badge badge text-bg-warning">15</span> </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end"> <span
-                        class="dropdown-item dropdown-header">15 Notifications</span>
-                    <div class="dropdown-divider"></div> <a href="#" class="dropdown-item"> <i
-                            class="bi bi-envelope me-2"></i> 4 new messages
-                        <span class="float-end text-secondary fs-7">3 mins</span> </a>
-                    <div class="dropdown-divider"></div> <a href="#" class="dropdown-item"> <i
-                            class="bi bi-people-fill me-2"></i> 8 friend requests
-                        <span class="float-end text-secondary fs-7">12 hours</span> </a>
-                    <div class="dropdown-divider"></div> <a href="#" class="dropdown-item"> <i
-                            class="bi bi-file-earmark-fill me-2"></i> 3 new reports
-                        <span class="float-end text-secondary fs-7">2 days</span> </a>
-                    <div class="dropdown-divider"></div> <a href="#" class="dropdown-item dropdown-footer">
-                        See All Notifications
-                    </a>
-                </div>
-            </li>
-            <!--end::Notifications Dropdown Menu-->
-            <!--begin::Fullscreen Toggle-->
-            <li class="nav-item"> <a class="nav-link" href="#" data-lte-toggle="fullscreen"> <i
-                        data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i> <i data-lte-icon="minimize"
-                        class="bi bi-fullscreen-exit" style="display: none;"></i> </a> </li>
-            <!--end::Fullscreen Toggle-->
-            <!--begin::User Menu Dropdown-->
-            <li class="nav-item dropdown user-menu"> <a href="#" class="nav-link dropdown-toggle"
-                    data-bs-toggle="dropdown">
-                    <img src="/assets/theme/assets/img/user2-160x160.jpg" class="user-image rounded-circle shadow"
-                        alt="User Image">
-                    <span class="d-none d-md-inline">{{ Auth::user()->name }}</span> </a>
-                <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                    <!--begin::User Image-->
-                    <li class="user-header text-bg-primary"> <img src="/assets/theme/assets/img/user2-160x160.jpg"
-                            class="rounded-circle shadow" alt="User Image">
-                        <p>
-                            {{ Auth::user()->email }}
-                            <small>{{ Auth::user()->phone }}</small>
-                        </p>
-                    </li>
-                    <!--end::User Image-->
-                    <!--begin::Menu Body-->
-                    {{-- <li class="user-body">
-                        <!--begin::Row-->
-                        <div class="row">
-                            <div class="col-4 text-center"> <a href="#">Followers</a> </div>
-                            <div class="col-4 text-center"> <a href="#">Sales</a> </div>
-                            <div class="col-4 text-center"> <a href="#">Friends</a> </div>
-                        </div>
-                        <!--end::Row-->
-                    </li> --}}
-                    <!--end::Menu Body-->
-                    <!--begin::Menu Footer-->
-                    @if (Auth::guard('admin')->user())
-                        <li class="user-footer">
-                            <a href="{{ route('admin.profile') }}" class="btn btn-default btn-flat">Tài khoản</a>
-                            <a href="{{ route('admin.logout') }}" class="btn btn-default btn-flat float-end"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
-                            <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </li>
-                    @endif
 
-                </ul>
-            </li>
-            <!--end::User Menu Dropdown-->
-        </ul>
-        <!--end::End Navbar Links-->
+    <div class="m-header">
+        <a class="mobile-menu" id="mobile-collapse" href="{{ route('admin.dashboard') }}"><span></span></a>
+        <a href="{{ route('admin.dashboard') }}" class="b-brand">
+            <!-- ========   change your logo hear   ============ -->
+            <img src="/assets/admin2/images/logo.png" alt="" class="logo">
+
+        </a>
+        <a href="#!" class="mob-toggler">
+            <i class="feather icon-more-vertical"></i>
+        </a>
     </div>
-    <!--end::Container-->
-</nav>
-<!--end::Header-->
-<!--begin::Sidebar-->
+    <div class="collapse navbar-collapse">
+
+        <ul class="navbar-nav ms-auto">
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="icon feather icon-bell"></i></a>
+                    <div class="dropdown-menu dropdown-menu-end notification">
+                        <div class="noti-head">
+                            <h6 class="d-inline-block m-b-0">Thông báo</h6>
+                            <div class="float-end">
+                                <a href="#!" class="m-r-10">Đánh đấu đã đọc</a>
+                                <a href="#!">Xóa tất cả</a>
+                            </div>
+                        </div>
+                        <ul class="noti-body">
+                            <li class="n-title">
+                                <p class="m-b-0">Mới</p>
+                            </li>
+                            <li class="notification">
+                                <div class="d-flex">
+                                    <img class="img-radius" src="/assets/admin2/images/user/avatar-1.jpg" alt="Generic placeholder image">
+                                    <div class="flex-grow-1">
+                                        <p><strong>John Doe</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>5 min</span></p>
+                                        <p>New ticket Added</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="n-title">
+                                <p class="m-b-0">Cũ hơn</p>
+                            </li>
+                            <li class="notification">
+                                <div class="d-flex">
+                                    <img class="img-radius" src="/assets/admin2/images/user/avatar-2.jpg" alt="Generic placeholder image">
+                                    <div class="flex-grow-1">
+                                        <p><strong>Joseph William</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>10 min</span></p>
+                                        <p>Prchace New Theme and make payment</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="notification">
+                                <div class="d-flex">
+                                    <img class="img-radius" src="/assets/admin2/images/user/avatar-1.jpg" alt="Generic placeholder image">
+                                    <div class="flex-grow-1">
+                                        <p><strong>Sara Soudein</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>12 min</span></p>
+                                        <p>currently login</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="notification">
+                                <div class="d-flex">
+                                    <img class="img-radius" src="/assets/admin2/images/user/avatar-2.jpg" alt="Generic placeholder image">
+                                    <div class="flex-grow-1">
+                                        <p><strong>Joseph William</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>30 min</span></p>
+                                        <p>Prchace New Theme and make payment</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="noti-footer">
+                            <a href="#!">Xem tất cả</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown drp-user">
+                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="feather icon-user"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end profile-notification">
+                        <div class="pro-head">
+                            <img src="/assets/admin2/images/user/avatar-4.jpg" class="img-radius" alt="User-Profile-Image">
+                            <span>{{ Auth::user()->name }}</span>
+                            <a href="{{ route('admin.logout') }}" class="dud-logout" title="Logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >
+                                <i class="feather icon-log-out"></i>
+                            </a>
+                        </div>
+                        <ul class="pro-body">
+                            <li><a href="{{ route('admin.profile') }}" class="dropdown-item"><i class="feather icon-user"></i> Thông tin cá nhân</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</header>

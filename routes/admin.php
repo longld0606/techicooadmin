@@ -13,7 +13,7 @@ Route::middleware(['admin', 'hasPermission'])->group(function () {
 
     Route::get('', [App\Http\Controllers\Admin\DashboardController::class, 'index']);
     Route::get('dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
-    Route::get('profile', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('profile');
+    Route::get('profile', [App\Http\Controllers\Admin\AccountController::class, 'profile'])->name('profile');
 
     Route::resource('account', App\Http\Controllers\Admin\AccountController::class);
     Route::resource('logs', App\Http\Controllers\Admin\LogsController::class, ['only' => ['index', 'show']]);

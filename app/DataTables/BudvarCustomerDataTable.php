@@ -51,8 +51,8 @@ class BudvarCustomerDataTable extends DataTable
                 //return gettype($obj["company"]);
             })
             ->addColumn('authenticated', function ($obj) {
-                if (isset($obj["authenticated"]) && $obj["authenticated"] == true) return "<span class='btn btn-sm text-bg-success text-nowrap'>Đã xác thực</span>";
-                return "<span class='btn btn-sm text-bg-secondary text-nowrap'>Chưa xác thực</span>";
+                if (isset($obj["authenticated"]) && $obj["authenticated"] == true) return "<span class='btn btn-sm btn-success text-nowrap'>Đã xác thực</span>";
+                return "<span class='btn btn-sm btn-secondary text-nowrap'>Chưa xác thực</span>";
             })
             ->rawColumns(['authenticated', 'action'])
             ->setRowId('_id'); //<span class="badge badge-primary">Primary</span>
@@ -103,7 +103,7 @@ class BudvarCustomerDataTable extends DataTable
                 ->printable(false)
                 ->searchable(false)
                 ->width(50)->title('#'),
-            Column::make('_id')->title('Id')->width(100),
+            //Column::make('_id')->title('Id')->width(100),
             Column::make('fullname')->title('Họ Tên'),
             Column::make('email')->title('Email')->width(200),
             Column::make('phoneNumber')->title('SĐT')->width(200),

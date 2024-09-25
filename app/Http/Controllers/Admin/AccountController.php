@@ -371,4 +371,9 @@ class AccountController extends AdminController
 
         return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi xảy ra']);
     }
+
+    public function profile()
+    {
+        return view('admin.account.profile');
+    }
 }

@@ -19,13 +19,13 @@ function getFormObject($form) {
         }
     });
     // if ($form.find('input[type=file]').length > 0) {
-    //     var $files = $form.find('input[type=file]'); 
+    //     var $files = $form.find('input[type=file]');
     //      $.each($files, function (i, e) {
     //          var n = $(e).attr('name');
-    //          var v = e.files; 
+    //          var v = e.files;
     //          obj[n] = v;
     //     });
-    // } 
+    // }
     return obj;
 }
 
@@ -46,7 +46,7 @@ function getFormData($form) {
         var $files = $form.find('input[type=file]');
         $.each($files, function (i, e) {
             var n = $(e).attr('name');
-            //var v = e.files[0]; 
+            //var v = e.files[0];
             if (e.files.length > 1) {
                 $.each(e.files, function (j, f) {
                     //  console.log('append 1: ',n+'[]', f);
@@ -309,9 +309,9 @@ function notify(text, callback) {
     //     // whether to auto-hide the notification
     //     autoHide: false,
     //     // if autoHide, hide after milliseconds
-    //     autoHideDelay: 5000000, 
+    //     autoHideDelay: 5000000,
     //     // default class (string or [string])
-    //     className: 'success', 
+    //     className: 'success',
     //   });
     $.notify(text, "success");
     if (typeof callback == "function") callback();
@@ -346,9 +346,9 @@ function initInput(ckInput_id) {
     //     apiKey: "FLMNFLMN",
     //     urlFileManager: '/file_mngr',
     //     urlFiles: '/files/'
-    // }; 
+    // };
     CKEDITOR.replaceClass = 'ckeditor';
-    $('.wysihtml5').wysihtml5();
+    //$('.wysihtml5').wysihtml5();
     $('input').iCheck({
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue',
