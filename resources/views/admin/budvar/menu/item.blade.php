@@ -34,7 +34,7 @@ if ($isAction == 'create') {
                 <div class="row">
                     <div class="col-sm-12">
                         @include('admin.partials._input_val', [
-                        'title' => 'Tên',
+                        'title' => 'Name',
                         'name' => 'name',
                         'val' => old('name', isset($item['name']) ? $item['name'] : ''),
                         'isRequired' => true,
@@ -50,7 +50,7 @@ if ($isAction == 'create') {
                     </div>
                     <div class="col-sm-6">
                         <div class="mb-3">
-                            <label class="form-label" for="{{ 'input_parentID'}}">{{ 'Cấp trên' }}</label>
+                            <label class="form-label" for="{{ 'input_parentID'}}">{{ 'ParentID' }}</label>
                             <select class="form-control  select2" style="width: 100%;" id="{{ 'input_parentID' }}" name="{{ 'parentID' }}">
                                 <option value=""> {{ '-- Chọn cấp trên --' }}</option>
                                 <?php $_val = old('parentID', isset($item['parentID']) ? $item['parentID']['_id'] : ''); ?>
@@ -64,7 +64,7 @@ if ($isAction == 'create') {
                     </div>
                     <div class="col-sm-6">
                         @include('admin.partials._input_select2', [
-                        'title' => 'Ngôn ngữ',
+                        'title' => 'Language',
                         'array' => \App\Common\Enum_LANG::getArray(),
                         'name' => 'lang',
                         'val' => old('lang', isset($item['lang']) ? $item['lang'] : ''),
@@ -73,13 +73,21 @@ if ($isAction == 'create') {
                     </div>
                     <div class="col-sm-6">
                         @include('admin.partials._input_select2', [
-                        'title' => 'Vị trí',
+                        'title' => 'Location',
                         'name' => 'location',
                         'array' => ['TOP' => 'TOP', 'BOTTOM' => 'BOTTOM'],
                         'val' => old('location', isset($item['location']) ? $item['location'] : ''),
                         ])
                     </div>
                     <div class="col-sm-6">
+                        @include('admin.partials._input_val', [
+                            'title' => 'Weight',
+                            'name' => 'weight',
+                            'val' => old('weight', isset($item['weight']) ? $item['weight'] : ''),
+                            'isRequired' => true,
+                            ])
+                    </div>
+                    {{-- <div class="col-sm-6">
                         @include('admin.partials._input_select2', [
                         'title' => 'Status',
                         'name' => 'status',
@@ -87,7 +95,7 @@ if ($isAction == 'create') {
                         'val' => old('status', isset($item['status']) ? $item['status'] : ''),
                         //'hiden' => true
                         ])
-                    </div>
+                    </div> --}}
                 </div>
 
                 <div class="card-body">

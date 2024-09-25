@@ -41,6 +41,7 @@ class MenuController extends AdminController
             'lang' => $request->get('lang'),
             'parentID' => $request->get('parentID'),
             'location' => $request->get('location'), 
+            'weight' => $request->get('weight'), 
             'status' => $request->get('status'), 
         ];
         $response = BudvarApi::post('/menu/create', $json);
@@ -89,6 +90,7 @@ class MenuController extends AdminController
             'lang' => $request->get('lang'),
             'parentID' => $request->get('parentID'),
             'location' => $request->get('location'), 
+            'weight' => $request->get('weight'), 
             'status' => $request->get('status'), 
         ];
         $response = BudvarApi::put('/menu/update/' . $id, $json);

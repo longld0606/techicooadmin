@@ -10,6 +10,7 @@
         <div class="card-body">
             <div class="row">
                 @include('admin.partials._search_input', ['lang'=> isset($lang) ? $lang : true, 'searchText' =>isset($searchText) ? $searchText : true])
+                @yield('index')
                 @if($isButton == true)
                     @include('admin.partials._search_button',['isCreate'=> isset($isCreate) ? $isCreate : true])
                 @endif
