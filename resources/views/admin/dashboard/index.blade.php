@@ -2,8 +2,15 @@
 @push('style')
 @endpush 
 @section('content')
-
-<h1 class="text-center m-6">CONORAN ALL IN ONE</h1>
+<section class="app-content "> 
+    <div class="card card-secondary card-outline mb-4 mt-4 search-box">
+        <h1 class="text-center m-6">Dashboard</h1>
+    </br>
+    </br>
+    </br>
+    </br>
+    </div>
+</section>
 
 @endsection
 @push('scripts')
