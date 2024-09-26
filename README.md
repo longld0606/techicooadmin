@@ -20,6 +20,6 @@ php artisan db:seed
 
 account: longld0606@gmail.com/123456781
 
-/admin/permission => Generator
-/admin/role => create Administrator
+/admin/permission => Generator permission
+/admin/role => create role Administrator => edit phân quyền (permission) vào role
 /admin/account => set role cho account tương ứng
