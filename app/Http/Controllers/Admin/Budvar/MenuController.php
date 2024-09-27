@@ -29,6 +29,12 @@ class MenuController extends AdminController
         return view('admin.budvar.menu.item', ['isAction' => 'create', 'item' => $data, 'menus' => $menus->data]);
     }
 
+    public function clone(string $id)
+    {
+        $data = BudvarApi::get('/menu/findOne/' . $id);
+        $menus = BudvarApi::get('/menu/findAllCms', []);
+        return view('admin.budvar.menu.item', ['isAction' => 'create', 'item' => $data->data, 'menus' => $menus->data]); 
+    }
     /**
      * Store a newly created resource in storage.
      */

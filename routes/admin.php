@@ -40,6 +40,8 @@ Route::middleware(['admin', 'hasPermission'])->group(function () {
             Route::resource('brand', App\Http\Controllers\Admin\Budvar\BrandController::class);
             Route::resource('media', App\Http\Controllers\Admin\Budvar\MediaController::class);
             Route::resource('slider', App\Http\Controllers\Admin\Budvar\SliderController::class);
+
+            Route::get('menu/clone/{id}', [App\Http\Controllers\Admin\Budvar\MenuController::class, 'clone'])->name('menu.clone');
             Route::resource('menu', App\Http\Controllers\Admin\Budvar\MenuController::class);
             Route::resource('promotion', App\Http\Controllers\Admin\Budvar\PromotionController::class);
 
