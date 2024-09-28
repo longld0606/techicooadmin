@@ -140,7 +140,7 @@ class BudvarApi
         foreach ($body as $key => $value) {
             if (gettype($value) == 'array') {
                 foreach ($value as $k =>  $v) {
-                    if (file_exists($v)) {
+                    if (isset($v) && file_exists($v)) {
                         $file_contents = file_get_contents($v->getRealPath());
                         $file_name = $v->getClientOriginalName();
                         array_push($data['multipart'], [
