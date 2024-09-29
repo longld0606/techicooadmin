@@ -10,6 +10,7 @@ namespace App\Common;
 use App\Models\UserConfig;
 use Exception;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -175,9 +176,11 @@ class BudvarApi
         $headers = ['Authorization' => 'Bearer ' . BudvarApi::accessToken()];
         $multipart_data = BudvarApi::toMultipart($data);
         $request = new Request('PUT', env('API_BUDVAR', '') . $url, $headers);
-        $response = $client->send($request, $multipart_data)->getBody()->getContents();
-        //var_dump(json_encode($multipart_data));
-        //dd(BudvarApi::accessToken());
+        try {
+            $response = $client->send($request, $multipart_data)->getBody()->getContents();
+        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
+            $response = $e->getResponse()->getBody()->getContents();
+        }
         $json = json_decode($response, true);
         BudvarApi::LogApi("PUT", $url, $data, $json, 'json');
         return BudvarApi::toResponse($json);
@@ -188,7 +191,11 @@ class BudvarApi
         $headers = ['Authorization' => 'Bearer ' . BudvarApi::accessToken()];
         $multipart_data = BudvarApi::toMultipart($data);
         $request = new Request('POST', env('API_BUDVAR', '') . $url, $headers);
-        $response = $client->send($request, $multipart_data)->getBody()->getContents();
+        try {
+            $response = $client->send($request, $multipart_data)->getBody()->getContents();
+        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
+            $response = $e->getResponse()->getBody()->getContents();
+        } 
         $json = json_decode($response, true);
         BudvarApi::LogApi("POST", $url, $data, $json, 'json');
         return BudvarApi::toResponse($json);

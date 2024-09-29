@@ -114,7 +114,7 @@ class PostController extends AdminController
             return redirect()->route('admin.budvar.post.index')->with('success', 'Chỉnh sửa thông tin Post thành công');
         }
 
-        return redirect()->back()->withInput()->withErrors(['message' => 'Có lỗi trong quá trình xử lý!']);
+        return redirect()->back()->withInput()->withErrors(['message' => $response->message ?? 'Có lỗi trong quá trình xử lý!']);
     }
 
     /**
@@ -126,6 +126,6 @@ class PostController extends AdminController
         if ($response->status == 'success') {
             return response()->json(\App\Common\Response::success());
         }
-        return response()->json(\App\Common\Response::error('Có lỗi trong quá trình xử lý!'));
+        return response()->json(\App\Common\Response::error(isset($response->message) ? $response->message : 'Có lỗi trong quá trình xử lý!'));
     }
 }
