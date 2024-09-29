@@ -54,7 +54,7 @@ if ($isAction == 'create') {
                             <div class="form-group" {{ $isAction == 'show' ? 'hidden' : '' }}>
                                 <label for="thumb">Thumb</label>
                                 <input type="file" name="thumb" id="thumb"
-                                    class="form-control form-control-file-img" accept="image/png, image/jpeg">
+                                    class="form-control form-control-file-img" accept="image/*">
 
                             </div>
                             <div class="preview">

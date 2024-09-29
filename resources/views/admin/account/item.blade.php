@@ -188,7 +188,7 @@ if ($isAction == 'create') {
                             <div class="form-group" {{ $isAction == 'show' ? 'hidden' : '' }}>
                                 <label for="avatar">Avatar</label>
                                 <input type="file" name="avatar" id="avatar"
-                                    class="form-control form-control-file-img" accept="image/png, image/jpeg">
+                                    class="form-control form-control-file-img" accept="image/*">
 
                             </div>
                             <div class="preview">
