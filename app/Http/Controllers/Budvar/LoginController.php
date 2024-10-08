@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Web;
+namespace App\Http\Controllers\Budvar;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -8,7 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller
+class LoginController extends BudvarController
 {
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/budvar';
 
     /**
      * Create a new controller instance.
@@ -37,12 +37,13 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-         //$this->middleware('guest')->except('logout'); 
+        // neu dang la end user => logout
+        // $this->middleware('auth:web')->except('logout'); 
+        // $this->middleware('auth:web')->except('logout'); 
     }
-
-    public function showLoginForm()
+    public function loginForm()
     {
-        return view('web.login');
+        return view('budvar.login');
     }
     public function login(Request $request): RedirectResponse
     {
@@ -53,18 +54,27 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::guard('web')->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
-            return redirect()->route('home');
+        if (Auth::guard('admin')->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
+            $user = Auth::guard('admin')->user();
+            if($user->type !='admin' && $user->type !='budvar') return redirect()->back()->withInput()->withErrors(['Tài khoản không hợp lệ vui lòng thử lại.']);
+            // cho login FE luoon
+            Auth::guard('web')->attempt(array('email' => $input['email'], 'password' => $input['password']));
+            if ($user) {
+                return redirect()->route('budvar.dashboard');
+            } else {
+                return redirect()->back()->withInput()->withErrors(['Tài khoản không hợp lệ vui lòng thử lại.']);
+            }
         } else {
             return redirect()->back()->withInput()->withErrors(['Email hoặc mật khẩu không chính xác']);
         }
     }
     public function logout(Request $request)
-    {
+    {          
+        session()->forget('budvar_access_token');
         Auth::logout();
         Auth::guard('web')->logout();
-        Auth::guard('admin')->logout();
         Auth::guard('budvar')->logout();
-        return redirect()->route('home');
+        Auth::guard('admin')->logout();
+        return redirect()->route('admin.login');
     }
 }

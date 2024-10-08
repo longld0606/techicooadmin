@@ -2,7 +2,7 @@
 
 
     <div class="m-header">
-        <a class="mobile-menu" id="mobile-collapse" href="{{ route('admin.dashboard') }}"><span></span></a>
+        <a class="mobile-menu" id="mobile-collapse" href="javascript:void()"><span></span></a>
         <a href="{{ route('admin.dashboard') }}" class="b-brand">
             <!-- ========   change your logo hear   ============ -->
             <img src="/assets/admin2/images/logo.png" alt="" class="logo">

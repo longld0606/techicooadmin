@@ -167,3 +167,8 @@ table.dataTable{
 .fa-trash-o:before {
     content: "\f1f8";
 }
+
+/* .card-body .row>.col-sm-4.mb-3:nth-last-child(-n+4),
+.card-body .row>.col-sm-3.mb-3:nth-last-child(-n+5) {
+    margin-bottom: 0 !important;
+} */

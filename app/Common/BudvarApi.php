@@ -95,8 +95,7 @@ class BudvarApi
         if (empty($files))
             return BudvarApi::postMultipart($url, $data);
 
-        $response =  Http::withToken(BudvarApi::accessToken())
-            ->asMultipart();
+        $response =  Http::withToken(BudvarApi::accessToken());
         if (gettype($files) == 'array') {
             foreach ($files as $k => $file) {
                 $file_name = $file->getClientOriginalName();
@@ -110,7 +109,7 @@ class BudvarApi
         $response =  $response->post(env('API_BUDVAR', '') . $url, $data);
         BudvarApi::LogApi("POST", $url, $data, $response);
         return BudvarApi::toResponse($response->json());
-    }
+    } 
 
     public static function putMultipartFile($url, $data, $files)
     {
@@ -195,7 +194,7 @@ class BudvarApi
             $response = $client->send($request, $multipart_data)->getBody()->getContents();
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
             $response = $e->getResponse()->getBody()->getContents();
-        } 
+        }
         $json = json_decode($response, true);
         BudvarApi::LogApi("POST", $url, $data, $json, 'json');
         return BudvarApi::toResponse($json);

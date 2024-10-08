@@ -1,8 +1,8 @@
-<nav class="pcoded-navbar menu-light ">
+<nav class="pcoded-navbar theme-horizontal menu-light brand-blue ">
     <div class="navbar-wrapper  ">
-        <div class="navbar-content scroll-div ">
+        <div class="navbar-content sidenav-horizontal ">
 
-            <div class="">
+            {{-- <div class="">
                 <div class="main-menu-header">
                     <img class="img-radius" src="/assets/admin2/images/user/avatar-4.jpg" alt="User-Profile-Image">
                     <div class="user-details">
@@ -16,9 +16,9 @@
                         <li class="list-inline-item"><a href="{{ route('admin.logout') }}" data-toggle="tooltip" title="Logout" class="text-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="feather icon-power"></i></a></li>
                     </ul>
                 </div>
-            </div>
+            </div> --}}
 
-            <ul class="nav pcoded-inner-navbar ">
+            <ul class="nav pcoded-inner-navbar sidenav-inner ">
                 <li class="nav-item ">
                     <a href="{{ route('admin.dashboard') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
                 </li>
