@@ -28,7 +28,9 @@ class CustomerController extends AdminController
         $inputs[] = ApiInputModel::input('MST', 'taxCode', 'val', 6, true);
         $inputs[] = ApiInputModel::input('Link Facebook', 'facebook', 'val', 6, false);
         $inputs[] = ApiInputModel::input('Ngày sinh', 'birthday', 'date', 6, false);
-        $inputs[] = ApiInputModel::select('Giới tính', 'gender', 6, ['other' => 'Không xác định', 'male' => 'Nam', 'female' => 'Nữ'], '', false);
+        $inputs[] = ApiInputModel::select('Giới tính', 'gender', 6, ['other' => 'Không xác định', 'male' => 'Nam', 'female' => 'Nữ'], '', false);        
+        $inputs[] = ApiInputModel::input('lat', 'lat1', 'val', 3, false);
+        $inputs[] = ApiInputModel::input('lng', 'lng', 'val', 3, false);
         $inputs[] = ApiInputModel::row();
         //$inputs[] = ApiInputModel::input('Mật khẩu', 'password', 'password', 6, true);
         //$inputs[] = ApiInputModel::input('Nhập lại khẩu', 'repassword', 'password', 6, true);
@@ -71,7 +73,7 @@ class CustomerController extends AdminController
             }
         }
         $json['company'] = [];
-        $json['company'][0] = json_encode(['longitude' => 0, 'latitude' => 0, 'name' =>  $json['address']]);
+        $json['company'][0] = json_encode(['longitude' => floatval($json['lng'] ?? 0), 'latitude' => floatval( $json['lat1'] ?? 0), 'name' =>  $json['address']]);
 
         $response = BudvarApi::post('/customer/upsert', $json);
         if ($response->status == 'success') {
@@ -128,13 +130,15 @@ class CustomerController extends AdminController
             if ($inp->type == 'row' || $inp->type == 'line') continue;
             $val = $request->get($inp->name);
             if ($inp->type == 'date') {
-                $json[$inp->name] = Carbon::createFromFormat('d/m/Y', $val)->format('Y-m-d');
+                if (empty($val)) $json[$inp->name] = null;
+                else  $json[$inp->name] = Carbon::createFromFormat('d/m/Y', $val)->format('Y-m-d');
             } else {
                 $json[$inp->name] = $request->get($inp->name);
-            }
+            }             
         }
         $json['company'] = [];
-        $json['company'][0] = json_encode(['longitude' => 0, 'latitude' => 0, 'name' =>  $json['address']]);
+        //$json['company'][0] = json_encode(['longitude' => 0, 'latitude' => 0, 'name' =>  $json['address']]);
+        $json['company'][0] = json_encode(['longitude' => floatval($json['lng'] ?? 0), 'latitude' => floatval( $json['lat1'] ?? 0), 'name' =>  $json['address']]);
 
         $response = BudvarApi::put('/customer/update/' . $id, $json);
         if ($response->status == 'success') {
