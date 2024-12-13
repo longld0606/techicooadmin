@@ -107,8 +107,13 @@ class AccountController extends AdminController
                 $cf->created_at = time();
                 $cf->created_id = $user->id;
                 // create budvar
+                // {"email": "demo@gmail.com", "password":"password1@A", "fullname" : "fullname", "areaCode": "vn","role" : "admin", "phone": "0985555555"}
                 BudvarApi::post('/user/create', [
-                    "phone" => $data->email,
+                    "email" => $data->email,
+                    "fullname" => $data->name,
+                    "areaCode" => "vn",
+                    "role" => "admin",
+                    "phone" => $data->phone,
                     "password" => $cf->password,
                 ]);
                 $cf->save();
@@ -237,8 +242,13 @@ class AccountController extends AdminController
                     $cf->created_at = time();
                     $cf->created_id = $user->id;
                     // create budvar
+                    // {"email": "demo@gmail.com", "password":"password1@A", "fullname" : "fullname", "areaCode": "vn","role" : "admin", "phone": "0985555555"}
                     BudvarApi::post('/user/create', [
-                        "phone" => $data->email,
+                        "email" => $data->email,
+                        "fullname" => $data->name,
+                        "areaCode" => "vn",
+                        "role" => "admin",
+                        "phone" => $data->phone,
                         "password" => $cf->password,
                     ]);
                     $cf->save();
