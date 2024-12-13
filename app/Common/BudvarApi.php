@@ -214,7 +214,7 @@ class BudvarApi
 
         $response = Http::retry(5, 300)
             ->asForm()
-            ->post(env('API_BUDVAR', '') . '/auth/login', ['username' => $config->username, 'password' => $config->password]);
+            ->post(env('API_BUDVAR', '') . '/auth/login', ['email' => $config->username, 'password' => $config->password]);
         $data = $response->json();
         $token = '';
         if (!empty($data) && $data['statusCode'] == 201) {

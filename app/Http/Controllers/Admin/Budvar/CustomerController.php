@@ -29,13 +29,11 @@ class CustomerController extends AdminController
         $inputs[] = ApiInputModel::input('Link Facebook', 'facebook', 'val', 6, false);
         $inputs[] = ApiInputModel::input('Ngày sinh', 'birthday', 'date', 6, false);
         $inputs[] = ApiInputModel::select('Giới tính', 'gender', 6, ['other' => 'Không xác định', 'male' => 'Nam', 'female' => 'Nữ'], '', false);        
-        $inputs[] = ApiInputModel::input('lat', 'lat1', 'val', 3, false);
-        $inputs[] = ApiInputModel::input('lng', 'lng', 'val', 3, false);
+     
         $inputs[] = ApiInputModel::row();
-        //$inputs[] = ApiInputModel::input('Mật khẩu', 'password', 'password', 6, true);
-        //$inputs[] = ApiInputModel::input('Nhập lại khẩu', 'repassword', 'password', 6, true);
-        $inputs[] = ApiInputModel::input('Địa chỉ', 'address', 'val', 12, false);
-        // $inputs[] = ApiInputModel::select('Trạng thái', 'status', 6, ['A' => 'A', 'F' => 'F'], '', true);
+        $inputs[] = ApiInputModel::input('Địa chỉ', 'address', 'val', 8, false);
+        $inputs[] = ApiInputModel::input('lat', 'lat1', 'val', 2, false);
+        $inputs[] = ApiInputModel::input('lng', 'lng', 'val', 2, false);
         return $inputs;
     }
 
@@ -98,6 +96,8 @@ class CustomerController extends AdminController
         if (isset($item['company'][0])) {
             $adds = json_decode($item['company'][0]);
             $item['address'] = $adds->name;
+            $item['lat1'] = $adds->latitude;
+            $item['lng'] = $adds->longitude;
         }
         return view('admin.budvar.customer.item', ['isAction' => 'show', 'item' =>  $item, 'inputs' => $this->instanceInputs()]);
     }
@@ -114,9 +114,12 @@ class CustomerController extends AdminController
         $item['address'] = "";
         if (isset($item['company'][0])) {
             $adds = json_decode($item['company'][0]);
-            $item['address'] = $adds->name;
+             
+            $item['address'] = $adds->name; 
+            $item['lat1'] = $adds->latitude;
+            $item['lng'] = $adds->longitude;
         }
-        return view('admin.budvar.customer.item', ['isAction' => 'edit', 'item' =>  $item, 'inputs' => $this->instanceInputs()]);
+        return view('admin.budvar.customer.item', ['isAction' => 'edit', 'item' =>  $item, 'inputs' => $this->instanceInputs($item)]);
     }
 
     /**
@@ -139,6 +142,7 @@ class CustomerController extends AdminController
         $json['company'] = [];
         //$json['company'][0] = json_encode(['longitude' => 0, 'latitude' => 0, 'name' =>  $json['address']]);
         $json['company'][0] = json_encode(['longitude' => floatval($json['lng'] ?? 0), 'latitude' => floatval( $json['lat1'] ?? 0), 'name' =>  $json['address']]);
+        //$json['company'][1] = json_encode(['longitude' => floatval($json['lng'] ?? 0), 'latitude' => floatval( $json['lat1'] ?? 0), 'name' =>  $json['address']]);
 
         $response = BudvarApi::put('/customer/update/' . $id, $json);
         if ($response->status == 'success') {

@@ -102,13 +102,13 @@ class AccountController extends AdminController
                 $cf = new UserConfig();
                 $cf->user_id = $data->id;
                 $cf->tenant = 'Budvar';
-                $cf->username = $data->phone;
+                $cf->username = $data->email;
                 $cf->password = $passApi;
                 $cf->created_at = time();
                 $cf->created_id = $user->id;
                 // create budvar
                 BudvarApi::post('/user/create', [
-                    "phone" => $data->phone,
+                    "phone" => $data->email,
                     "password" => $cf->password,
                 ]);
                 $cf->save();
@@ -117,7 +117,7 @@ class AccountController extends AdminController
                 $cf = new UserConfig();
                 $cf->user_id = $data->id;
                 $cf->tenant = 'Techicoo';
-                $cf->username = $data->phone;
+                $cf->username = $data->email;
                 $cf->password = $passApi;
                 $cf->created_at = time();
                 $cf->created_id = $user->id;
@@ -127,7 +127,7 @@ class AccountController extends AdminController
                 $cf = new UserConfig();
                 $cf->user_id = $data->id;
                 $cf->tenant = 'Administrator';
-                $cf->username = $data->phone;
+                $cf->username = $data->email;
                 $cf->password = $passApi;
                 $cf->created_at = time();
                 $cf->created_id = $user->id;
@@ -232,13 +232,13 @@ class AccountController extends AdminController
                     $cf = new UserConfig();
                     $cf->user_id = $data->id;
                     $cf->tenant = 'Budvar';
-                    $cf->username = $data->phone;
+                    $cf->username = $data->email;
                     $cf->password = $passApi;
                     $cf->created_at = time();
                     $cf->created_id = $user->id;
                     // create budvar
                     BudvarApi::post('/user/create', [
-                        "phone" => $data->phone,
+                        "phone" => $data->email,
                         "password" => $cf->password,
                     ]);
                     $cf->save();
@@ -253,7 +253,7 @@ class AccountController extends AdminController
                     $cf = new UserConfig();
                     $cf->user_id = $data->id;
                     $cf->tenant = 'Techicoo';
-                    $cf->username = $data->phone;
+                    $cf->username = $data->email;
                     $cf->password = $passApi;
                     $cf->created_at = time();
                     $cf->created_id = $user->id;
@@ -269,7 +269,7 @@ class AccountController extends AdminController
                     $cf = new UserConfig();
                     $cf->user_id = $data->id;
                     $cf->tenant = 'Administrator';
-                    $cf->username = $data->phone;
+                    $cf->username = $data->email;
                     $cf->password = $passApi;
                     $cf->created_at = time();
                     $cf->created_id = $user->id;
