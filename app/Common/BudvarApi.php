@@ -36,6 +36,7 @@ class BudvarApi
         $code = !empty($data['statusCode']) ? $data['statusCode'] : 404;
         $message  = '';
         $arrrData = [];
+        $total = 0;
         //dd($data);
         if ($data['statusCode'] < 200 || $data['statusCode'] >= 300) {
             $_type = gettype($data['data']['message']);
@@ -45,9 +46,10 @@ class BudvarApi
                 $message = strval($data['data']['message']);
         } else {
             $arrrData = !empty($data['data']) ? $data['data'] : [];
+            $total = !empty($data['totalItem']) ? $data['totalItem'] : 0;
         }
 
-        return  new \App\Common\Response($code, $message, $arrrData);
+        return  new \App\Common\Response($code, $message, $arrrData, $total);
     }
 
     public static function get($url, $data = null)

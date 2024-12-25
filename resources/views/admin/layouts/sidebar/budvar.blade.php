@@ -56,12 +56,12 @@
         <p>Trang - Sự kiện</p>
     </a> </li>
 @endcan
-
+{{-- 
 @can('Admin\Budvar\PromotionController@index')
 <li class="nav-item"> <a href="{{ route('admin.budvar.promotion.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
         <p>Khuyến mãi - Promotion</p>
     </a> </li>
-@endcan
+@endcan --}}
 @can('Admin\Budvar\VoucherController@index')
 <li class="nav-item"> <a href="{{ route('admin.budvar.voucher.index') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
         <p>Phiếu quà tặng - Voucher</p>

@@ -4,7 +4,7 @@
         <span class="sr-only"></span>
     </button>
 
-    <?php
+    <?php 
     $authenticated =  isset($owner) && isset($owner['authenticated']) && $owner['authenticated'];
     $ck = false;// $usageCount > 0 && $usageCount   <= $usageLimit;
 ?>

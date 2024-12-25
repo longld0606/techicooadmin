@@ -44,11 +44,11 @@
                             class="pcoded-micon"><i class="feather icon-activity"></i></span>
                         <span class="pcoded-mtext">Trang - Sự kiện</span> </a></li>
             @endcan
-            @can('Admin\Budvar\PromotionController@index')
+            {{-- @can('Admin\Budvar\PromotionController@index')
                 <li class="nav-item "> <a href="{{ route('admin.budvar.promotion.index') }}" class="nav-link "> <span
                             class="pcoded-micon"><i class="feather icon-layers"></i></span>
                         <span class="pcoded-mtext">Khuyến mãi</span> </a></li>
-            @endcan
+            @endcan --}}
             @can('Admin\Budvar\VoucherController@index')
                 <li class="nav-item "> <a href="{{ route('admin.budvar.voucher.index') }}" class="nav-link "> <span
                             class="pcoded-micon"><i class="feather icon-printer"></i></span>

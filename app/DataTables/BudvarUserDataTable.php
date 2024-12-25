@@ -19,13 +19,23 @@ class BudvarUserDataTable extends DataTable
      */
     public function dataTable()
     {
-        $title = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : ''; 
+        $title = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
 
-        $data = BudvarApi::get('/user/findAll', ['title' => $title]);
-        return datatables()
-            ->collection($data->data)
+        $page = 1;
+        $start = intval($this->request->get('start'));
+        $length = intval($this->request->get('length'));
+        if ($length == -1) $length = 10;
+        if ($start == 0) $page = 1;
+        else $page = ($start / $length) + 1;
+
+        $data = BudvarApi::get('/user/findAll', ['fullname' => $title, 'page' => $page, 'record_per_page' => $length]);
+
+        $rs = datatables() 
+            ->collection($data->data)        
+            ->skipPaging()      
+            ->setTotalRecords($data->total)
+            ->setFilteredRecords($data->total)
             ->filter(function () {})
-            ->skipPaging()
 
             ->addColumn('action', 'admin.budvar.user.action')
             ->addColumn('fullname', '{{empty($fullname) ? "" : $fullname}} ')
@@ -33,12 +43,14 @@ class BudvarUserDataTable extends DataTable
             ->addColumn('phone', '{{empty($phone) ? "" : $phone}} ')
             ->addColumn('status', '{{empty($status) ? "" : $status}}')
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
+            ->rawColumns(['action'])
             ->setRowId('_id');
 
         // return (new EloquentDataTable($query))
         //     ->addColumn('timestamp',  '<a href="/vcc/{{$id}}">{{\App\Common\Utility::displayDatetime($timestamp)}}</a>')
         //     ->rawColumns(['timestamp'])
         //     ->setRowId('id');
+        return $rs;
     }
 
 
@@ -51,9 +63,9 @@ class BudvarUserDataTable extends DataTable
         return $this->builder()
             ->setTableId('data-table')
             ->columns($this->getColumns())
-            ->paging(false)
+            //->paging(true)
             ->minifiedAjax('', null, [
-                'search["value"]' => '$("[name=search]").val()', 
+                'search["value"]' => '$("[name=search]").val()',
             ])
             ->dom('<"row"<"col-sm-12"itr>><"row"<"col-sm-4"l><"col-sm-8"p>>')
             ->orderBy(1)

@@ -23,11 +23,20 @@ class BudvarPromotionDataTable extends DataTable
         $lang = isset($this->request->get('search')['lang']) ?  $this->request->get('search')['lang'] : '';
         $type =  isset($this->request->get('search')['lang']) ?  $this->request->get('search')['lang'] : 'product';
 
-        $data = BudvarApi::get('/promotion/findAll', ['title' => $title, 'lang' => $lang, 'type' => $type]);
-        return datatables()
-            ->collection($data->data)
+        $page = 1;
+        $start = intval($this->request->get('start'));
+        $length = intval($this->request->get('length'));
+        if ($length == -1) $length = 10;
+        if ($start == 0) $page = 1;
+        else $page = ($start / $length) + 1;
+
+        $data = BudvarApi::get('/promotion/findAll', ['title' => $title, 'lang' => $lang, 'type' => $type, 'page' => $page, 'record_per_page' => $length]);
+        return datatables() 
+            ->collection($data->data)        
+            ->skipPaging()      
+            ->setTotalRecords($data->total)
+            ->setFilteredRecords($data->total)
             ->filter(function () {})
-            ->skipPaging()
 
             ->addColumn('action', 'admin.budvar.promotion.action')
             ->addColumn('name', '{{empty($name) ? "" : $name}} ')
@@ -54,7 +63,7 @@ class BudvarPromotionDataTable extends DataTable
         return $this->builder()
             ->setTableId('data-table')
             ->columns($this->getColumns())
-            ->paging(false)
+            //->paging(false)
             ->minifiedAjax('', null, [
                 'search["value"]' => '$("[name=search]").val()',
                 'search["type"]' => '$("[name=type]").val()',

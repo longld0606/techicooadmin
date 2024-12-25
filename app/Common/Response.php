@@ -9,14 +9,16 @@ class Response
     public int $code;
     public string $message;
     public mixed $data;
+    public int $total;
 
-    public function __construct($code = 200, $message = '', $data = [])
+    public function __construct($code = 200, $message = '', $data = [], $total=0)
     {
         $status = $code >= 200 &&  $code < 300 ? "success" : "error";
         $this->status = $status;
         $this->code = $code;
         $this->message = $message;
         $this->data = $data;
+        $this->total = $total;
     }
 
     public function toResponse($code = 200, $message = 'Thao tác thành công!', $data = [])

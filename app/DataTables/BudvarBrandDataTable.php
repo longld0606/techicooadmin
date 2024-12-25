@@ -22,13 +22,24 @@ class BudvarBrandDataTable extends DataTable
     {
         $name = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
         $type = isset($this->request->get('search')['type']) ?  $this->request->get('search')['type'] : '';
-        $data = BudvarApi::get('/brand/findAll', ['name' => $name, 'type' => $type]);
+        
+        $page = 1;
+        $start = intval($this->request->get('start'));
+        $length = intval($this->request->get('length'));
+        if ($length == -1) $length = 10;
+        if ($start == 0) $page = 1;
+        else $page = ($start / $length) + 1;
+
+
+        $data = BudvarApi::get('/brand/findAll', ['name' => $name, 'type' => $type, 'page' => $page, 'record_per_page' => $length]);
 
         //return $this->applyScopes($brands['data']);
-        return datatables()
-            ->collection($data->data)
+        return datatables() 
+            ->collection($data->data)        
+            ->skipPaging()      
+            ->setTotalRecords($data->total)
+            ->setFilteredRecords($data->total)
             ->filter(function () {})
-            ->skipPaging()
 
             ->addColumn('action', 'admin.budvar.brand.action')
             ->addColumn('thumb', '<img src="{{ empty($media) ? "" : $media["source"]}}" width="150px" style="border: 1px solid #dee2e6" />')
@@ -49,7 +60,7 @@ class BudvarBrandDataTable extends DataTable
         return $this->builder()
             ->setTableId('data-table')
             ->columns($this->getColumns())
-            ->paging(false)
+            //->paging(false)
             ->minifiedAjax('', null, [
                 'search["value"]' => '$("[name=search]").val()',
                 //'search["name"]' => '$("[name=name]").val()',

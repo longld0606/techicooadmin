@@ -22,11 +22,24 @@ class BudvarContactDataTable extends DataTable
         $title = isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
         $type = isset($this->request->get('search')['type']) ?  $this->request->get('search')['type'] : '';
 
-        $data = BudvarApi::get('/contact/findAll', ['title' => $title, 'type' => $type]);
-        return datatables()
-            ->collection($data->data)
+        $page = 1;
+        $start = intval($this->request->get('start'));
+        $length = intval($this->request->get('length'));
+        if ($length == -1) $length = 10;
+        if ($start == 0) $page = 1;
+        else $page = ($start / $length) + 1;
+
+
+        $data = BudvarApi::get('/contact/findAll', ['title' => $title, 'type' => $type, 'page' => $page, 'record_per_page' => $length]);
+
+
+        return datatables() 
+            ->collection($data->data)        
+            ->skipPaging()      
+            ->setTotalRecords($data->total)
+            ->setFilteredRecords($data->total)
             ->filter(function () {})
-            ->skipPaging()
+
 
             ->addColumn('action', 'admin.budvar.contact.action')
             ->addColumn('type', '{{empty($type) ? "none" : $type}} ')
@@ -52,7 +65,7 @@ class BudvarContactDataTable extends DataTable
         return $this->builder()
             ->setTableId('data-table')
             ->columns($this->getColumns())
-            ->paging(false)
+            //->paging(false)
             ->minifiedAjax('', null, [
                 'search["value"]' => '$("[name=search]").val()',
                 'search["type"]' => '$("[name=type]").val()',

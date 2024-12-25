@@ -22,11 +22,20 @@ class BudvarPageDataTable extends DataTable
         $title =  isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
         $lang =  isset($this->request->get('search')['lang']) ?  $this->request->get('search')['lang'] : '';
 
-        $data = BudvarApi::get('/page/findAll', ['title' => $title, 'lang' => $lang]);
-        return datatables()
-            ->collection($data->data)
+        $page = 1;
+        $start = intval($this->request->get('start'));
+        $length = intval($this->request->get('length'));
+        if ($length == -1) $length = 10;
+        if ($start == 0) $page = 1;
+        else $page = ($start / $length) + 1;
+
+        $data = BudvarApi::get('/page/findAll', ['title' => $title, 'lang' => $lang, 'page' => $page, 'record_per_page' => $length]);
+        return datatables() 
+            ->collection($data->data)        
+            ->skipPaging()      
+            ->setTotalRecords($data->total)
+            ->setFilteredRecords($data->total)
             ->filter(function () {})
-            ->skipPaging()
 
             ->addColumn('action', 'admin.budvar.page.action')
             ->addColumn('lang', '{{empty($lang) ? "Vi" : $lang}} ')
@@ -46,7 +55,7 @@ class BudvarPageDataTable extends DataTable
         return $this->builder()
             ->setTableId('data-table')
             ->columns($this->getColumns())
-            ->paging(false)
+            //->paging(false)
             ->minifiedAjax('', null, [
                 'search["value"]' => '$("[name=search]").val()',
                 'search["lang"]' => '$("[name=lang]").val()', 
