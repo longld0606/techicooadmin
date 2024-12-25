@@ -33,11 +33,27 @@ class BudvarMenuDataTable extends DataTable
         if (!empty($location))
             $params['location'] = $location; 
 
+            
+        $page = 1;
+        $start = intval($this->request->get('start'));
+        $length = intval($this->request->get('length'));
+        if ($length == -1) $length = 10;
+        if ($start == 0) $page = 1;
+        else $page = ($start / $length) + 1;
+
+        $params['page'] = $page; 
+        $params['record_per_page'] = $length; 
+ 
         $data = BudvarApi::get('/menu/findAllCms', $params);
-        return datatables()
-            ->collection($data->data)
+     
+
+        return datatables() 
+            ->collection($data->data)        
+            ->skipPaging()      
+            ->setTotalRecords($data->total)
+            ->setFilteredRecords($data->total)
             ->filter(function () {})
-            ->skipPaging()
+
 
             ->addColumn('action', 'admin.budvar.menu.action')
             ->addColumn('lang', '{{empty($lang) ? "Vi" : $lang}} ')
@@ -69,7 +85,7 @@ class BudvarMenuDataTable extends DataTable
         return $this->builder()
             ->setTableId('data-table')
             ->columns($this->getColumns())
-            ->paging(false)
+            //->paging(false)
             ->minifiedAjax('', null, [
                 'search["value"]' => '$("[name=search]").val()',
                 'search["parent_id"]' => '$("[name=parent_id]").val()',
