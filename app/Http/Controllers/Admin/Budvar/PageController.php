@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class PageController extends AdminController
 {
@@ -43,11 +44,22 @@ class PageController extends AdminController
             'title' => $request->get('title'),
             'lang' => $request->get('lang'),
             'type' => $request->get('type'),
+            
+            //'startDate' => $request->get('startDate'),
+            //'endDate' => $request->get('endDate'),
+            'voucher_limit' => $request->get('voucher_limit'),
+            'descriptionVoucher' => $request->get('descriptionVoucher'),
+
             'short' => $request->get('short'),
             'sections' =>  $request->get('sections'),
             'files' =>  $request->file('thumbs')
         ];
- 
+        if(!empty($request->get('startDate')))
+            $json['startDate'] = Carbon::createFromFormat('d/m/Y',$request->get('startDate'))->format('Y-m-d');
+        if(!empty($request->get('endDate')))
+            $json['endDate'] = Carbon::createFromFormat('d/m/Y',$request->get('endDate'))->format('Y-m-d');
+
+
         $response =  BudvarApi::postMultipart('/page/create', $json);
         if ($response->status == 'success') {
             $ref = $request->get('ref', '');
@@ -86,11 +98,22 @@ class PageController extends AdminController
             'title' => $request->get('title'),
             'lang' => $request->get('lang'),
             'type' => $request->get('type'),
+
+            //'startDate' => $request->get('startDate'),
+            //'endDate' => $request->get('endDate'),
+            'voucher_limit' => $request->get('voucher_limit'),
+            'descriptionVoucher' => $request->get('descriptionVoucher'),
+
             'short' => $request->get('short'),
             'sections' =>  $request->get('sections'),
             'mediasRemove' =>  $request->get('mediasRemove'),
             'files' =>  $request->file('thumbs')
         ];
+        if(!empty($request->get('startDate')))
+            $json['startDate'] = Carbon::createFromFormat('d/m/Y',$request->get('startDate'))->format('Y-m-d');
+        if(!empty($request->get('endDate')))
+            $json['endDate'] = Carbon::createFromFormat('d/m/Y',$request->get('endDate'))->format('Y-m-d');
+
         $response = BudvarApi::putMultipart('/page/update/' . $id, $json);
         if ($response->status == 'success') {
             $ref = $request->get('ref', '');

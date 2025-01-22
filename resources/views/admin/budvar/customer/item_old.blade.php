@@ -33,22 +33,6 @@ if ($isAction == 'create') {
                 @csrf
 
                 <div class="row">
-                    {{-- <div class="col-sm-6">
-                        @include('admin.partials._input_val', [
-                            'title' => 'Họ và tên',
-                            'name' => 'fullname',
-                            'val' => old('fullname', isset($item['fullname']) ? $item['fullname'] : ''),
-                        ])
-                    </div>
-                    <div class="col-sm-6">
-                        @include('admin.partials._input_val', [
-                            'title' => 'Email',
-                            'type' => 'email',
-                            'name' => 'email',
-                            'val' => old('email', isset($item['email']) ? $item['email'] : ''),
-                        ])
-                    </div> --}}
-
                     @foreach ($inputs as $input )
                     @if($input->type == 'row' || $input->type == 'line')
                     <div class="col-sm-12"></div>

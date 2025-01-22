@@ -6,7 +6,7 @@
 
     <?php 
     $authenticated =  isset($owner) && isset($owner['authenticated']) && $owner['authenticated'];
-    $ck = false;// $usageCount > 0 && $usageCount   <= $usageLimit;
+    $ck = (isset( $v['isUsed'] ) && $v['isUsed']);// $usageCount > 0 && $usageCount   <= $usageLimit;
 ?>
     <ul class="dropdown-menu" role="menu">
         <li><a class="dropdown-item" href="{{ route($ctrl . '.show', $_id) }}"> <i class="fa fa-fw fa-info-circle"></i>
@@ -16,7 +16,8 @@
                 Chỉnh
                 sửa</a></li>
         @endif
-        @if(isset($authenticated) && $authenticated == true && $ck == false)
+        {{-- @if(isset($authenticated) && $authenticated == true && $ck == false) --}}
+        @if( $ck == false)
         <li><a class="dropdown-item confirm-action" href="javascript:void(0);" data-href="{{ route($ctrl . '.confirm', ['id' => $_id, 'customeId' => $owner['_id'] ] ) }}" data-msg="{{ 'Bạn chắc chắn muốn xác nhận phiếu quà tặng này?' }}" data-id={{ $_id }}>
                 <i class="fa fa-fw fa-check"></i>
                 Xác nhận Voucher</a></li>

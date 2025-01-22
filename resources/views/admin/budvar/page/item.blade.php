@@ -58,6 +58,38 @@ if ($isAction == 'create') {
                                     ])
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col">
+                                @include('admin.partials._input_date', [
+                                    'title' => 'Từ ngày',
+                                    'name' => 'startDate',
+                                    'val' => old(
+                                        'startDate',
+                                        isset($item['startDate']) ? $item['startDate'] : ''),
+                                ])
+                            </div> 
+                             <div class="col"> 
+                                @include('admin.partials._input_date', [
+                                    'title' => 'Đến ngày',
+                                    'name' => 'endDate',
+                                    'val' => old(
+                                        'endDate',
+                                        isset($item['endDate']) ? $item['endDate'] : ''),
+                                ])
+                            </div>
+                             <div class="col"> 
+                                @include('admin.partials._input_val', [
+                                    'title' => 'Voucher limit',
+                                    'name' => 'voucher_limit',
+                                    'val' => old( 'voucher_limit', isset($item['voucher_limit']) ? $item['voucher_limit'] : ''),
+                                ])
+                            </div>
+                            </div>
+                            @include('admin.partials._input_text', [
+                                'title' => 'Thông tin voucher',
+                                'name' => 'descriptionVoucher',
+                                'val' => old('descriptionVoucher', isset($item['descriptionVoucher']) ? $item['descriptionVoucher'] : ''),
+                            ])
 
                             @include('admin.partials._input_text', [
                                 'title' => 'Mô tả',

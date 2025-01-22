@@ -46,9 +46,10 @@ class BudvarCustomerDataTable extends DataTable
             ->addColumn('action', 'admin.budvar.customer.action')
             ->addColumn('fullname', '{{empty($fullname) ? "" : $fullname}} ')
             ->addColumn('email', '{{empty($email) ? "" : $email}} ')
-            ->addColumn('phoneNumber', '{{empty($phoneNumber) ? "" : $phoneNumber}} ')
+            ->addColumn('phoneNumber', '({{empty($areaCode) ? "" : $areaCode}}) {{empty($phoneNumber) ? "" : $phoneNumber}} ')
             ->addColumn('taxCode', '{{empty($taxCode) ? "" : $taxCode}} ')
-            ->addColumn('facebook', '{{empty($facebook) ? "" : $facebook}} ')
+            ->addColumn('valCode', '{{empty($valCode) ? "" : $valCode}} ')
+            //->addColumn('facebook', '{{empty($facebook) ? "" : $facebook}} ')
             //->addColumn('address', '{{empty($company) && empty($company->name) ? "" : $company->name}} ')
             //->addColumn('authenticated', '{{empty($authenticated) || $authenticated != true ? "Chưa xác thực" : "Đã xác thực"}} ')
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
@@ -118,8 +119,9 @@ class BudvarCustomerDataTable extends DataTable
             Column::make('fullname')->title('Họ Tên'),
             Column::make('email')->title('Email')->width(200),
             Column::make('phoneNumber')->title('SĐT')->width(200),
-            Column::make('taxCode')->title('MST')->width(200),
-            Column::make('facebook')->title('FB')->width(200),
+            Column::make('taxCode')->title('IČO')->width(200),
+            Column::make('valCode')->title('DIČ')->width(200),
+            //Column::make('facebook')->title('FB')->width(200),
             //Column::make('address')->title('Địa chỉ'),
             Column::make('authenticated')->title('Trạng thái')->width(150),
             Column::make('createdAt')->title('Ngày tạo')->width(150),

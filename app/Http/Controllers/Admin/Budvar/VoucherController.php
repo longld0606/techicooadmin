@@ -152,6 +152,7 @@ class VoucherController extends AdminController
         $json = [];
         $json['voucher'] = $id;
         $json['customer'] = $customeId;
+        $json['supplier'] = '671627c9368e86b804615bd2';
         $response = BudvarApi::post('/voucher/confirm', $json);
         if ($response->status == 'success') {
             return response()->json(\App\Common\Response::success());

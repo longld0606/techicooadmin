@@ -21,6 +21,7 @@ class BudvarPageDataTable extends DataTable
     {
         $title =  isset($this->request->get('search')['value']) ?  $this->request->get('search')['value'] : '';
         $lang =  isset($this->request->get('search')['lang']) ?  $this->request->get('search')['lang'] : '';
+        $type =  isset($this->request->get('search')['type']) ?  $this->request->get('search')['type'] : '';
 
         $page = 1;
         $start = intval($this->request->get('start'));
@@ -29,7 +30,7 @@ class BudvarPageDataTable extends DataTable
         if ($start == 0) $page = 1;
         else $page = ($start / $length) + 1;
 
-        $data = BudvarApi::get('/page/findAll', ['title' => $title, 'lang' => $lang, 'page' => $page, 'record_per_page' => $length]);
+        $data = BudvarApi::get('/page/findAll', ['title' => $title, 'lang' => $lang,  'type' => $type, 'page' => $page, 'record_per_page' => $length]);
         return datatables() 
             ->collection($data->data)        
             ->skipPaging()      
@@ -40,8 +41,10 @@ class BudvarPageDataTable extends DataTable
             ->addColumn('action', 'admin.budvar.page.action')
             ->addColumn('lang', '{{empty($lang) ? "Vi" : $lang}} ')
             ->addColumn('type', '{{empty($type) ? "none" : $type}}')
-            ->addColumn('title', '<a target="_blank" href="{{empty($type) || $type=="PAGE" ? ("https://biabudvar.cz/".$slug) : ("https://biabudvar.cz/page/".$slug) }}">{{empty($title) ? "" : $title}}</a>')
-            ->addColumn('short', '{{empty($short) ? "" : $short}}')
+            ->addColumn('title', '<a target="_blank" href="{{empty($type) || $type=="PAGE" ? ("https://biabudvar.cz/".$slug) :  ($type=="EVENT" ? ("https://biabudvar.cz/event/".$slug) :("https://biabudvar.cz/page/".$slug)) }}">{{empty($title) ? "" : $title}}</a>')
+            ->addColumn('startDate',  '{{\App\Common\Utility::displayDate($startDate)}} - {{\App\Common\Utility::displayDate($endDate)}}')
+            //->addColumn('short', '{{empty($short) ? "" : $short}}')
+            ->addColumn('voucher_limit', '{{$voucher_limit}}')
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
             ->rawColumns(['action', 'title'])
             ->setRowId('_id');
@@ -59,6 +62,7 @@ class BudvarPageDataTable extends DataTable
             ->minifiedAjax('', null, [
                 'search["value"]' => '$("[name=search]").val()',
                 'search["lang"]' => '$("[name=lang]").val()', 
+                'search["type"]' => '$("[name=type]").val()', 
             ])
             ->dom('<"row"<"col-sm-12"itr>><"row"<"col-sm-4"l><"col-sm-8"p>>')
             ->orderBy(1)
@@ -86,6 +90,8 @@ class BudvarPageDataTable extends DataTable
             Column::make('type')->title('Loại')->width(100),
             Column::make('lang')->title('Ngôn ngữ')->width(100),
             Column::make('title')->title('Tiêu đề')->width(200),
+            Column::make('startDate')->title('Thời gian')->width(200),
+            Column::make('voucher_limit')->title('voucher limit')->width(200),
             // Column::make('short')->title('short')->width(200),
             Column::make('createdAt')->title('Ngày tạo')->width(150),
         ];

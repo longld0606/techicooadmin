@@ -32,7 +32,7 @@ class BudvarVoucherDataTable extends DataTable
         if ($start == 0) $page = 1;
         else $page = ($start / $length) + 1;
 
-        $data = BudvarApi::get('/voucher/findAll', ['title' => $title, 'page' => $page, 'record_per_page' => $length]);
+        $data = BudvarApi::get('/voucher/findAll', ['code' => $title, 'page' => $page, 'record_per_page' => $length]);
   
         //dd($data);
         return datatables()
@@ -47,8 +47,8 @@ class BudvarVoucherDataTable extends DataTable
             ->addColumn('code', '{{empty($code) ? "" : $code}} ')
             ->addColumn('usageLimit', '{{empty($usageLimit) ? "" : $usageLimit}} ')
             ->addColumn('userLimit', '{{empty($userLimit) ? "" : $userLimit}}')
-            ->addColumn('minimumPurchaseAmount', '{{empty($minimumPurchaseAmount) ? "" : $minimumPurchaseAmount}}')
-            ->addColumn('usageCount', '{{empty($usageCount) ? "" : $usageCount}}')
+            //->addColumn('minimumPurchaseAmount', '{{empty($minimumPurchaseAmount) ? "" : $minimumPurchaseAmount}}')
+            //->addColumn('usageCount', '{{empty($usageCount) ? "" : $usageCount}}')
             ->addColumn('startDate', '{{empty($startDate) ? "" :  \App\Common\Utility::displayDateTime($startDate) }} - {{empty($endDate) ? "" :  \App\Common\Utility::displayDateTime($endDate) }}')
             ->addColumn('createdAt', '{{empty($createdAt) ? "" :  \App\Common\Utility::displayDateTime($createdAt) }}')
             ->addColumn('event_name', function ($obj) {
@@ -57,7 +57,7 @@ class BudvarVoucherDataTable extends DataTable
                 if (empty($event['title'])) return "";
                 return $event['title'];
             })
-            ->addColumn('useDate', '')
+            ->addColumn('useDate', '{{empty($timeOfUse) ? "" :  \App\Common\Utility::displayDateTime($timeOfUse) }}')
             ->addColumn('promotion', function ($obj) {
                 if (empty($obj["promotion"])) return "";
                 $promotion =  $obj["promotion"];
@@ -77,17 +77,16 @@ class BudvarVoucherDataTable extends DataTable
                 "<span>".$auth."</span>";
             })
             ->addColumn('use', function ($v) {
-                $ck = $v['usageCount'] > 0 && $v['usageCount']   <= $v['usageLimit'];
-                if($ck) return "<span class='btn btn-sm btn-success text-nowrap'>Đã sử dụng</span>";
+                //$ck = isset( $v['usageCount'] ) && $v['usageCount'] > 0 && $v['usageCount']   <= $v['usageLimit'];
+                if(isset( $v['isUsed'] ) && $v['isUsed']) return "<span class='btn btn-sm btn-success text-nowrap'>Đã sử dụng</span>";
                 else return "<span class='btn btn-sm btn-secondary text-nowrap'>Chưa sử dụng</span>";
                 //if($ck) return 'Đã sử dụng';
                 //else return 'Chưa sử dụng';
             })
             ->addColumn('address', function ($v) {
                 if(!isset($v['location'] )) { return ""; }
-                else {
-                    $ad = json_decode($v['location']);
-                    return $ad->name ?? "";
+                else { 
+                    return ( $v['location']['name'] ?? "") .("<br/>").($v['location']['address'] ?? ""); 
                 }
                 //if($ck) return 'Đã sử dụng';
                 //else return 'Chưa sử dụng';
@@ -98,7 +97,7 @@ class BudvarVoucherDataTable extends DataTable
            //     if (isset($obj["authenticated"]) && $obj["authenticated"] == true) $auth= "<span class='btn btn-sm btn-success'>Đã xác thực</span>";
            //     else $auth= "<span class='btn btn-sm btn-secondary'>Chưa xác thực</span>";
            // })
-            ->rawColumns(['customer_authenticated','customer', 'action','use'])
+            ->rawColumns(['customer_authenticated','customer', 'action','use','address'])
             ->setRowId('_id');
 
         // return (new EloquentDataTable($query))
