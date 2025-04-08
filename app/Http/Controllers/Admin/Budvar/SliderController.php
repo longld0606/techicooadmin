@@ -45,6 +45,7 @@ class SliderController extends AdminController
             'name' => $request->get('name'),
             'type' => 'BANNER',
             'link' => $request->get('link'),
+            'weight' => $request->get('weight'),
             'textButton' => $request->get('textButton'),
         ];
         $response = BudvarApi::postMultipartFile('/brand/create', $json, $request->file('thumb'));
@@ -91,6 +92,8 @@ class SliderController extends AdminController
             'name' => $request->get('name'),
             'type' => 'BANNER',
             'link' => $request->get('link'),
+            'weight' => $request->get('weight'),
+
             'textButton' => $request->get('textButton'),
         ];
         $response = BudvarApi::putMultipartFile('/brand/update/' . $id, $json, $request->file('thumb'));

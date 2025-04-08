@@ -59,6 +59,13 @@ if ($isAction == 'create') {
                         'name' => 'link',
                         'val' => old('link', isset($item['link']) ? $item['link'] : ''),
                         ])
+                             @include('admin.partials._input_val', [
+                                'title' => 'Weight',
+                                'type' => 'number',
+                                'name' => 'weight',
+                                'val' => old('weight', isset($item['weight']) ? $item['weight'] : 0),
+                                'isRequired' => true,
+                                ])
                         @include('admin.partials._input_val', [
                         'title' => 'Text',
                         'name' => 'textButton',
