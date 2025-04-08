@@ -62,6 +62,14 @@ if ($isAction == 'create') {
                                     'isRequired' => true,
                                     ])
                                 </div> 
+                                <div class="col">
+                                    @include('admin.partials._input_val', [
+                                        'title' => 'weight',
+                                        'type' => 'number',
+                                        'name' => 'weight',
+                                        'val' => old('weight', isset($item['weight']) ? $item['weight'] : ''),
+                                    ])
+                                </div>
                             </div>
 
                             @include('admin.partials._input_text', [

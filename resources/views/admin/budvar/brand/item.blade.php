@@ -1,6 +1,6 @@
 
 <?php
-$url = ''; 
+$url = '';
 $btn = '';
 $isDisabled = true;
 if ($isAction == 'create') {
@@ -14,10 +14,10 @@ if ($isAction == 'create') {
 } elseif ($isAction == 'show') {
     $url = '';
     $isDisabled = true;
-} 
+}
 ?>
- 
-@extends('admin.layouts.app') 
+
+@extends('admin.layouts.app')
 @section('content')
 
     <section class="app-content ">
@@ -38,18 +38,18 @@ if ($isAction == 'create') {
                             @include('admin.partials._input_val', [
                                 'title' => 'Code',
                                 'name' => 'code',
-                                'val' => old('code', isset($item['code']) ? $item['code'] : ''),  
+                                'val' => old('code', isset($item['code']) ? $item['code'] : ''),
                             ])
                             @include('admin.partials._input_val', [
                                 'title' => 'Tiêu đề',
                                 'name' => 'name',
-                                'val' => old('name', isset($item['name']) ? $item['name'] : ''),  
+                                'val' => old('name', isset($item['name']) ? $item['name'] : ''),
                             ])
                             @include('admin.partials._input_select2', [
                                 'title' => 'Loại',
                                 'name' => 'type',
                                 'array' => ['BRAND' => 'BRAND', 'BANNER' => 'BANNER'],
-                                'val' => old('type', isset($item['type']) ? $item['type'] : ''),  
+                                'val' => old('type', isset($item['type']) ? $item['type'] : ''),
                             ])
                             @include('admin.partials._input_val', [
                                 'title' => 'Link',
@@ -60,6 +60,12 @@ if ($isAction == 'create') {
                                 'title' => 'Text',
                                 'name' => 'textButton',
                                 'val' => old('textButton', isset($item['textButton']) ?  $item['textButton'] : '' ),
+                            ])
+                            @include('admin.partials._input_val', [
+                                'title' => 'weight',
+                                'type' => 'number',
+                                'name' => 'weight',
+                                'val' => old('weight', isset($item['weight']) ? $item['weight'] : ''),
                             ])
                         </div>
                         <div class="col-sm-6" >

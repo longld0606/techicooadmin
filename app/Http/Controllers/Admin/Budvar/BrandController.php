@@ -38,14 +38,15 @@ class BrandController extends AdminController
      */
     public function store(FormRequest $request)
     {
-        //  
+        //
         $json = [
             'code' => $request->get('code'),
             'lang' => $request->get('lang'),
             'name' => $request->get('name'),
             'type' => $request->get('type'),
-            'textButton' => $request->get('textButton'), 
-        ];      
+            'weight' => $request->get('weight'),
+            'textButton' => $request->get('textButton'),
+        ];
         $response = BudvarApi::postMultipartFile('/brand/create', $json, $request->file('thumb'));
         if ($response->status == 'success') {
             $ref = $request->get('ref', '');
@@ -89,8 +90,9 @@ class BrandController extends AdminController
             'lang' => $request->get('lang'),
             'name' => $request->get('name'),
             'type' => $request->get('type'),
-            'textButton' => $request->get('textButton'), 
-        ];           
+            'weight' => $request->get('weight'),
+            'textButton' => $request->get('textButton'),
+        ];
         $response = BudvarApi::putMultipartFile('/brand/update/' . $id, $json, $request->file('thumb'));
         if ($response->status == 'success') {
             $ref = $request->get('ref', '');
