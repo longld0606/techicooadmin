@@ -56,17 +56,17 @@ if ($isAction == 'create') {
                                 'name' => 'link',
                                 'val' => old('link', isset($item['link']) ?  $item['link'] : '' ),
                             ])
-                            @include('admin.partials._input_val', [
-                                'title' => 'Text',
-                                'name' => 'textButton',
-                                'val' => old('textButton', isset($item['textButton']) ?  $item['textButton'] : '' ),
-                            ])
                              @include('admin.partials._input_val', [
                                 'title' => 'Weight',
                                 'name' => 'weight',
                                 'val' => old('weight', isset($item['weight']) ? $item['weight'] : 0),
                                 'isRequired' => true,
                                 ])
+                            @include('admin.partials._input_val', [
+                                'title' => 'Text',
+                                'name' => 'textButton',
+                                'val' => old('textButton', isset($item['textButton']) ?  $item['textButton'] : '' ),
+                            ])
                         </div>
                         <div class="col-sm-6" >
 
