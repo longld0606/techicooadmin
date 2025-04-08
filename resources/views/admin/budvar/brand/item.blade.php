@@ -65,7 +65,7 @@ if ($isAction == 'create') {
                                 'title' => 'weight',
                                 'type' => 'number',
                                 'name' => 'weight',
-                                'val' => old('weight', isset($item['weight']) ? $item['weight'] : ''),
+                                'val' => old('weight', isset($item['weight']) ? $item['weight'] : '0'),
                             ])
                         </div>
                         <div class="col-sm-6" >
