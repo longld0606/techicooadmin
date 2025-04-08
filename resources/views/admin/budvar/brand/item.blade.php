@@ -61,12 +61,12 @@ if ($isAction == 'create') {
                                 'name' => 'textButton',
                                 'val' => old('textButton', isset($item['textButton']) ?  $item['textButton'] : '' ),
                             ])
-                            @include('admin.partials._input_val', [
-                                'title' => 'weight',
-                                'type' => 'number',
+                             @include('admin.partials._input_val', [
+                                'title' => 'Weight',
                                 'name' => 'weight',
-                                'val' => old('weight', isset($item['weight']) ? $item['weight'] : '0'),
-                            ])
+                                'val' => old('weight', isset($item['weight']) ? $item['weight'] : 0),
+                                'isRequired' => true,
+                                ])
                         </div>
                         <div class="col-sm-6" >
 
